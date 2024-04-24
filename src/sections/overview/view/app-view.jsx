@@ -22,14 +22,14 @@ export default function AppView() {
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi, Welcome back 👋
+        안녕! 다시 돌아왔어 👋
       </Typography>
 
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Weekly Sales"
-            total={714000}
+            title="주간 매출"
+            total={7148000}
             color="success"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
@@ -37,8 +37,8 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="New Users"
-            total={1352831}
+            title="신규 사용자"
+            total={1352}
             color="info"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
           />
@@ -46,8 +46,8 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Item Orders"
-            total={1723315}
+            title="주문 건수"
+            total={972}
             color="warning"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
           />
@@ -55,8 +55,8 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Bug Reports"
-            total={234}
+            title="버그 건수"
+            total={34}
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
           />
@@ -64,21 +64,21 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={8}>
           <AppWebsiteVisits
-            title="Website Visits"
-            subheader="(+43%) than last year"
+            title="웹사이트 방문"
+            subheader="전년 대비 +43%"
             chart={{
               labels: [
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
+                '01/01/2023',
+                '02/01/2023',
+                '03/01/2023',
+                '04/01/2023',
+                '05/01/2023',
+                '06/01/2023',
+                '07/01/2023',
+                '08/01/2023',
+                '09/01/2023',
+                '10/01/2023',
+                '11/01/2023',
               ],
               series: [
                 {
@@ -106,7 +106,7 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppCurrentVisits
-            title="Current Visits"
+            title="방문 횟수"
             chart={{
               series: [
                 { label: 'America', value: 4344 },
@@ -120,8 +120,8 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={8}>
           <AppConversionRates
-            title="Conversion Rates"
-            subheader="(+43%) than last year"
+            title="대화 비율"
+            subheader="전년 대비 +28%"
             chart={{
               series: [
                 { label: 'Italy', value: 400 },
@@ -141,13 +141,13 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppCurrentSubject
-            title="Current Subject"
+            title="시험 과목"
             chart={{
-              categories: ['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math'],
+              categories: ['영어', '역사', '물리', '지리', '국어', '수학'],
               series: [
-                { name: 'Series 1', data: [80, 50, 30, 40, 100, 20] },
-                { name: 'Series 2', data: [20, 30, 40, 80, 20, 80] },
-                { name: 'Series 3', data: [44, 76, 78, 13, 43, 10] },
+                { name: '1차 시험', data: [80, 50, 30, 40, 100, 20] },
+                { name: '2차 시험', data: [20, 30, 40, 80, 20, 80] },
+                { name: '최종 평가', data: [44, 76, 78, 13, 43, 10] },
               ],
             }}
           />
@@ -155,7 +155,7 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={8}>
           <AppNewsUpdate
-            title="News Update"
+            title="최신 뉴스"
             list={[...Array(5)].map((_, index) => ({
               id: faker.string.uuid(),
               title: faker.person.jobTitle(),
@@ -168,7 +168,7 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppOrderTimeline
-            title="Order Timeline"
+            title="시간별 주문내역"
             list={[...Array(5)].map((_, index) => ({
               id: faker.string.uuid(),
               title: [
@@ -186,26 +186,26 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppTrafficBySite
-            title="Traffic by Site"
+            title="사이트별 트래픽"
             list={[
               {
                 name: 'FaceBook',
-                value: 323234,
+                value: 32323,
                 icon: <Iconify icon="eva:facebook-fill" color="#1877F2" width={32} />,
               },
               {
                 name: 'Google',
-                value: 341212,
+                value: 841212,
                 icon: <Iconify icon="eva:google-fill" color="#DF3E30" width={32} />,
               },
               {
                 name: 'Linkedin',
-                value: 411213,
+                value: 41121,
                 icon: <Iconify icon="eva:linkedin-fill" color="#006097" width={32} />,
               },
               {
                 name: 'Twitter',
-                value: 443232,
+                value: 243232,
                 icon: <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={32} />,
               },
             ]}
@@ -214,7 +214,7 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={8}>
           <AppTasks
-            title="Tasks"
+            title="태스크"
             list={[
               { id: '1', name: 'Create FireStone Logo' },
               { id: '2', name: 'Add SCSS and JS files if required' },

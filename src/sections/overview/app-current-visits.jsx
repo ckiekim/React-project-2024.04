@@ -5,15 +5,12 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 
 import { fNumber } from '../../utils/format-number';
-
 import Chart, { useChart } from '../../components/chart';
 
 // ----------------------------------------------------------------------
 
 const CHART_HEIGHT = 400;
-
 const LEGEND_HEIGHT = 72;
-
 const StyledChart = styled(Chart)(({ theme }) => ({
   height: CHART_HEIGHT,
   '& .apexcharts-canvas, .apexcharts-inner, svg, foreignObject': {
@@ -30,11 +27,8 @@ const StyledChart = styled(Chart)(({ theme }) => ({
 
 export default function AppCurrentVisits({ title, subheader, chart, ...other }) {
   const theme = useTheme();
-
   const { colors, series, options } = chart;
-
   const chartSeries = series.map((i) => i.value);
-
   const chartOptions = useChart({
     chart: {
       sparkline: {
@@ -81,15 +75,8 @@ export default function AppCurrentVisits({ title, subheader, chart, ...other }) 
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} sx={{ mb: 5 }} />
-
-      <StyledChart
-        dir="ltr"
-        type="pie"
-        series={chartSeries}
-        options={chartOptions}
-        width="100%"
-        height={280}
-      />
+      <StyledChart dir="ltr" type="pie" series={chartSeries} options={chartOptions} 
+        width="100%" height={280}/>
     </Card>
   );
 }

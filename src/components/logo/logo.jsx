@@ -11,11 +11,8 @@ import { RouterLink } from '../../routes/components';
 
 const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   const theme = useTheme();
-
   const PRIMARY_LIGHT = theme.palette.primary.light;
-
   const PRIMARY_MAIN = theme.palette.primary.main;
-
   const PRIMARY_DARK = theme.palette.primary.dark;
 
   // OR using local (public folder)
@@ -30,14 +27,8 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
 
   const logo = (
     <Box
-      ref={ref}
-      component="div"
-      sx={{
-        width: 40,
-        height: 40,
-        display: 'inline-flex',
-        ...sx,
-      }}
+      ref={ref} component="div"
+      sx={{ width: 40, height: 40, display: 'inline-flex', ...sx, }}
       {...other}
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512">

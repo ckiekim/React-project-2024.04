@@ -9,6 +9,12 @@ import IconButton from '@mui/material/IconButton';
 
 const LANGS = [
   {
+    value: 'ko',
+    label: 'Korean',
+    // icon: '/assets/icons/ic_flag_ko.svg',
+    icon: '/assets/img/ko_flag.png',
+  },
+  {
     value: 'en',
     label: 'English',
     icon: '/assets/icons/ic_flag_en.svg',
