@@ -10,7 +10,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import Typography from '@mui/material/Typography';
 
-import { users } from '../../../_mock/user';
+// import { users } from '../../../_mock/user';
+import useUsers from '../useUsers';
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 
@@ -20,6 +21,7 @@ import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
+import { formatAgo } from '../../../utils/format-time';
 
 // ----------------------------------------------------------------------
 
@@ -30,6 +32,7 @@ export default function UserPage() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const { getRecord: {isLoading, data: users} } = useUsers();
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -80,13 +83,13 @@ export default function UserPage() {
     setFilterName(event.target.value);
   };
 
-  const dataFiltered = applyFilter({
+  const dataFiltered = users && applyFilter({
     inputData: users,
     comparator: getComparator(order, orderBy),
     filterName,
   });
 
-  const notFound = !dataFiltered.length && !!filterName;
+  const notFound = users && !dataFiltered.length && !!filterName;
 
   return (
     <Container>
@@ -98,29 +101,24 @@ export default function UserPage() {
         </Button>
       </Stack>
 
-      <Card>
-        <UserTableToolbar
-          numSelected={selected.length}
-          filterName={filterName}
-          onFilterName={handleFilterByName}
-        />
+      {isLoading && <p>로딩중</p>}
+      {users && <Card>
+        <UserTableToolbar numSelected={selected.length} filterName={filterName}
+          onFilterName={handleFilterByName}/>
 
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
               <UserTableHead
-                order={order}
-                orderBy={orderBy}
-                rowCount={users.length}
-                numSelected={selected.length}
-                onRequestSort={handleSort}
-                onSelectAllClick={handleSelectAllClick}
+                order={order} orderBy={orderBy} rowCount={users.length} numSelected={selected.length}
+                onRequestSort={handleSort} onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'name', label: 'Name' },
                   { id: 'company', label: 'Company' },
                   { id: 'role', label: 'Role' },
                   { id: 'isVerified', label: 'Verified', align: 'center' },
                   { id: 'status', label: 'Status' },
+                  { id: 'registeredAt', label: '등록' },
                   { id: '' },
                 ]}
               />
@@ -129,21 +127,16 @@ export default function UserPage() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <UserTableRow
-                      key={row.id}
-                      name={row.name}
-                      role={row.role}
-                      status={row.status}
-                      company={row.company}
-                      avatarUrl={row.avatarUrl}
-                      isVerified={row.isVerified}
+                      key={row.id} name={row.name} role={row.role} status={row.status}
+                      company={row.company} avatarUrl={row.avatarUrl} isVerified={row.isVerified}
+                      registeredAt={formatAgo(row.registeredAt, 'ko')}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />
                   ))}
 
                 <TableEmptyRows
-                  height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, users.length)}
+                  height={77} emptyRows={emptyRows(page, rowsPerPage, users.length)}
                 />
 
                 {notFound && <TableNoData query={filterName} />}
@@ -153,15 +146,11 @@ export default function UserPage() {
         </Scrollbar>
 
         <TablePagination
-          page={page}
-          component="div"
-          count={users.length}
-          rowsPerPage={rowsPerPage}
-          onPageChange={handleChangePage}
-          rowsPerPageOptions={[5, 10, 25]}
+          page={page} component="div" count={users.length} rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage} rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Card>
+      </Card>}
     </Container>
   );
 }

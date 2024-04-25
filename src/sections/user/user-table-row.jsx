@@ -17,14 +17,8 @@ import Iconify from '../../components/iconify';
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
-  selected,
-  name,
-  avatarUrl,
-  company,
-  role,
-  isVerified,
-  status,
-  handleClick,
+  selected, name, avatarUrl, company, role, isVerified, status,
+  registeredAt, handleClick,
 }) {
   const [open, setOpen] = useState(null);
 
@@ -61,6 +55,8 @@ export default function UserTableRow({
         <TableCell>
           <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
         </TableCell>
+
+        <TableCell>{registeredAt}</TableCell>
 
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>

@@ -4,7 +4,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { posts } from '../../../_mock/blog';
+// import { posts } from '../../../_mock/blog';
+import useBlogs from '../useBlogs';
 import Iconify from '../../../components/iconify';
 
 import PostCard from '../post-card';
@@ -14,6 +15,8 @@ import PostSearch from '../post-search';
 // ----------------------------------------------------------------------
 
 export default function BlogView() {
+  const { getRecord: {isLoading, data: posts} } = useBlogs();
+
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -24,22 +27,25 @@ export default function BlogView() {
         </Button>
       </Stack>
 
-      <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-        <PostSearch posts={posts} />
-        <PostSort
-          options={[
-            { value: 'latest', label: 'Latest' },
-            { value: 'popular', label: 'Popular' },
-            { value: 'oldest', label: 'Oldest' },
-          ]}
-        />
-      </Stack>
+      {isLoading && <p>로딩중</p>}
+      {posts && <>
+        <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
+          <PostSearch posts={posts} />
+          <PostSort
+            options={[
+              { value: 'latest', label: 'Latest' },
+              { value: 'popular', label: 'Popular' },
+              { value: 'oldest', label: 'Oldest' },
+            ]}
+          />
+        </Stack>
 
-      <Grid container spacing={3}>
-        {posts.map((post, index) => (
-          <PostCard key={post.id} post={post} index={index} />
-        ))}
-      </Grid>
+        <Grid container spacing={3}>
+          {posts.map((post, index) => (
+            <PostCard key={post.id} post={post} index={index} />
+          ))}
+        </Grid>
+      </>}
     </Container>
   );
 }

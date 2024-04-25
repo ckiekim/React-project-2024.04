@@ -1,4 +1,6 @@
 import { format, getTime, formatDistanceToNow } from 'date-fns';
+import { format as fmt, register } from 'timeago.js';
+import koLocale from 'timeago.js/lib/lang/ko';
 
 // ----------------------------------------------------------------------
 
@@ -24,4 +26,10 @@ export function fToNow(date) {
         addSuffix: true,
       })
     : '';
+}
+
+register('ko', koLocale)
+
+export function formatAgo(date, lang='en_US') {
+  return fmt(date, lang);
 }

@@ -5,7 +5,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { products } from '../../../_mock/products';
+// import { products } from '../../../_mock/products';
+import useProducts from '../useProducts';
 
 import ProductCard from '../product-card';
 import ProductSort from '../product-sort';
@@ -16,6 +17,7 @@ import ProductCartWidget from '../product-cart-widget';
 
 export default function ProductsView() {
   const [openFilter, setOpenFilter] = useState(false);
+  const { getRecord: {isLoading, data: products} } = useProducts();
 
   const handleOpenFilter = () => {
     setOpenFilter(true);
@@ -43,13 +45,14 @@ export default function ProductsView() {
         </Stack>
       </Stack>
 
-      <Grid container spacing={3}>
+      {isLoading && <p>로딩중</p>}
+      {products && <Grid container spacing={3}>
         {products.map((product) => (
           <Grid key={product.id} xs={12} sm={6} md={3}>
             <ProductCard product={product} />
           </Grid>
         ))}
-      </Grid>
+      </Grid>}
 
       <ProductCartWidget />
     </Container>

@@ -4,11 +4,12 @@ import { BlogView } from '../sections/blog/view';
 
 // ----------------------------------------------------------------------
 
+
 export default function BlogPage() {
   return (
     <>
       <Helmet>
-        <title> Blog | Minimal UI </title>
+        <title> Blog | CK React App </title>
       </Helmet>
 
       <BlogView />
