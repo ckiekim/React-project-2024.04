@@ -11,7 +11,6 @@ import TablePagination from '@mui/material/TablePagination';
 import Typography from '@mui/material/Typography';
 
 import { users } from '../../../_mock/user';
-
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 

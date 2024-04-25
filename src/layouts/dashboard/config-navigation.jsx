@@ -13,6 +13,16 @@ const navConfig = [
     icon: icon('ic_analytics'),
   },
   {
+    title: 'Youtube',
+    path: '/youtube',
+    icon: icon('ic_youtube'),
+  },
+  {
+    title: '스케쥴러',
+    path: '/schedule',
+    icon: icon('ic_schedule'),
+  },
+  {
     title: '사용자',
     path: '/user',
     icon: icon('ic_user'),

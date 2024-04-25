@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import ListItemButton from '@mui/material/ListItemButton';
 import Stack from '@mui/material/Stack';
@@ -50,8 +51,11 @@ export default function Nav({ openNav, onCloseNav }) {
 
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
-      {navConfig.map((item) => (
-        <NavItem key={item.title} item={item} />
+      {navConfig.map((item, idx) => (
+        <>
+          <NavItem key={item.title} item={item} />
+          {(idx % 3 === 2) && <Divider />}
+        </>
       ))}
     </Stack>
   );

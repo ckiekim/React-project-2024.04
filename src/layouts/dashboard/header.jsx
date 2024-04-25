@@ -8,11 +8,8 @@ import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 
 import { useResponsive } from '../../hooks/use-responsive';
-
 import { bgBlur } from '../../theme/css';
-
 import Iconify from '../../components/iconify';
-
 import Searchbar from './common/searchbar';
 import { NAV, HEADER } from './config-layout';
 import AccountPopover from './common/account-popover';
@@ -23,9 +20,7 @@ import NotificationsPopover from './common/notifications-popover';
 
 export default function Header({ onOpenNav }) {
   const theme = useTheme();
-
   const lgUp = useResponsive('up', 'lg');
-
   const renderContent = (
     <>
       {!lgUp && (
@@ -33,11 +28,8 @@ export default function Header({ onOpenNav }) {
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
       )}
-
       <Searchbar />
-
       <Box sx={{ flexGrow: 1 }} />
-
       <Stack direction="row" alignItems="center" spacing={1}>
         <LanguagePopover />
         <NotificationsPopover />
@@ -64,12 +56,7 @@ export default function Header({ onOpenNav }) {
         }),
       }}
     >
-      <Toolbar
-        sx={{
-          height: 1,
-          px: { lg: 5 },
-        }}
-      >
+      <Toolbar sx={{ height: 1, px: { lg: 5 }, }}>
         {renderContent}
       </Toolbar>
     </AppBar>
