@@ -1,10 +1,17 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getUserList, insertUser } from '../../api/firebase';
+import { getUser, getUserList, insertUser, updateUser, deleteUser } from '../../api/firebase';
 
 export default function useUsers() {
   const queryClient = useQueryClient();
+  // const id = user && user.id;
 
   const getRecord = useQuery({
+    queryKey: ['users'],
+    queryFn: id => getUser(id),
+    staleTime: 1000 * 60 * 60,
+  })
+
+  const getList = useQuery({
     queryKey: ['users'],
     queryFn: getUserList,
     staleTime: 1000 * 60 * 5,
@@ -14,7 +21,19 @@ export default function useUsers() {
     mutationFn: user => insertUser(user),
     onSuccess: () => { queryClient.invalidateQueries(['users']); },
     onError: console.error,
-  })
+  });
 
-  return { getRecord, insertRecord };
+  const updateRecord = useMutation({
+    mutationFn: user => updateUser(user),
+    onSuccess: () => { queryClient.invalidateQueries(['users']); },
+    onError: console.error,
+  });
+
+  const deleteRecord = useMutation({
+    mutationFn: id => deleteUser(id),
+    onSuccess: () => { queryClient.invalidateQueries(['users']); },
+    onError: console.error,
+  });
+
+  return { getRecord, getList, insertRecord, updateRecord, deleteRecord };
 }

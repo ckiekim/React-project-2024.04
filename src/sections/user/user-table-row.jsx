@@ -11,28 +11,33 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
+import useUsers from './useUsers';
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
+import UserUpdateForm from './user-update-form';
 
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
-  selected, name, avatarUrl, company, role, isVerified, status,
+  id, selected, name, avatarUrl, company, role, email, status, // isVerified,
   registeredAt, handleClick,
 }) {
-  const [open, setOpen] = useState(null);
-
+  const [openPopover, setOpenPopover] = useState(null);
   const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
+    setOpenPopover(event.currentTarget);
   };
-
   const handleCloseMenu = () => {
-    setOpen(null);
+    setOpenPopover(null);
+  };
+  const { deleteRecord } = useUsers();
+  const handleDeleteMenu = () => {
+    deleteRecord.mutate(id);
+    setOpenPopover(null);
   };
 
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+      <TableRow hover tabIndex={-1} role="checkbox" selected={selected} key={id}>
         <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
@@ -47,10 +52,9 @@ export default function UserTableRow({
         </TableCell>
 
         <TableCell>{company}</TableCell>
-
         <TableCell>{role}</TableCell>
-
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
+        <TableCell>{email}</TableCell>
+        {/* <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell> */}
 
         <TableCell>
           <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
@@ -66,23 +70,16 @@ export default function UserTableRow({
       </TableRow>
 
       <Popover
-        open={!!open}
-        anchorEl={open}
-        onClose={handleCloseMenu}
+        open={!!openPopover} anchorEl={openPopover} onClose={handleCloseMenu}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: { width: 140 },
-        }}
+        sx={{ width: 140 }}
       >
-        <MenuItem onClick={handleCloseMenu}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
+        <UserUpdateForm id={id} callback={handleCloseMenu} />
 
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+        <MenuItem onClick={handleDeleteMenu} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
+          삭제
         </MenuItem>
       </Popover>
     </>
@@ -93,9 +90,10 @@ UserTableRow.propTypes = {
   avatarUrl: PropTypes.any,
   company: PropTypes.any,
   handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
+  registeredAt: PropTypes.any,
   name: PropTypes.any,
   role: PropTypes.any,
+  email: PropTypes.any,
   selected: PropTypes.any,
   status: PropTypes.string,
 };

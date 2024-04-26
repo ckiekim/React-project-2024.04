@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, } from "firebase/auth";
-import { getDatabase, ref, get, set } from "firebase/database";
+import { getDatabase, ref, get, set, remove } from "firebase/database";
 import { v4 as uuid } from 'uuid';
 
 const firebaseConfig = {
@@ -27,14 +27,34 @@ export async function getUserList() {
     }); 
 }
 
+export async function getUser(id) {
+  return get(ref(database, `users/${id}`))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        return snapshot.val();
+      }
+      return null;
+    }); 
+}
+
 export async function insertUser(user) {
   const id = uuid();
   const { email, avatarUrl, name, company, role } = user;
-  // console.log(user);
   return set(ref(database, `users/${id}`), {
     id, email, avatarUrl, name, company, isVerified: false, status: 'active', role,
     registeredAt: new Date().toISOString()
   });
+}
+
+export async function updateUser(user) {
+  const { id, email, avatarUrl, name, company, isVerified, status, role, registeredAt } = user;
+  return set(ref(database, `users/${id}`), {
+    id, email, avatarUrl, name, company, isVerified, status, role, registeredAt
+  });
+}
+
+export async function deleteUser(id) {
+  return remove(ref(database, `users/${id}`));
 }
 
 export async function getProductList() {

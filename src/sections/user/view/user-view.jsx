@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import useUsers from '../useUsers';
 import Scrollbar from '../../../components/scrollbar';
 
-import InsertUserForm from '../user-form-modal';
+import UserInsertForm from '../user-insert-form';
 import TableNoData from '../table-no-data';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
@@ -31,7 +31,7 @@ export default function UserPage() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const { getRecord: {isLoading, data: users} } = useUsers();
+  const { getList: {isLoading, data: users} } = useUsers();
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -95,7 +95,7 @@ export default function UserPage() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">사용자</Typography>
 
-        <InsertUserForm />
+        <UserInsertForm />
       </Stack>
 
       {isLoading && <p>로딩중</p>}
@@ -113,7 +113,8 @@ export default function UserPage() {
                   { id: 'name', label: 'Name' },
                   { id: 'company', label: 'Company' },
                   { id: 'role', label: 'Role' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
+                  // { id: 'isVerified', label: 'Verified', align: 'center' },
+                  { id: 'email', label: '이메일' },
                   { id: 'status', label: 'Status' },
                   { id: 'registeredAt', label: '등록' },
                   { id: '' },
@@ -124,8 +125,9 @@ export default function UserPage() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <UserTableRow
-                      key={row.id} name={row.name} role={row.role} status={row.status}
-                      company={row.company} avatarUrl={row.avatarUrl} isVerified={row.isVerified}
+                      key={row.id} id={row.id} name={row.name} role={row.role} status={row.status}
+                      // company={row.company} avatarUrl={row.avatarUrl} isVerified={row.isVerified}
+                      company={row.company} avatarUrl={row.avatarUrl} email={row.email}
                       registeredAt={formatAgo(row.registeredAt, 'ko')}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
