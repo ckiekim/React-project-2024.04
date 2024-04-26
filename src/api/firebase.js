@@ -27,6 +27,16 @@ export async function getUserList() {
     }); 
 }
 
+export async function insertUser(user) {
+  const id = uuid();
+  const { email, avatarUrl, name, company, role } = user;
+  // console.log(user);
+  return set(ref(database, `users/${id}`), {
+    id, email, avatarUrl, name, company, isVerified: false, status: 'active', role,
+    registeredAt: new Date().toISOString()
+  });
+}
+
 export async function getProductList() {
   return get(ref(database, 'products'))
     .then(snapshot => {

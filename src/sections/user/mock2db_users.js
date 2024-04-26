@@ -20,6 +20,7 @@ const firebaseConfig = {
 
 const users = [...Array(24)].map((_, index) => ({
   id: faker.string.uuid(),
+  email: faker.internet.email(),
   avatarUrl: `/assets/images/avatars/avatar_${index + 1}.jpg`,
   name: faker.person.fullName(),
   company: faker.company.name(),
@@ -45,9 +46,9 @@ const auth = getAuth();
 const database = getDatabase(app);
 
 async function addUser( user ) {
-  const { id, avatarUrl, name, company, isVerified, status, role, registeredAt } = user;
+  const { id, email, avatarUrl, name, company, isVerified, status, role, registeredAt } = user;
   return set(ref(database, `users/${id}`), {
-    id, avatarUrl, name, company, isVerified, status, role, registeredAt
+    id, email, avatarUrl, name, company, isVerified, status, role, registeredAt
   });
 }
 

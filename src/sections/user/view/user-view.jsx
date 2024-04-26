@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
@@ -12,9 +11,9 @@ import Typography from '@mui/material/Typography';
 
 // import { users } from '../../../_mock/user';
 import useUsers from '../useUsers';
-import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 
+import InsertUserForm from '../user-form-modal';
 import TableNoData from '../table-no-data';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
@@ -96,9 +95,7 @@ export default function UserPage() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">사용자</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          New User
-        </Button>
+        <InsertUserForm />
       </Stack>
 
       {isLoading && <p>로딩중</p>}
