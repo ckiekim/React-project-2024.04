@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 import { alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -13,51 +14,27 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import { useRouter } from '../../routes/hooks';
 import { bgGradient } from '../../theme/css';
-
 import Logo from '../../components/logo';
 import Iconify from '../../components/iconify';
+import { login } from '../../api/firebase';
 
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
   const theme = useTheme();
-  const router = useRouter();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [loginInfo, setLoginInfo] = useState({email: '', password: ''})
 
-  const handleClick = () => {
-    router.push('/dashboard');
-  };
-
-  const renderForm = (
-    <>
-      <Stack spacing={3}>
-        <TextField name="email" label="이메일" />
-        <TextField name="password" label="패스워드" type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Stack>
-
-      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover">
-          패스워드를 잊으셨나요?
-        </Link>
-      </Stack>
-
-      <LoadingButton fullWidth type="submit" variant="contained" color="inherit" onClick={handleClick}>
-        <Typography sx={{fontWeight: 'bold'}}>로그인</Typography>
-      </LoadingButton>
-    </>
-  );
+  const handleChange = e => {
+    setLoginInfo({...loginInfo, [e.target.name]: e.target.value});
+  }
+  const handleSubmit = e => {
+    e.preventDefault();
+    login(loginInfo);
+    // navigate('/');
+  }
 
   return (
     <Box
@@ -105,12 +82,33 @@ export default function LoginView() {
           </Stack>
 
           <Divider sx={{ my: 3 }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
-            </Typography>
+            <Typography variant="body2" sx={{ color: 'text.secondary' }}> OR </Typography>
           </Divider>
 
-          {renderForm}
+          <Stack spacing={3}>
+            <TextField name="email" onChange={handleChange} label="이메일" />
+            <TextField name="password" label="패스워드" onChange={handleChange} 
+              type={showPassword ? 'text' : 'password'}
+              InputProps={{ endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                      <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }} 
+            />
+          </Stack>
+
+          <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
+            <Link variant="subtitle2" underline="hover">
+              패스워드를 잊으셨나요?
+            </Link>
+          </Stack>
+
+          <LoadingButton fullWidth type="submit" variant="contained" color="inherit" onClick={handleSubmit}>
+            <Typography sx={{fontWeight: 'bold'}}>로그인</Typography>
+          </LoadingButton>
         </Card>
       </Stack>
     </Box>

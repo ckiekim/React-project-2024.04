@@ -18,6 +18,7 @@ const database = getDatabase(app);
 /*========================= login =========================*/
 
 export function login({email, password}) {
+  console.log(email, password);
   signInWithEmailAndPassword(auth, email, password)
     .catch(console.error);
 }
@@ -30,8 +31,9 @@ export function logout() {
 export function onUserStateChanged(callback) {
   onAuthStateChanged(auth, async (user) => {
     const updatedUser = user ? await adminUser(user) : null;
+    console.log(updatedUser);
     callback(updatedUser);
-  })
+  });
 }
 
 async function adminUser(user) {
@@ -66,6 +68,17 @@ export async function getUser(id) {
     .then(snapshot => {
       if (snapshot.exists()) {
         return snapshot.val();
+      }
+      return null;
+    }); 
+}
+
+export async function getUserByEmail(email) {
+  return get(ref(database, `users`))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        let records = Object.values(snapshot.val());
+        return records.filter(user => user.email === email);
       }
       return null;
     }); 

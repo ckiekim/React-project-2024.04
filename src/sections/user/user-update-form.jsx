@@ -21,7 +21,7 @@ import { uploadImage } from "../../api/cloudinary";
 export default function UserUpdateForm({ id, callback }) {
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState();
-  const [user, setUser] = useState({});
+  const [userInfo, setUserInfo] = useState({});
   const handleClickOpen = () => { 
     setOpen(true); 
   };
@@ -30,23 +30,23 @@ export default function UserUpdateForm({ id, callback }) {
     callback(null);
   };
   const handleChange = e => {
-    setUser(user => ({...user, [e.target.name]: e.target.value}));
+    setUserInfo(userInfo => ({...userInfo, [e.target.name]: e.target.value}));
   }
   const handleUpload = newFile => {
     setFile(newFile);
     uploadImage(newFile)
-      .then(url => setUser(user => ({...user, ['avatarUrl']: url})));
+      .then(url => setUserInfo(userInfo => ({...userInfo, ['avatarUrl']: url})));
   }
   const { updateRecord } = useUsers();
   const handleSubmit = e => {
     e.preventDefault();
-    updateRecord.mutate(user);
+    updateRecord.mutate(userInfo);
     setOpen(false);
     callback(null);
   }
   useEffect(() => {
     getUser(id)
-      .then(setUser);
+      .then(setUserInfo);
   }, []);
 
   return (
@@ -62,24 +62,24 @@ export default function UserUpdateForm({ id, callback }) {
           sx={{ position: 'absolute', right: 8, top: 8, }} >
           <CloseIcon />
         </IconButton>
-        {user && <DialogContent dividers>
+        {userInfo && <DialogContent dividers>
           <Stack spacing={2} sx={{ width: '40ch' }} alignItems="center">
-            {user && <img src={user.avatarUrl} alt='photo' width='80%' />}
+            {userInfo && <img src={userInfo.avatarUrl} alt='photo' width='80%' />}
             <TextField autoFocus required margin="dense" id="email"
               name="email" label="이메일" type="email" fullWidth
-              defaultValue={user.email} onChange={handleChange}
+              defaultValue={userInfo.email} onChange={handleChange}
             />
             <TextField required margin="dense" id="name"
               name="name" label="이름" type="text" fullWidth
-              defaultValue={user.name} onChange={handleChange}
+              defaultValue={userInfo.name} onChange={handleChange}
             />
             <TextField required margin="dense" id="company"
               name="company" label="회사" type="text" fullWidth
-              defaultValue={user.company} onChange={handleChange}
+              defaultValue={userInfo.company} onChange={handleChange}
             />
             <TextField required margin="dense" id="role"
               name="role" label="역할" type="text" fullWidth
-              defaultValue={user.role} onChange={handleChange}
+              defaultValue={userInfo.role} onChange={handleChange}
             />
             <MuiFileInput required margin="dense" id="photo"
               label='프로필 사진' value={file} name='file' fullWidth
