@@ -63,7 +63,8 @@ export default function UserUpdateForm({ id, callback }) {
           <CloseIcon />
         </IconButton>
         {user && <DialogContent dividers>
-          <Stack spacing={2} sx={{ width: '40ch' }}>
+          <Stack spacing={2} sx={{ width: '40ch' }} alignItems="center">
+            {user && <img src={user.avatarUrl} alt='photo' width='80%' />}
             <TextField autoFocus required margin="dense" id="email"
               name="email" label="이메일" type="email" fullWidth
               defaultValue={user.email} onChange={handleChange}

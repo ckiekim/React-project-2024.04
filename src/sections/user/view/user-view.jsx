@@ -98,7 +98,7 @@ export default function UserPage() {
         <UserInsertForm />
       </Stack>
 
-      {isLoading && <p>로딩중</p>}
+      {isLoading && <p>로딩중...</p>}
       {users && <Card>
         <UserTableToolbar numSelected={selected.length} filterName={filterName}
           onFilterName={handleFilterByName}/>

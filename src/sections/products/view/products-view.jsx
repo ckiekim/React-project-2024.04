@@ -17,7 +17,7 @@ import ProductCartWidget from '../product-cart-widget';
 
 export default function ProductsView() {
   const [openFilter, setOpenFilter] = useState(false);
-  const { getRecord: {isLoading, data: products} } = useProducts();
+  const { getList: {isLoading, data: products} } = useProducts();
 
   const handleOpenFilter = () => {
     setOpenFilter(true);
@@ -45,7 +45,7 @@ export default function ProductsView() {
         </Stack>
       </Stack>
 
-      {isLoading && <p>로딩중</p>}
+      {isLoading && <p>로딩중...</p>}
       {products && <Grid container spacing={3}>
         {products.map((product) => (
           <Grid key={product.id} xs={12} sm={6} md={3}>

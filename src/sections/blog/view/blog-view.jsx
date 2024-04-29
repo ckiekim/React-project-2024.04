@@ -15,7 +15,7 @@ import PostSearch from '../post-search';
 // ----------------------------------------------------------------------
 
 export default function BlogView() {
-  const { getRecord: {isLoading, data: posts} } = useBlogs();
+  const { getList: {isLoading, data: posts} } = useBlogs();
 
   return (
     <Container>
@@ -27,7 +27,7 @@ export default function BlogView() {
         </Button>
       </Stack>
 
-      {isLoading && <p>로딩중</p>}
+      {isLoading && <p>로딩중...</p>}
       {posts && <>
         <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
           <PostSearch posts={posts} />
