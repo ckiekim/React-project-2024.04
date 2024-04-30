@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 
+import { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -15,12 +16,17 @@ import { NAV, HEADER } from './config-layout';
 import AccountPopover from './common/account-popover';
 import LanguagePopover from './common/language-popover';
 import NotificationsPopover from './common/notifications-popover';
+import UserInfoInsertDialog from './common/userInfo-insert-dialog';
+import { useAuthContext } from '../../context/AuthContext';
 
 // ----------------------------------------------------------------------
 
 export default function Header({ onOpenNav }) {
+  const [userInfoOpen, setUserInfoOpen] = useState(false);
   const theme = useTheme();
   const lgUp = useResponsive('up', 'lg');
+  const { user, logout } = useAuthContext();
+
   const renderContent = (
     <>
       {!lgUp && (
@@ -33,7 +39,8 @@ export default function Header({ onOpenNav }) {
       <Stack direction="row" alignItems="center" spacing={1}>
         <LanguagePopover />
         <NotificationsPopover />
-        <AccountPopover />
+        <AccountPopover callback={setUserInfoOpen} user={user} logout={logout} />
+        <UserInfoInsertDialog userInfoOpen={userInfoOpen} callback={setUserInfoOpen} user={user} />
       </Stack>
     </>
   );

@@ -20,6 +20,6 @@ export function AuthContextProvider({ children }) {
 
 export function useAuthContext() {
   const auth = useContext(AuthContext);
-  console.log(auth);
+  // console.log(auth);
   return auth;
 }

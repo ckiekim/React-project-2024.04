@@ -11,8 +11,9 @@ import Typography from '@mui/material/Typography';
 
 import LoginDialog from './login-dialog';
 // import { account } from '../../../_mock/account';
-import { useAuthContext } from '../../../context/AuthContext';
-import { getUserInfo } from '../../../api/firebase';
+// import { useAuthContext } from '../../../context/AuthContext';
+import useUserInfo from '../../../sections/userInfo/useUserInfo';
+// import { getUserInfo } from '../../../api/firebase';
 
 const MENU_OPTIONS = [
   { label: 'Home', icon: 'eva:home-fill', },
@@ -20,10 +21,12 @@ const MENU_OPTIONS = [
   { label: 'Settings', icon: 'eva:settings-2-fill', },
 ];
 
-export default function AccountPopover() {
+export default function AccountPopover({ user, logout, callback }) {
   const [open, setOpen] = useState(null);
-  const [account, setAccount] = useState();
-  const { user, logout } = useAuthContext();
+  // const [account, setAccount] = useState();
+  // const { user, logout } = useAuthContext();
+  const { getRecord } = useUserInfo();
+  const { isLoading, data: account } = getRecord(user && user.uid);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -35,15 +38,15 @@ export default function AccountPopover() {
     setOpen(null);
     logout();
   };
-  useEffect(() => {
-    if (user) 
-      getUserInfo(user.uid)
-        .then(setAccount);
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) 
+  //     getUserInfo(user.uid)
+  //       .then(setAccount);
+  // }, [user]);
 
   return (
     <>
-      {!user && <LoginDialog />}
+      {!user && <LoginDialog callback={callback} />}
       {user && <>
         <IconButton onClick={handleOpen}
           sx={{ width: 40, height: 40,

@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import useUserInfo from '../useUserInfo';
 import Scrollbar from '../../../components/scrollbar';
 
-import UserInfoInsertForm from '../userInfo-insert-form';
+// import UserInfoInsertForm from '../userInfo-insert-form';
 import TableNoData from '../table-no-data';
 import UserInfoTableRow from '../userInfo-table-row';
 import UserInfoTableHead from '../userInfo-table-head';
@@ -95,8 +95,7 @@ export default function UserInfoPage() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">사용자 정보</Typography>
-
-        <UserInfoInsertForm />
+        {/* <UserInfoInsertForm /> */}
       </Stack>
 
       {isLoading && <p>로딩중...</p>}

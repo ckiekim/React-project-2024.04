@@ -17,27 +17,35 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Iconify from '../../../components/iconify';
-import { login } from '../../../api/firebase';
+import { login, register } from '../../../api/firebase';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': { padding: theme.spacing(2), },
   '& .MuiDialogActions-root': { padding: theme.spacing(1), },
 }));
 
-export default function LoginDialog() {
+export default function LoginDialog({ callback }) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [loginInfo, setLoginInfo] = useState({email: '', password: ''})
+  const [loginInfo, setLoginInfo] = useState({email: '', password: ''});
+  const [isLoginMode, setIsLoginMode] = useState(true);
 
   const handleClickOpen = () => { setOpen(true); };
-  const handleClose = () => { setOpen(false); };
+  const handleClose = () => { setOpen(false); setIsLoginMode(true); };
   const handleChange = e => {
     setLoginInfo({...loginInfo, [e.target.name]: e.target.value});
   }
   const handleSubmit = e => {
-    login(loginInfo);
+    // e.preventDefault();
+    if (isLoginMode)
+      login(loginInfo);
+    else {
+      register(loginInfo);
+      callback(true);
+    }
   }
+  const handleMode = () => { setIsLoginMode(!isLoginMode); }
 
   return (
     <>
@@ -46,22 +54,24 @@ export default function LoginDialog() {
       </Button>
       <BootstrapDialog open={open}
         onClose={handleClose} aria-labelledby="customized-dialog-title"
-      >
+        >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          <Typography variant="h4">CK World 로그인</Typography>
+          <Typography variant="h4">
+            CK World {isLoginMode ? '로그인' : '회원가입'}
+          </Typography>
         </DialogTitle>
         <IconButton aria-label="close" onClick={handleClose}
           sx={{ position: 'absolute', right: 8, top: 8,
-            color: (theme) => theme.palette.grey[500], }} >
+          color: (theme) => theme.palette.grey[500], }} >
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
           <Box sx={{ '& .MuiTextField-root': { m: 1, width: '40ch' }, }}>
             <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
-              계정이 없으신가요?
-              <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-                등록하기
-              </Link>
+              {isLoginMode ? '계정이 없으신가요?' : '이미 회원이신가요?'}
+              <Button variant='text' sx={{ ml: 0.5 }} onClick={handleMode}>
+                {isLoginMode ? '등록하기' : '로그인'}
+              </Button>
             </Typography>
 
             <Stack direction="row" spacing={2}>
@@ -103,16 +113,18 @@ export default function LoginDialog() {
               />
             </Stack>
 
-            <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-              <Link variant="subtitle2" underline="hover">
-                패스워드를 잊으셨나요?
-              </Link>
-            </Stack>
+            {isLoginMode &&
+              <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
+                <Link variant="subtitle2" underline="hover">
+                  패스워드를 잊으셨나요?
+                </Link>
+              </Stack>
+            }
           </Box>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleSubmit} variant="contained">
-            로그인
+            {isLoginMode ? '로그인' : '회원가입'}
           </Button>
         </DialogActions>
       </BootstrapDialog>

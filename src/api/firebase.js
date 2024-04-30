@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged,
-  signOut } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, 
+  createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, ref, get, set, remove } from "firebase/database";
 import { v4 as uuid } from 'uuid';
 
@@ -31,7 +31,7 @@ export function logout() {
 export function onUserStateChanged(callback) {
   onAuthStateChanged(auth, async (user) => {
     const updatedUser = user ? await adminUser(user) : null;
-    console.log(updatedUser);
+    // console.log(updatedUser);
     callback(updatedUser);
   });
 }
@@ -46,6 +46,11 @@ async function adminUser(user) {
       }
       return user;
     });
+}
+
+export function register({ email, password }) {
+  createUserWithEmailAndPassword(auth, email, password)
+    .catch(console.error);
 }
 
 /*========================= userInfo =========================*/
@@ -73,16 +78,16 @@ export async function getUserInfo(uid) {
     }); 
 }
 
-export async function getUserInfoByEmail(email) {
-  return get(ref(database, `userInfo`))
-    .then(snapshot => {
-      if (snapshot.exists()) {
-        let records = Object.values(snapshot.val());
-        return records.filter(user => user.email === email);
-      }
-      return null;
-    }); 
-}
+// export async function getUserInfoByEmail(email) {
+//   return get(ref(database, `userInfo`))
+//     .then(snapshot => {
+//       if (snapshot.exists()) {
+//         let records = Object.values(snapshot.val());
+//         return records.filter(user => user.email === email);
+//       }
+//       return null;
+//     }); 
+// }
 
 export async function insertUserInfo(userInfo) {
   const { uid, email, displayName, avatarUrl, job } = userInfo;
@@ -211,17 +216,6 @@ export async function getUser(id) {
     .then(snapshot => {
       if (snapshot.exists()) {
         return snapshot.val();
-      }
-      return null;
-    }); 
-}
-
-export async function getUserByEmail(email) {
-  return get(ref(database, `users`))
-    .then(snapshot => {
-      if (snapshot.exists()) {
-        let records = Object.values(snapshot.val());
-        return records.filter(user => user.email === email);
       }
       return null;
     }); 
