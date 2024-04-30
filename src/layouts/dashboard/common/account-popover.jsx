@@ -1,19 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
 import { alpha } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
 import MenuItem from '@mui/material/MenuItem';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 
 import LoginDialog from './login-dialog';
-import { account } from '../../../_mock/account';
+// import { account } from '../../../_mock/account';
 import { useAuthContext } from '../../../context/AuthContext';
-
-// ----------------------------------------------------------------------
+import { getUserInfo } from '../../../api/firebase';
 
 const MENU_OPTIONS = [
   { label: 'Home', icon: 'eva:home-fill', },
@@ -21,10 +20,9 @@ const MENU_OPTIONS = [
   { label: 'Settings', icon: 'eva:settings-2-fill', },
 ];
 
-// ----------------------------------------------------------------------
-
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const [account, setAccount] = useState();
   const { user, logout } = useAuthContext();
 
   const handleOpen = (event) => {
@@ -37,6 +35,11 @@ export default function AccountPopover() {
     setOpen(null);
     logout();
   };
+  useEffect(() => {
+    if (user) 
+      getUserInfo(user.uid)
+        .then(setAccount);
+  }, [user]);
 
   return (
     <>
@@ -51,13 +54,15 @@ export default function AccountPopover() {
             }),
           }}
         >
-          <Avatar src={account.photoURL} alt={account.displayName}
-            sx={{ width: 36, height: 36,
-              border: (theme) => `solid 2px ${theme.palette.background.default}`,
-            }}
-          >
-            {account.displayName.charAt(0).toUpperCase()}
-          </Avatar>
+          {account && 
+            <Avatar src={account.avatarUrl} alt={account.displayName}
+              sx={{ width: 36, height: 36,
+                border: (theme) => `solid 2px ${theme.palette.background.default}`,
+              }}
+            >
+              {account.displayName.charAt(0).toUpperCase()}
+            </Avatar>
+          }
         </IconButton>
 
         <Popover open={!!open} anchorEl={open} onClose={handleClose}
@@ -65,14 +70,16 @@ export default function AccountPopover() {
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           sx={{ p: 0, mt: 1, ml: 0.75, width: 200, }}
         >
-          <Box sx={{ my: 1.5, px: 2 }}>
-            <Typography variant="subtitle2" noWrap>
-              {account.displayName}
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-              {account.email}
-            </Typography>
-          </Box>
+          {account && 
+            <Box sx={{ my: 1.5, px: 2 }}>
+              <Typography variant="subtitle2" noWrap>
+                {account.displayName}
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+                {account.email}
+              </Typography>
+            </Box>
+          }
 
           <Divider sx={{ borderStyle: 'dashed' }} />
 

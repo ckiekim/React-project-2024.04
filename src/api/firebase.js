@@ -48,23 +48,23 @@ async function adminUser(user) {
     });
 }
 
-/*========================= users =========================*/
+/*========================= userInfo =========================*/
 
-export async function getUserList() {
-  return get(ref(database, 'users'))
+export async function getUserInfoList() {
+  return get(ref(database, 'userInfo'))
     .then(snapshot => {
       if (snapshot.exists()) {
         const objects = snapshot.val();
-        let records = Object.values(objects);   // object를 array로 변환
-        // records = records.sort((a, b) => b.registeredAt.localeCompare(a.registeredAt));   // 내림차순 정렬
+        let records = Object.values(objects);
+        records = records.sort((a, b) => b.registeredAt.localeCompare(a.registeredAt));   // 내림차순 정렬
         return records;
       }
       return null;
     }); 
 }
 
-export async function getUser(id) {
-  return get(ref(database, `users/${id}`))
+export async function getUserInfo(uid) {
+  return get(ref(database, `userInfo/${uid}`))
     .then(snapshot => {
       if (snapshot.exists()) {
         return snapshot.val();
@@ -73,8 +73,8 @@ export async function getUser(id) {
     }); 
 }
 
-export async function getUserByEmail(email) {
-  return get(ref(database, `users`))
+export async function getUserInfoByEmail(email) {
+  return get(ref(database, `userInfo`))
     .then(snapshot => {
       if (snapshot.exists()) {
         let records = Object.values(snapshot.val());
@@ -84,24 +84,23 @@ export async function getUserByEmail(email) {
     }); 
 }
 
-export async function insertUser(user) {
-  const id = uuid();
-  const { email, avatarUrl, name, company, role } = user;
-  return set(ref(database, `users/${id}`), {
-    id, email, avatarUrl, name, company, isVerified: false, status: 'active', role,
-    registeredAt: new Date().toISOString()
+export async function insertUserInfo(userInfo) {
+  const { uid, email, displayName, avatarUrl, job } = userInfo;
+  return set(ref(database, `userInfo/${uid}`), {
+    uid, email, displayName, avatarUrl, job, role: 'User', status: 'active', 
+    isVerified: false, registeredAt: new Date().toISOString()
   });
 }
 
-export async function updateUser(user) {
-  const { id, email, avatarUrl, name, company, isVerified, status, role, registeredAt } = user;
-  return set(ref(database, `users/${id}`), {
-    id, email, avatarUrl, name, company, isVerified, status, role, registeredAt
+export async function updateUserInfo(userInfo) {
+  const { uid, email, displayName, avatarUrl, job, role, status, isVerified, registeredAt } = userInfo;
+  return set(ref(database, `userInfo/${uid}`), {
+    uid, email, displayName, avatarUrl, job, role, status, isVerified, registeredAt
   });
 }
 
-export async function deleteUser(id) {
-  return remove(ref(database, `users/${id}`));
+export async function deleteUserInfo(uid) {
+  return remove(ref(database, `userInfo/${uid}`));
 }
 
 /*========================= products =========================*/
@@ -190,4 +189,60 @@ export async function updateBlog(blog) {
 
 export async function deleteBlog(id) {
   return remove(ref(database, `blogs/${id}`));
+}
+
+/*========================= users =========================*/
+
+export async function getUserList() {
+  return get(ref(database, 'users'))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        const objects = snapshot.val();
+        let records = Object.values(objects);   // object를 array로 변환
+        // records = records.sort((a, b) => b.registeredAt.localeCompare(a.registeredAt));   // 내림차순 정렬
+        return records;
+      }
+      return null;
+    }); 
+}
+
+export async function getUser(id) {
+  return get(ref(database, `users/${id}`))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        return snapshot.val();
+      }
+      return null;
+    }); 
+}
+
+export async function getUserByEmail(email) {
+  return get(ref(database, `users`))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        let records = Object.values(snapshot.val());
+        return records.filter(user => user.email === email);
+      }
+      return null;
+    }); 
+}
+
+export async function insertUser(user) {
+  const id = uuid();
+  const { email, avatarUrl, name, company, role } = user;
+  return set(ref(database, `users/${id}`), {
+    id, email, avatarUrl, name, company, isVerified: false, status: 'active', role,
+    registeredAt: new Date().toISOString()
+  });
+}
+
+export async function updateUser(user) {
+  const { id, email, avatarUrl, name, company, isVerified, status, role, registeredAt } = user;
+  return set(ref(database, `users/${id}`), {
+    id, email, avatarUrl, name, company, isVerified, status, role, registeredAt
+  });
+}
+
+export async function deleteUser(id) {
+  return remove(ref(database, `users/${id}`));
 }

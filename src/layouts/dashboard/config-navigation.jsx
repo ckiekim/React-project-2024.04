@@ -23,8 +23,8 @@ const navConfig = [
     icon: icon('ic_schedule'),
   },
   {
-    title: '사용자',
-    path: '/user',
+    title: '사용자 정보',
+    path: '/userInfo',
     icon: icon('ic_user'),
   },
   {
@@ -36,6 +36,11 @@ const navConfig = [
     title: '블로그',
     path: '/blog',
     icon: icon('ic_blog'),
+  },
+  {
+    title: '사용자',
+    path: '/user',
+    icon: icon('ic_user'),
   },
   {
     title: '로그인',
