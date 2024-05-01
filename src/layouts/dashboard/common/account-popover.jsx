@@ -10,13 +10,13 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 
 import LoginDialog from './login-dialog';
+import UserInfo2InsertDialog from './userInfo2-insert-dialog';
 // import { account } from '../../../_mock/account';
 import useUserInfo from '../../../sections/userInfo/useUserInfo';
 
 const MENU_OPTIONS = [
   { label: 'Home', icon: 'eva:home-fill', },
   { label: 'Profile', icon: 'eva:person-fill', },
-  { label: 'Settings', icon: 'eva:settings-2-fill', },
 ];
 
 export default function AccountPopover({ user, logout, callback }) {
@@ -25,14 +25,15 @@ export default function AccountPopover({ user, logout, callback }) {
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
-  };
+  }
   const handleClose = () => {
     setOpen(null);
-  };
+  }
   const handleLogout = () => {
     setOpen(null);
+    sessionStorage.clear();
     logout();
-  };
+  }
 
   return (
     <>
@@ -81,6 +82,8 @@ export default function AccountPopover({ user, logout, callback }) {
               {option.label}
             </MenuItem>
           ))}
+
+          <UserInfo2InsertDialog callback={setOpen} />
 
           <Divider sx={{ borderStyle: 'dashed', m: 0 }} />
 

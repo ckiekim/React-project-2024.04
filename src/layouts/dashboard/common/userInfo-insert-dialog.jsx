@@ -33,18 +33,19 @@ export default function UserInfoInsertDialog({ userInfoOpen, callback, user }) {
   }
   const { insertRecord } = useUserInfo();
   const handleSubmit = e => {
-    insertRecord.mutate(userInfo);
+    // insertRecord.mutate(userInfo);
+    console.log(userInfo);
     handleClose();
   }
   
   useEffect(() => {
-    if (userInfoOpen) {
-      if (user) {
-        setUserInfo({...userInfo, uid: user.uid, email: user.email});
-        console.log(userInfo);
-      }
+    if (userInfoOpen && user) {
+      // setUserInfo({...userInfo, uid: user.uid, email: user.email});
+      setUserInfo({...userInfo, uid: sessionStorage.getItem('sessionUid'), 
+        email: sessionStorage.getItem('sessionEmail')});
+      console.log(userInfo);
     }
-  }, [userInfoOpen]);
+  }, [userInfoOpen, user]);
 
   return (
     <Dialog open={user && userInfoOpen} onClose={handleClose}>

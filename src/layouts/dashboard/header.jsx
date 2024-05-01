@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -14,23 +14,50 @@ import { NAV, HEADER } from './config-layout';
 import AccountPopover from './common/account-popover';
 import LanguagePopover from './common/language-popover';
 import NotificationsPopover from './common/notifications-popover';
-import UserInfoInsertDialog from './common/userInfo-insert-dialog';
+// import UserInfoInsertDialog from './common/userInfo-insert-dialog';
 import { useAuthContext } from '../../context/AuthContext';
 
 // ----------------------------------------------------------------------
 
 export default function Header({ onOpenNav }) {
-  const [userInfoOpen, setUserInfoOpen] = useState(false);
-  const [newUser, setNewUser] = useState();
   const theme = useTheme();
   const lgUp = useResponsive('up', 'lg');
   const { user, logout } = useAuthContext();
-  useEffect(() => {
-    if (user) {
-      setNewUser(user);
-      console.log(user.email);
-    }
-  }, [user, userInfoOpen]);
+
+  // 타이밍 문제 발생
+  // 사용자 정보를 등록하는 다이얼로그를 띄우기 전에
+  // 새로이 사용자 정보(uid, email)를 가져와야 하는데 안됨
+
+  // const [userInfoOpen, setUserInfoOpen] = useState(false);
+  // const [newUser, setNewUser] = useState();
+  // const [userInfo, setUserInfo] = useState(null);
+
+  // useEffect(() => {
+  //   if (user && userInfoOpen) {
+  //     setUserInfo({uid: user.uid, email: user.email});
+  //     console.log(userInfoOpen);
+  //     console.log(userInfo);
+  //   }
+  // }, [user]);
+  // useEffect(() => {
+  //   if (!userInfoOpen)
+  //     setUserInfo(null);
+  // }, [userInfoOpen]);
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log(user.email, user.uid);
+  //     setNewUser(user);
+  //     console.log(newUser);
+  //   }
+  // }, [user]);
+  // useEffect(() => {
+  //   if (userInfoOpen && newUser)
+  //     setNewUser(null);
+  // }, [userInfoOpen]);
+  // useEffect(() => {
+  //   if (!userInfoOpen)
+  //     setNewUser(null);
+  // }, [userInfoOpen]);
 
   const renderContent = (
     <>
@@ -44,8 +71,11 @@ export default function Header({ onOpenNav }) {
       <Stack direction="row" alignItems="center" spacing={1}>
         <LanguagePopover />
         <NotificationsPopover />
-        <AccountPopover callback={setUserInfoOpen} user={user} logout={logout} />
-        {newUser && <UserInfoInsertDialog userInfoOpen={userInfoOpen} callback={setUserInfoOpen} user={newUser} />}
+        <AccountPopover user={user} logout={logout} />
+        {/* <AccountPopover callback={setUserInfoOpen} user={user} logout={logout} /> */}
+        {/* {userInfo && 
+              <UserInfoInsertDialog userInfoOpen={userInfoOpen} callback={setUserInfoOpen} 
+                uInfo={userInfo} />} */}
       </Stack>
     </>
   );

@@ -8,6 +8,10 @@ export function AuthContextProvider({ children }) {
   useEffect(() => {
     onUserStateChanged(user => {
       setUser(user);
+      if (user) {
+        sessionStorage.setItem('sessionUid', user.uid);
+        sessionStorage.setItem('sessionEmail', user.email);
+      }
     });
   }, []);
 

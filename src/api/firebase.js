@@ -18,7 +18,6 @@ const database = getDatabase(app);
 /*========================= login =========================*/
 
 export function login({email, password}) {
-  console.log(email, password);
   signInWithEmailAndPassword(auth, email, password)
     .catch(console.error);
 }

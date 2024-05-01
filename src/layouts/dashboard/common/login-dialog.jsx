@@ -38,11 +38,10 @@ export default function LoginDialog({ callback }) {
   }
   const handleSubmit = e => {
     // e.preventDefault();
-    if (isLoginMode)
-      login(loginInfo);
-    else {
-      register(loginInfo);
-      callback(true);
+    if (isLoginMode) {
+      login(loginInfo); // callback(false);
+    } else {
+      register(loginInfo); callback(true);
     }
   }
   const handleMode = () => { setIsLoginMode(!isLoginMode); }
