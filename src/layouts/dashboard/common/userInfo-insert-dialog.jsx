@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MuiFileInput } from 'mui-file-input';
 
 import Button from '@mui/material/Button';
@@ -12,15 +12,12 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-// import Iconify from '../../../components/iconify';
 import useUserInfo from "../../../sections/userInfo/useUserInfo";
 import { uploadImage } from "../../../api/cloudinary";
-// import { useAuthContext } from "../../../context/AuthContext";
 
 export default function UserInfoInsertDialog({ userInfoOpen, callback, user }) {
   const [file, setFile] = useState();
   const [userInfo, setUserInfo] = useState({ displayName:'', job:'' });
-  // const { user } = useAuthContext();
   const handleClose = () => { 
     callback(false);
     setUserInfo({ displayName:'', job:'' });
@@ -32,21 +29,22 @@ export default function UserInfoInsertDialog({ userInfoOpen, callback, user }) {
   const handleUpload = newFile => {
     setFile(newFile);
     uploadImage(newFile)
-      .then(url => setUserInfo({...userInfo, ['avatarUrl']: url}));
+    .then(url => setUserInfo({...userInfo, ['avatarUrl']: url}));
   }
   const { insertRecord } = useUserInfo();
   const handleSubmit = e => {
-    // e.preventDefault();
     insertRecord.mutate(userInfo);
     handleClose();
   }
   
   useEffect(() => {
-    if (user) {
-      setUserInfo({...userInfo, uid: user.uid, email: user.email});
-      // console.log(user.uid, user.email);
+    if (userInfoOpen) {
+      if (user) {
+        setUserInfo({...userInfo, uid: user.uid, email: user.email});
+        console.log(userInfo);
+      }
     }
-  }, [user]);
+  }, [userInfoOpen]);
 
   return (
     <Dialog open={user && userInfoOpen} onClose={handleClose}>

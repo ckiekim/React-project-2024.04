@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { alpha } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
@@ -11,9 +11,7 @@ import Typography from '@mui/material/Typography';
 
 import LoginDialog from './login-dialog';
 // import { account } from '../../../_mock/account';
-// import { useAuthContext } from '../../../context/AuthContext';
 import useUserInfo from '../../../sections/userInfo/useUserInfo';
-// import { getUserInfo } from '../../../api/firebase';
 
 const MENU_OPTIONS = [
   { label: 'Home', icon: 'eva:home-fill', },
@@ -23,10 +21,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover({ user, logout, callback }) {
   const [open, setOpen] = useState(null);
-  // const [account, setAccount] = useState();
-  // const { user, logout } = useAuthContext();
-  const { getRecord } = useUserInfo();
-  const { isLoading, data: account } = getRecord(user && user.uid);
+  const { getRecord: { data: account } } = useUserInfo(user);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -38,11 +33,6 @@ export default function AccountPopover({ user, logout, callback }) {
     setOpen(null);
     logout();
   };
-  // useEffect(() => {
-  //   if (user) 
-  //     getUserInfo(user.uid)
-  //       .then(setAccount);
-  // }, [user]);
 
   return (
     <>

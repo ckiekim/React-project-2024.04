@@ -31,7 +31,8 @@ export function logout() {
 export function onUserStateChanged(callback) {
   onAuthStateChanged(auth, async (user) => {
     const updatedUser = user ? await adminUser(user) : null;
-    // console.log(updatedUser);
+    // if (updateUser)
+    //   console.log(updatedUser.uid, updatedUser.email);
     callback(updatedUser);
   });
 }

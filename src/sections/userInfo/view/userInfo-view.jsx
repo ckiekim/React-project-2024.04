@@ -13,7 +13,6 @@ import Typography from '@mui/material/Typography';
 import useUserInfo from '../useUserInfo';
 import Scrollbar from '../../../components/scrollbar';
 
-// import UserInfoInsertForm from '../userInfo-insert-form';
 import TableNoData from '../table-no-data';
 import UserInfoTableRow from '../userInfo-table-row';
 import UserInfoTableHead from '../userInfo-table-head';

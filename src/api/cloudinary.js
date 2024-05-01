@@ -8,7 +8,7 @@ export async function uploadImage(file) {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
+      // console.log(data);
       return data.url;
     });
 }

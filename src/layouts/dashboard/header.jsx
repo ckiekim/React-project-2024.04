@@ -1,6 +1,4 @@
-import PropTypes from 'prop-types';
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -23,9 +21,16 @@ import { useAuthContext } from '../../context/AuthContext';
 
 export default function Header({ onOpenNav }) {
   const [userInfoOpen, setUserInfoOpen] = useState(false);
+  const [newUser, setNewUser] = useState();
   const theme = useTheme();
   const lgUp = useResponsive('up', 'lg');
   const { user, logout } = useAuthContext();
+  useEffect(() => {
+    if (user) {
+      setNewUser(user);
+      console.log(user.email);
+    }
+  }, [user, userInfoOpen]);
 
   const renderContent = (
     <>
@@ -40,7 +45,7 @@ export default function Header({ onOpenNav }) {
         <LanguagePopover />
         <NotificationsPopover />
         <AccountPopover callback={setUserInfoOpen} user={user} logout={logout} />
-        <UserInfoInsertDialog userInfoOpen={userInfoOpen} callback={setUserInfoOpen} user={user} />
+        {newUser && <UserInfoInsertDialog userInfoOpen={userInfoOpen} callback={setUserInfoOpen} user={newUser} />}
       </Stack>
     </>
   );
@@ -69,7 +74,3 @@ export default function Header({ onOpenNav }) {
     </AppBar>
   );
 }
-
-Header.propTypes = {
-  onOpenNav: PropTypes.func,
-};
