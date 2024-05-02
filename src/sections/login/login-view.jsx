@@ -33,7 +33,7 @@ export default function LoginView() {
   const handleSubmit = e => {
     e.preventDefault();
     login(loginInfo);
-    // navigate('/');
+    navigate('/');
   }
 
   return (

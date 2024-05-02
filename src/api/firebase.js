@@ -160,6 +160,7 @@ export async function getBlogList() {
       if (snapshot.exists()) {
         const objects = snapshot.val();
         let records = Object.values(objects);
+        records = records.sort((a, b) => b.createdAt.localeCompare(a.createdAt)); 
         return records;
       }
       return null;

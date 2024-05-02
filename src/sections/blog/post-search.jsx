@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
@@ -8,33 +6,21 @@ import Iconify from '../../components/iconify';
 
 // ----------------------------------------------------------------------
 
-PostSearch.propTypes = {
-  posts: PropTypes.array.isRequired,
-};
-
 export default function PostSearch({ posts }) {
   return (
     <Autocomplete
-      sx={{ width: 280 }}
-      autoHighlight
-      popupIcon={null}
+      sx={{ width: 280 }} autoHighlight popupIcon={null}
       slotProps={{
         paper: {
-          sx: {
-            width: 320,
-            [`& .${autocompleteClasses.option}`]: {
-              typography: 'body2',
-            },
+          sx: { width: 320,
+            [`& .${autocompleteClasses.option}`]: { typography: 'body2', },
           },
         },
       }}
-      options={posts}
-      getOptionLabel={(post) => post.title}
+      options={posts} getOptionLabel={(post) => post.title}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          placeholder="Search post..."
+        <TextField {...params} placeholder="Search post..."
           InputProps={{
             ...params.InputProps,
             startAdornment: (

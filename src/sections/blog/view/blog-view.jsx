@@ -7,24 +7,24 @@ import Typography from '@mui/material/Typography';
 // import { posts } from '../../../_mock/blog';
 import useBlogs from '../useBlogs';
 import Iconify from '../../../components/iconify';
+import useUserInfo from '../../userInfo/useUserInfo';
 
 import PostCard from '../post-card';
 import PostSort from '../post-sort';
 import PostSearch from '../post-search';
+import PostInsertForm from '../post-insert-form';
 
 // ----------------------------------------------------------------------
 
 export default function BlogView() {
   const { getList: {isLoading, data: posts} } = useBlogs();
+  const { getRecord: { data: account } } = useUserInfo({ uid: sessionStorage.getItem('sessionUid') });
 
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">블로그</Typography>
-
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          New Post
-        </Button>
+        {account &&  <PostInsertForm account={account} />}
       </Stack>
 
       {isLoading && <p>로딩중...</p>}

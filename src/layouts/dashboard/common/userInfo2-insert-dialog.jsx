@@ -34,7 +34,7 @@ export default function UserInfo2InsertDialog({ callback }) {
   const handleUpload = newFile => {
     setFile(newFile);
     uploadImage(newFile)
-    .then(url => setUserInfo({...userInfo, ['avatarUrl']: url}));
+      .then(url => setUserInfo({...userInfo, ['avatarUrl']: url}));
   }
   const { insertRecord } = useUserInfo();
   const handleSubmit = e => {
@@ -47,7 +47,7 @@ export default function UserInfo2InsertDialog({ callback }) {
   useEffect(() => {
     setUserInfo({...userInfo, uid: sessionStorage.getItem('sessionUid'), 
       email: sessionStorage.getItem('sessionEmail')});
-    console.log(sessionStorage.getItem('sessionUid'), sessionStorage.getItem('sessionEmail'));
+    // console.log(sessionStorage.getItem('sessionUid'), sessionStorage.getItem('sessionEmail'));
   }, []);
 
   return (

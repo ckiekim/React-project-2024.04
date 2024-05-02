@@ -4,6 +4,7 @@
  */
 
 const propsReader = require('properties-reader');
+const { sample } = require('lodash');
 const { faker } = require('@faker-js/faker');
 const { initializeApp } = require("firebase/app");
 const { getAuth } = require('firebase/auth');
@@ -43,20 +44,27 @@ const POST_TITLES = [
   'Here’s a Dyson motorcycle concept that doesn’t ‘suck’!',
   'How to Animate a SVG with border-image',
 ];
+const authors = [
+  {uid: '01qTjJi9aAhsccCLh0GfRNjZrIC3', displayName: '안유진', avatarUrl: 'http://res.cloudinary.com/dqullcaz5/image/upload/v1714446228/jftyxwi5ieeuwkine77b.jpg'},
+  {uid: 'BfjyQOYgVibKGtDI00SE16oe02g1', displayName: '마리아', avatarUrl: 'http://res.cloudinary.com/dqullcaz5/image/upload/v1714533907/o8yqbh0doq6nh0iboovc.jpg'},
+  {uid: 'Dgl4hQDj7kgrjUh356q5LAFLwKI2', displayName: '브라이언', avatarUrl: 'http://res.cloudinary.com/dqullcaz5/image/upload/v1714446309/vwkqjqaxoiijgqiwhs7f.jpg'},
+  {uid: 'NMzHTzUZ4wfw15g9meYH6WyCuey1', displayName: '엠마', avatarUrl: 'http://res.cloudinary.com/dqullcaz5/image/upload/v1714446443/yfilvrtvisacpu3s1uvz.png'},
+  {uid: 'YDZFRaRvCSa2z88bwYOSPHMBCpx2', displayName: '토미', avatarUrl: 'http://res.cloudinary.com/dqullcaz5/image/upload/v1714446347/irtz3rj3c4yjtk6qkymt.jpg'},
+  {uid: 'dlDQQaDE4eYtLHq8ZJIweNNlYj62', displayName: '류현진', avatarUrl: 'http://res.cloudinary.com/dqullcaz5/image/upload/v1714549924/tcpgrmbosji4k4stvm1x.jpg'},
+  {uid: 'gmEyfc7ObtXYuI0abl3N3hTGw6U2', displayName: '제임스', avatarUrl: 'http://res.cloudinary.com/dqullcaz5/image/upload/v1714533885/cqlknvpmvol3kdbtpkgm.jpg'},
+  {uid: 'lZGXHPdprTT9pItVVJawUl132gg1', displayName: '오지환', avatarUrl: 'http://res.cloudinary.com/dqullcaz5/image/upload/v1714446204/udimpzjkf3foladi7i8f.jpg'},
+];
 
 const blogs = [...Array(23)].map((_, index) => ({
   id: faker.string.uuid(),
   cover: `/assets/images/covers/cover_${index + 1}.jpg`,
   title: POST_TITLES[index + 1],
   createdAt: faker.date.past().toISOString(),
-  view: faker.number.int(99999),
-  comment: faker.number.int(99999),
-  share: faker.number.int(99999),
-  favorite: faker.number.int(99999),
-  author: {
-    name: faker.person.fullName(),
-    avatarUrl: `/assets/images/avatars/avatar_${index + 1}.jpg`,
-  },
+  view: faker.number.int(99),
+  comment: faker.number.int(9),
+  share: faker.number.int(9),
+  favorite: faker.number.int(9),
+  author: sample(authors)
 }));
 
 const app = initializeApp(firebaseConfig);

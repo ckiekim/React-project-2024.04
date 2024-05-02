@@ -37,9 +37,8 @@ export default function LoginDialog({ callback }) {
     setLoginInfo({...loginInfo, [e.target.name]: e.target.value});
   }
   const handleSubmit = e => {
-    // e.preventDefault();
     if (isLoginMode) {
-      login(loginInfo); // callback(false);
+      login(loginInfo); 
     } else {
       register(loginInfo); callback(true);
     }

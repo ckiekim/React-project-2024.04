@@ -24,21 +24,21 @@ export default function Router() {
   const routes = useRoutes([
     {
       element: (
-        <AuthContextProvider>
-          <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          <AuthContextProvider>
             <DashboardLayout>
               <Suspense>
                 <Outlet />
               </Suspense>
             </DashboardLayout>
-          </QueryClientProvider>
-        </AuthContextProvider>
+          </AuthContextProvider>
+        </QueryClientProvider>
       ),
       children: [
         { element: <IndexPage />, index: true },
         { path: '/userInfo', element: <ProtectedRoute><UserInfoPage /></ProtectedRoute> },
         { path: '/products', element: <ProductsPage /> },
-        { path: '/blog', element: <BlogPage /> },
+        { path: '/blog', element: <ProtectedRoute><BlogPage /></ProtectedRoute> },
         { path: '/youtube', element: <YoutubePage /> },
         { path: '/schedule', element: <SchedulePage /> },
         { path: '/user', element: <UserPage /> },
