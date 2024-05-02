@@ -28,16 +28,16 @@ export default function PostCard({ post, index }) {
   const latestPost = index === 1 || index === 2;
 
   const handleComment = () => { 
-    updateRecord.mutate({...post, comment: comment+1});
-    setComment(comment + 1); 
+    updateRecord.mutate({...post, comment: comment+1, view: view+1});
+    setComment(comment + 1); setView(view + 1);
   };
   const handleTitle = () => { 
     updateRecord.mutate({...post, view: view+1}); 
     setView(view + 1); 
   };
   const handleShare = () => { 
-    updateRecord.mutate({...post, share: share+1}); 
-    setShare(share + 1); 
+    updateRecord.mutate({...post, share: share+1, view: view+1}); 
+    setShare(share + 1); setView(view + 1);
   };
 
   const renderAvatar = (

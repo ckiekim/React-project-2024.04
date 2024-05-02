@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { alpha } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
@@ -22,6 +23,7 @@ const MENU_OPTIONS = [
 export default function AccountPopover({ user, logout, callback }) {
   const [open, setOpen] = useState(null);
   const { getRecord: { data: account } } = useUserInfo(user);
+  const navigate = useNavigate();
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -33,6 +35,7 @@ export default function AccountPopover({ user, logout, callback }) {
     setOpen(null);
     sessionStorage.clear();
     logout();
+    navigate('/');
   }
 
   return (

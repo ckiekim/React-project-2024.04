@@ -12,6 +12,7 @@ import ProductCard from '../product-card';
 import ProductSort from '../product-sort';
 import ProductFilters from '../product-filters';
 import ProductCartWidget from '../product-cart-widget';
+import ProductInsertForm from '../product-insert-form';
 
 // ----------------------------------------------------------------------
 
@@ -29,9 +30,10 @@ export default function ProductsView() {
 
   return (
     <Container>
-      <Typography variant="h4" sx={{ mb: 5 }}>
-        상품
-      </Typography>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Typography variant="h4">상품</Typography>
+        <ProductInsertForm />
+      </Stack>
 
       <Stack direction="row" alignItems="center" flexWrap="wrap-reverse"
         justifyContent="flex-end" sx={{ mb: 5 }}>

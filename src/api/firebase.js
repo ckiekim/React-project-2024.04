@@ -116,6 +116,7 @@ export async function getProductList() {
       if (snapshot.exists()) {
         const objects = snapshot.val();
         let records = Object.values(objects);
+        records = records.sort((a, b) => b.releasedAt.localeCompare(a.releasedAt));
         return records;
       }
       return null;
