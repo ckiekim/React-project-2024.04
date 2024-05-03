@@ -52,7 +52,7 @@ export default function ProductUpdateDialog(props) {
     newProduct['price'] = (typeof(price) === 'string') ? Number.parseInt(price) : price;
     if (priceSale)
       newProduct['priceSale'] = (typeof(priceSale) === 'string') ? Number.parseInt(priceSale) : priceSale;
-    console.log(newProduct);
+    // console.log(newProduct);
     updateRecord.mutate(newProduct);
     handleClose();
   }
@@ -123,7 +123,7 @@ export default function ProductUpdateDialog(props) {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSubmit} variant="contained">등록</Button>
+          <Button onClick={handleSubmit} variant="contained">수정</Button>
         </DialogActions>
       </Dialog>
     </>

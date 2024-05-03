@@ -142,9 +142,14 @@ export async function insertProduct(product) {
 
 export async function updateProduct(product) {
   const { id, name, cover, price, priceSale, status, colors, releasedAt } = product;
-  return set(ref(database, `products/${id}`), {
-    id, name, cover, price, priceSale, status, colors, releasedAt
-  });
+  if (priceSale)
+    return set(ref(database, `products/${id}`), {
+      id, name, cover, price, priceSale, status, colors, releasedAt
+    });
+  else
+    return set(ref(database, `products/${id}`), {
+      id, name, cover, price, status, colors, releasedAt
+    });
 }
 
 export async function deleteProduct(id) {
