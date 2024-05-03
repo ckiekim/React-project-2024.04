@@ -135,10 +135,8 @@ export async function getProduct(id) {
 
 export async function insertProduct(product) {
   const id = uuid();
-  const { name, cover, price, priceSale, status, colors } = product;
   return set(ref(database, `products/${id}`), {
-    id, name, cover, price, priceSale, status, colors,
-    releasedAt: new Date().toISOString()
+    ...product, id, releasedAt: new Date().toISOString()
   });
 }
 

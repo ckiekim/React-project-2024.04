@@ -21,30 +21,35 @@ import Iconify from '../../components/iconify';
 import useProducts from './useProducts';
 import { uploadImage } from "../../api/cloudinary";
 
-export default function ProductInsertForm() {
+const COLOR_CODES = ['#00AB55','#000000','#FFFFFF','#FFC0CB','#FF4842','#1890FF','#94D82D','#FFC107'];
+
+export default function ProductInsertDialog() {
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState();
-  const [product, setProduct] = useState({ name:'', price:'', color:'#00AB55', status:'new' });
+  const [selectedColors, setSelectedColors] = useState([]);
+  const [product, setProduct] = useState({ name:'', price:'', status:'new', priceSale:'' });
+  
   const handleClickOpen = () => { setOpen(true); };
   const handleClose = () => { 
     setOpen(false); 
-    setProduct({ name:'', price:'', color:'#00AB55', status:'new' });
+    setProduct({ name:'', price:'', status:'new', priceSale:'' });
     setFile();
   };
-  const handleChange = e => {
-    setProduct({...product, [e.target.name]: e.target.value});
-  }
+  const handleChange = e => { setProduct({...product, [e.target.name]: e.target.value}); };
+  const handleColors = e => { setSelectedColors(e.target.value); };
   const handleUpload = newFile => {
     setFile(newFile);
     uploadImage(newFile)
       .then(url => setProduct({...product, ['cover']: url}));
-  }
+  };
+
   const { insertRecord } = useProducts();
-  const handleSubmit = e => {
-    // console.log(product);
-    const { name, price, color, status, cover } = product;
-    const newProduct = { name, price: Number.parseInt(price), priceSale: Number.parseInt(price)*0.9,
-      status, cover, colors: [color] };
+  const handleSubmit = () => {
+    const { name, price, status, cover, priceSale } = product;
+    const newProduct = { name, price: Number.parseInt(price), status, cover, colors: selectedColors };
+    if (priceSale)
+      newProduct['priceSale'] = Number.parseInt(priceSale);
+    // console.log(newProduct);
     insertRecord.mutate(newProduct);
     handleClose();
   }
@@ -65,7 +70,7 @@ export default function ProductInsertForm() {
         </IconButton>
         <DialogContent dividers>
           <Stack spacing={2} sx={{ width: '40ch' }} alignItems="center">
-            {file && <img src={product.cover} alt='product' width='80%' />}
+            {product.cover && <img src={product.cover} alt='product' width='80%' />}
             <TextField autoFocus required margin="dense" id="name"
               name="name" label="상품명" type="text" fullWidth
               defaultValue={product.name} onChange={handleChange}
@@ -76,18 +81,17 @@ export default function ProductInsertForm() {
             />
             <FormControl fullWidth>
               <InputLabel id="color">색상</InputLabel>
-              <Select required margin="dense" name='color' label="색상" id='color'
-                defaultValue={product.color} onChange={handleChange}>
-                {['#00AB55','#000000','#FFFFFF','#FFC0CB','#FF4842','#1890FF',
-                  '#94D82D','#FFC107'].map((item) => 
-                    <MenuItem value={item} key={item} alignItems='center'>
-                      <Stack spacing={2} direction='row' alignItems='center'>
-                        <Box sx={{ width: 16, height: 16, bgcolor: item, borderRadius: '50%',
-                            border: 'solid 2px' }} />
-                        <Typography>{item}</Typography>
-                      </Stack>
-                    </MenuItem>
-                  )}
+              <Select required margin="dense" name='color' label="색상" id='color' multiple
+                value={selectedColors} onChange={handleColors}>
+                {COLOR_CODES.map((item) => 
+                  <MenuItem value={item} key={item} alignItems='center'>
+                    <Stack spacing={2} direction='row' alignItems='center'>
+                      <Box sx={{ width: 16, height: 16, bgcolor: item, borderRadius: '50%',
+                          border: 'solid 2px' }} />
+                      <Typography>{item}</Typography>
+                    </Stack>
+                  </MenuItem>
+                )}
               </Select>
             </FormControl>
             <FormControl fullWidth>
@@ -99,6 +103,10 @@ export default function ProductInsertForm() {
                   )}
               </Select>
             </FormControl>
+            <TextField margin="dense" id="priceSale"
+              name="priceSale" label="세일전 가격" type="text" fullWidth
+              defaultValue={product.priceSale} onChange={handleChange}
+            />
             <MuiFileInput required margin="dense" id="photo"
               label='상품 사진' value={file} name='file' fullWidth
               onChange={handleUpload} />

@@ -61,8 +61,8 @@ const products = [...Array(24)].map((_, index) => {
     id: faker.string.uuid(),
     cover: `/assets/images/products/product_${setIndex}.jpg`,
     name: PRODUCT_NAME[index],
-    price: faker.number.int({ min: 4, max: 99, precision: 0.01 }),
-    priceSale: setIndex % 3 ? null : faker.number.int({ min: 19, max: 29, precision: 0.01 }),
+    price: faker.number.int({ min: 7, max: 99 }) * 1000,
+    priceSale: setIndex % 3 ? null : faker.number.int({ min: 6, max: 39 }) * 1000,
     colors:
       (setIndex === 1 && PRODUCT_COLOR.slice(0, 2)) ||
       (setIndex === 2 && PRODUCT_COLOR.slice(1, 3)) ||
@@ -71,8 +71,8 @@ const products = [...Array(24)].map((_, index) => {
       (setIndex === 23 && PRODUCT_COLOR.slice(4, 6)) ||
       (setIndex === 24 && PRODUCT_COLOR.slice(5, 6)) ||
       PRODUCT_COLOR,
-    status: sample(['sale', 'new', '', '']),
-    releasedAt: faker.date.past().toISOString()
+    status: sample(['sale', 'new', 'default', '']),
+    releasedAt: faker.date.recent().toISOString()
   };
 });
 

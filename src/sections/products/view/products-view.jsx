@@ -12,7 +12,7 @@ import ProductCard from '../product-card';
 import ProductSort from '../product-sort';
 import ProductFilters from '../product-filters';
 import ProductCartWidget from '../product-cart-widget';
-import ProductInsertForm from '../product-insert-form';
+import ProductInsertDialog from '../product-insert-dialog';
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ export default function ProductsView() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">상품</Typography>
-        <ProductInsertForm />
+        <ProductInsertDialog />
       </Stack>
 
       <Stack direction="row" alignItems="center" flexWrap="wrap-reverse"
