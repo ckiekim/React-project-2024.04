@@ -152,6 +152,7 @@ export default function PostCard({ post, index }) {
             ...(latestPostLarge && {
               pt: { xs: 'calc(100% * 4 / 3)', sm: 'calc(100% * 3 / 4.66)', },
             }),
+            "&:hover": {transform: 'scale(1.05)'}
           }}
         >
           {renderShape}

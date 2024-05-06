@@ -19,6 +19,7 @@ import ProductInsertDialog from '../product-insert-dialog';
 export default function ProductsView() {
   const [openFilter, setOpenFilter] = useState(false);
   const { getList: {isLoading, data: products} } = useProducts();
+  const [cartCount, setCartCount] = useState(0);
 
   const handleOpenFilter = () => {
     setOpenFilter(true);
@@ -50,13 +51,13 @@ export default function ProductsView() {
       {isLoading && <p>로딩중...</p>}
       {products && <Grid container spacing={3}>
         {products.map((product) => (
-          <Grid key={product.id} xs={12} sm={6} md={3}>
-            <ProductCard product={product} />
+          <Grid key={product.id} xs={12} sm={6} md={4} lg={3}>
+            <ProductCard product={product} handleCart={setCartCount} />
           </Grid>
         ))}
       </Grid>}
 
-      <ProductCartWidget />
+      <ProductCartWidget count={cartCount} handleCount={setCartCount} />
     </Container>
   );
 }

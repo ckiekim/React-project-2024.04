@@ -37,7 +37,7 @@ export default function Router() {
       children: [
         { element: <IndexPage />, index: true },
         { path: '/userInfo', element: <ProtectedRoute><UserInfoPage /></ProtectedRoute> },
-        { path: '/products', element: <ProtectedRoute><ProductsPage /></ProtectedRoute> },
+        { path: '/products', element: <ProductsPage /> },
         { path: '/blog', element: <ProtectedRoute><BlogPage /></ProtectedRoute> },
         { path: '/youtube', element: <YoutubePage /> },
         { path: '/schedule', element: <SchedulePage /> },
