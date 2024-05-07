@@ -156,6 +156,51 @@ export async function deleteProduct(id) {
   return remove(ref(database, `products/${id}`));
 }
 
+/*========================= orders =========================*/
+
+export async function getOrderList(uid) {
+  return get(ref(database, 'orders'))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        const objects = snapshot.val();
+        let records = Object.values(objects);
+        records = records.sort((a, b) => b.orderedAt.localeCompare(a.orderedAt));
+        if (uid)
+          records = records.filter(record => record.uid === uid);
+        return records;
+      }
+      return null;
+    }); 
+}
+
+export async function getOrder(oid) {
+  return get(ref(database, `orders/${oid}`))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        return snapshot.val();
+      }
+      return null;
+    }); 
+}
+
+export async function insertOrder(order) {
+  const oid = uuid();
+  return set(ref(database, `orders/${oid}`), {
+    ...order, oid, status:'주문완료', orderedAt: new Date().toISOString()
+  });
+}
+
+export async function updateOrder(order) {
+  const { oid, status } = order;
+  return set(ref(database, `orders/${oid}`), {
+    ...order, status
+    });
+}
+
+export async function deleteOrder(oid) {
+  return remove(ref(database, `orders/${oid}`));
+}
+
 /*========================= blogs =========================*/
 
 export async function getBlogList() {

@@ -30,6 +30,11 @@ const navConfig = [
   {
     title: '상품',
     path: '/products',
+    icon: icon('ic_product'),
+  },
+  {
+    title: '주문',
+    path: '/order',
     icon: icon('ic_cart'),
   },
   {

@@ -24,6 +24,7 @@ import Typography from '@mui/material/Typography';
 
 import Iconify from '../../components/iconify';
 import { fCurrency } from '../../utils/format-number';
+import useOrders from '../orders/useOrders';
 
 // ----------------------------------------------------------------------
 
@@ -55,6 +56,9 @@ export default function CartWidget({ count, handleCount }) {
   const [itemCount, setItemCount] = useState(count);
   const [totalPrice, setTotalPrice] = useState(0);
   const [items, setItems] = useState([]);
+  const { insertRecord } = useOrders();
+  const uid = sessionStorage.getItem('sessionUid');
+  const email = sessionStorage.getItem('sessionEmail');
 
   const handleClickOpen = () => { 
     if (count === 0)
@@ -73,7 +77,7 @@ export default function CartWidget({ count, handleCount }) {
   };
   const updateSession = () => {
     const cart = {count: itemCount, totalPrice, items};
-    console.log(cart);
+    // console.log(cart);
     sessionStorage.setItem('sessionCart', JSON.stringify(cart));
     handleCount(itemCount);
   }
@@ -81,7 +85,12 @@ export default function CartWidget({ count, handleCount }) {
     setOpen(false); updateSession(); 
   };
   const handleOrder = () => {
-    handleClose();
+    const order = { uid, email, totalPrice, itemCount, items };
+    // console.log(order);
+    insertRecord.mutate(order);
+    updateSession(); handleCount(0);
+    sessionStorage.removeItem('sessionCart');
+    setOpen(false);
   }
   const handleMinus = (index) => {
     if (items[index].quantity === 1)
