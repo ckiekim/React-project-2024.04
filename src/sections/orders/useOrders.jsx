@@ -13,7 +13,7 @@ export default function useOrders() {
   });
 
   const getList = useQuery({
-    queryKey: ['orders'],
+    queryKey: ['orders', uid || ''],
     queryFn: () => getOrderList(uid),
     staleTime: 1000 * 60,
   });

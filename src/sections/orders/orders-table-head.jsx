@@ -29,7 +29,7 @@ export default function OrdersTableHead({ order, orderBy, rowCount, headLabel,
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.align || 'left'}
+            align={headCell.align || 'center'}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{ width: headCell.width, minWidth: headCell.minWidth }}
           >

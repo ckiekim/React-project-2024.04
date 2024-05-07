@@ -1,17 +1,11 @@
 import { useState } from "react";
 
-import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
-import Checkbox from '@mui/material/Checkbox';
 import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Typography from '@mui/material/Typography';
 
@@ -22,15 +16,13 @@ import OrdersTableToolbar from '../orders-table-toolbar';
 import TableEmptyRows from '../table-empty-rows';
 import TableNoData from '../table-no-data';
 import Scrollbar from '../../../components/scrollbar';
-import Iconify from '../../../components/iconify';
-import { formatAgo } from '../../../utils/format-time';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
 export default function OrdersView() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('email');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -118,9 +110,7 @@ export default function OrdersView() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map(row => (
                     <OrdersTableRow
-                      oid={row.oid} email={row.email} status={row.status}  
-                      totalPrice={row.totalPrice} itemCount={row.itemCount} items={row.items}
-                      orderedAt={formatAgo(row.orderedAt, 'ko')}
+                      order={row}
                       selected={selected.indexOf(row.email) !== -1}
                       handleClick={(event) => handleClick(event, row.email)}
                     />
