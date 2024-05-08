@@ -18,9 +18,8 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import Iconify from '../../components/iconify';
 import useProducts from './useProducts';
-import { uploadImage } from "../../api/cloudinary";
+import { squareImage } from "../../api/cloudinary";
 
 const COLOR_CODES = ['#00AB55','#000000','#FFFFFF','#FFC0CB','#FF4842','#1890FF','#94D82D','#FFC107'];
 
@@ -42,7 +41,7 @@ export default function ProductUpdateDialog(props) {
   const handlePriceSale = e => { setPriceSale(e.target.value); };
   const handleUpload = newFile => {
     setFile(newFile);
-    uploadImage(newFile)
+    squareImage(newFile)
       .then(url => setProduct({...product, ['cover']: url}));
   };
 

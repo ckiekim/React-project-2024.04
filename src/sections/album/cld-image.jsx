@@ -11,14 +11,14 @@ const cld = new Cloudinary({
 export default function CldImage({ publicId }) {
   const myImage = cld
     .image(publicId)
-    .resize(thumbnail().width(300).height(300).gravity(autoGravity()))
+    .resize(thumbnail().width(500).height(500).gravity(autoGravity()))
     .delivery(format('auto'))
     .delivery(quality('auto'));
 
   return (
     <AdvancedImage
       cldImg={myImage}
-      style={{ maxWidth: '100%' }}
+      style={{ maxWidth: '100%', borderRadius: '5%' }}
       plugins={[placeholder()]}
       className='rounded-lg shadow-lg'
     />
