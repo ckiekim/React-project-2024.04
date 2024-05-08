@@ -43,6 +43,11 @@ const navConfig = [
     icon: icon('ic_blog'),
   },
   {
+    title: '앨범',
+    path: '/album',
+    icon: icon('ic_album'),
+  },
+  {
     title: '사용자',
     path: '/user',
     icon: icon('ic_user'),
