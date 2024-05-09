@@ -246,6 +246,16 @@ export async function deleteBlog(id) {
   return remove(ref(database, `blogs/${id}`));
 }
 
+/*========================= scheduler =========================*/
+
+export async function insertAnniv(anniv) {
+  const id = uuid();
+  const { email, aname, adate, isHoliday } = anniv;
+  return set(ref(database, `anniversary/${id}`), {
+    id, email, aname, adate, isHoliday
+  });
+}
+
 /*========================= users =========================*/
 
 export async function getUserList() {

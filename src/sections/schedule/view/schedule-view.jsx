@@ -1,27 +1,41 @@
 import { useState } from 'react';
 
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import AnnivInsertDialog from '../anniv-insert-dialog';
+
 export default function SchedulePage() {
-  const [page, setPage] = useState(0);
-  const [data, setData] = useState({val1: '', val2: ''});
-  const handleChange = e => {
-    setData({...data, [e.target.name]: e.target.value});
-  }
-  const handleSubmit = e => {
-    e.preventDefault();
-    sessionStorage.setItem('globalData', JSON.stringify(data));
-  }
+  const [year, setYear] = useState('2024');
+  const [month, setMonth] = useState('05');
 
   return (
     <Container>
-      <Typography variant="h4">Schedule</Typography>
-      <TextField name='val1' defaultValue={data.val1} onChange={handleChange} />
-      <TextField name='val2' defaultValue={data.val2} onChange={handleChange} />
-      <Button onClick={handleSubmit}>제출</Button>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Typography variant="h4">스케쥴러</Typography>
+        <Stack direction="row" alignItems="center" spacing={0.5}>
+          <IconButton>
+            <KeyboardDoubleArrowLeftIcon />
+          </IconButton>
+          <IconButton>
+            <KeyboardArrowLeftIcon />
+          </IconButton>
+          <Typography variant='h6'>{year}.{month}</Typography>
+          <IconButton>
+            <KeyboardArrowRightIcon />
+          </IconButton>
+          <IconButton>
+            <KeyboardDoubleArrowRightIcon />
+          </IconButton>
+        </Stack>
+        <AnnivInsertDialog />
+      </Stack>
     </Container>
   )
 }
