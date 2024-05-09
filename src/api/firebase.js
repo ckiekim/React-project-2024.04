@@ -248,6 +248,19 @@ export async function deleteBlog(id) {
 
 /*========================= scheduler =========================*/
 
+export async function getAnnivList(adate) {
+  return get(ref(database, 'anniversary'))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        const objects = snapshot.val();
+        let records = Object.values(objects);
+        records = records.filter(record => record.adate === adate);
+        return records;
+      }
+      return null;
+    }); 
+}
+
 export async function insertAnniv(anniv) {
   const id = uuid();
   const { email, aname, adate, isHoliday } = anniv;
