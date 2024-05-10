@@ -31,7 +31,7 @@ async function insertAnniv(anniv) {
 rows.forEach(async (row, idx) => {
   const data = row.split(',');
   const anniv = {email:'admin@human.com', aname:data[2], adate:data[3],
-      isHoliday: data[4] === 1 ? true : false}
+      isHoliday: data[4] == '1' ? true : false}
   await insertAnniv(anniv);
   if (idx % 10 === 0) 
     console.log(idx);

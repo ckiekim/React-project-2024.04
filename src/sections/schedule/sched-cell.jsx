@@ -5,43 +5,44 @@ import TableCell from "@mui/material/TableCell";
 import Typography from '@mui/material/Typography';
 
 import { getDayInfo } from './util';
-import { getAnnivList } from '../../api/firebase';
+import SchedInsertDialog from './sched-insert-dialog';
+import useAnniv from './useAnniv';
 
 export default function ScheduleCell({ ymd, yearMonth }) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isHoliday, setIsHoliday] = useState(false);
-  const [annivs, setAnnivs] = useState('');
   const { day, date } = getDayInfo(ymd);
   const isOtherMonth = ymd.substring(4,6) !== yearMonth.substring(5);
-  const color = (date === 0 || isHoliday) ? 'error' : (date === 6) ? 'primary' : '';
+
+  const [color, setColor] = useState('');
+  const { getList: {data: anniversary} } = useAnniv(ymd);
 
   useEffect(() => {
-    getAnnivList(ymd)
-      .then(result => { 
-        let str = ''; 
-        if (result)
-          result.forEach((anniv, index) => {
-            if (anniv.isHoliday === true) 
-              setIsHoliday(true);
-            console.log(anniv.isHoliday);
-          });
-      })
-      .then(setIsLoading(false));
+    setColor((date === 0) ? 'error' : (date === 6) ? 'primary' : '');
   }, []);
+  useEffect(() => {
+    if (anniversary)
+      anniversary.forEach(anniv => {
+        if (anniv.isHoliday)
+          setColor('error');
+      });
+  }, [anniversary]);
 
   return (
-    <TableCell sx={{ verticalAlign: 'top', height: '120px', border: 1, py: 1 }} key={ymd}>
+    <TableCell sx={{ verticalAlign: 'top', height: '120px', border: 1, p: 1 }} key={ymd}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
         <Typography sx={{ fontWeight: 'bold', opacity: isOtherMonth ? 0.5 : 1 }} 
           color={color}>
           {day}
+          <SchedInsertDialog ymd={ymd} />
         </Typography>
-        {!isLoading && 
-          <Typography>{annivs}</Typography>
+        {anniversary &&
+          <Typography>
+            {anniversary.reduce((acc, anniv, index) => 
+              acc + (index !== 0 ? '·' : '') + 
+              ((anniv.aname.indexOf('대체') >= 0) ? anniv.aname.substring(0,5) : anniv.aname), '')}
+          </Typography>
         }
       </Stack>
       <Typography>{isOtherMonth ? '다른 달' : '이번 달'}</Typography>
-      <Typography>{color}</Typography>
     </TableCell>
   );
 }

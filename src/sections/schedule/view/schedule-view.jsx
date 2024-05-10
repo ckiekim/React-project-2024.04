@@ -21,14 +21,17 @@ import ScheduleCell from '../sched-cell';
 import { getYearMonth, getCalendar } from '../util';
 
 export default function SchedulePage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [yearMonth, setYearMonth] = useState('');
   const [calendar, setCalendar] = useState([]);
 
   const handleArrow = arrow => {
+    setIsLoading(true);
     const newYearMonth = getYearMonth(yearMonth, arrow);
     setYearMonth(newYearMonth);
     const newCalendar = getCalendar(newYearMonth);
     setCalendar(newCalendar);
+    setTimeout(() => { setIsLoading(false); }, 1000);
   }
 
   useEffect(() => {
@@ -36,6 +39,7 @@ export default function SchedulePage() {
     setYearMonth(newYearMonth);
     const newCalendar = getCalendar(newYearMonth);
     setCalendar(newCalendar);
+    setIsLoading(false);
   }, []);
 
   return (
@@ -79,7 +83,7 @@ export default function SchedulePage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {calendar && calendar.map((week, rowIdx) => (
+              {!isLoading && calendar.map((week, rowIdx) => (
                 <TableRow key={rowIdx}>
                   {week.map(day => (
                     <ScheduleCell ymd={day} yearMonth={yearMonth} />

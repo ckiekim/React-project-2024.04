@@ -15,6 +15,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Iconify from '../../components/iconify';
+import useAnniv from "./useAnniv";
 
 export default function AnnivInsertDialog() {
   const [open, setOpen] = useState(false);
@@ -30,9 +31,10 @@ export default function AnnivInsertDialog() {
   const handleChange = e => {
     setAnniv({...anniv, [e.target.name]: e.target.value});
   }
+  const { insertRecord } = useAnniv();
   const handleSubmit = () => {
     const newAnniv = {...anniv, email: sessionStorage.getItem('sessionEmail'), isHoliday: checked}
-    // insertRecord.mutate(newAnniv);
+    insertRecord.mutate(newAnniv);
     console.log(newAnniv);
     handleClose();
   }

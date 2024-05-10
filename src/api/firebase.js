@@ -248,13 +248,15 @@ export async function deleteBlog(id) {
 
 /*========================= scheduler =========================*/
 
-export async function getAnnivList(adate) {
+export async function getAnnivList(adate, email) {
   return get(ref(database, 'anniversary'))
     .then(snapshot => {
       if (snapshot.exists()) {
         const objects = snapshot.val();
         let records = Object.values(objects);
-        records = records.filter(record => record.adate === adate);
+        records = records.filter(record => record.adate === adate && 
+          (record.email === 'admin@human.com' || record.email === email)
+        );
         return records;
       }
       return null;
@@ -266,6 +268,27 @@ export async function insertAnniv(anniv) {
   const { email, aname, adate, isHoliday } = anniv;
   return set(ref(database, `anniversary/${id}`), {
     id, email, aname, adate, isHoliday
+  });
+}
+
+export async function getSchedList(sdate, email) {
+  return get(ref(database, 'schedule'))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        const objects = snapshot.val();
+        let records = Object.values(objects);
+        records = records.filter(record => record.sdate === sdate && record.email === email);
+        return records;
+      }
+      return null;
+    }); 
+}
+
+export async function insertSched(sched) {
+  const id = uuid();
+  // const { email, aname, adate, isHoliday } = anniv;
+  return set(ref(database, `schedule/${id}`), {
+    id, ...sched
   });
 }
 
