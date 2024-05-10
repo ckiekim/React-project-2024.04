@@ -286,7 +286,6 @@ export async function getSchedList(sdate, email) {
 
 export async function insertSched(sched) {
   const id = uuid();
-  // const { email, aname, adate, isHoliday } = anniv;
   return set(ref(database, `schedule/${id}`), {
     id, ...sched
   });

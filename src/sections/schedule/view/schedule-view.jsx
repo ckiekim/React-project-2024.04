@@ -18,12 +18,13 @@ import Typography from '@mui/material/Typography';
 import Scrollbar from '../../../components/scrollbar';
 import AnnivInsertDialog from '../anniv-insert-dialog';
 import ScheduleCell from '../sched-cell';
-import { getYearMonth, getCalendar } from '../util';
+import { getYearMonth, getCalendar, getToday } from '../util';
 
 export default function SchedulePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [yearMonth, setYearMonth] = useState('');
   const [calendar, setCalendar] = useState([]);
+  const today = getToday();
 
   const handleArrow = arrow => {
     setIsLoading(true);
@@ -86,7 +87,7 @@ export default function SchedulePage() {
               {!isLoading && calendar.map((week, rowIdx) => (
                 <TableRow key={rowIdx}>
                   {week.map(day => (
-                    <ScheduleCell ymd={day} yearMonth={yearMonth} />
+                    <ScheduleCell ymd={day} yearMonth={yearMonth} isToday={today === day} />
                   ))}
                 </TableRow>
               ))}

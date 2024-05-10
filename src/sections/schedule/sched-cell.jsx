@@ -7,13 +7,15 @@ import Typography from '@mui/material/Typography';
 import { getDayInfo } from './util';
 import SchedInsertDialog from './sched-insert-dialog';
 import useAnniv from './useAnniv';
+import useSched from './useSched';
 
-export default function ScheduleCell({ ymd, yearMonth }) {
+export default function ScheduleCell({ ymd, yearMonth, isToday }) {
   const { day, date } = getDayInfo(ymd);
   const isOtherMonth = ymd.substring(4,6) !== yearMonth.substring(5);
 
   const [color, setColor] = useState('');
   const { getList: {data: anniversary} } = useAnniv(ymd);
+  const { getList: {data: schedule} } = useSched(ymd);
 
   useEffect(() => {
     setColor((date === 0) ? 'error' : (date === 6) ? 'primary' : '');
@@ -27,8 +29,11 @@ export default function ScheduleCell({ ymd, yearMonth }) {
   }, [anniversary]);
 
   return (
-    <TableCell sx={{ verticalAlign: 'top', height: '120px', border: 1, p: 1 }} key={ymd}>
+    <TableCell key={ymd} 
+      sx={{ verticalAlign: 'top', height: '120px', border: 1, p: 1, 
+            background: isToday ? '#D8EDE7' : '' }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
+        {/* <SchedInsertDialog ymd={ymd} day={day} color={color} isOtherMonth={isOtherMonth} /> */}
         <Typography sx={{ fontWeight: 'bold', opacity: isOtherMonth ? 0.5 : 1 }} 
           color={color}>
           {day}
@@ -42,7 +47,13 @@ export default function ScheduleCell({ ymd, yearMonth }) {
           </Typography>
         }
       </Stack>
-      <Typography>{isOtherMonth ? '다른 달' : '이번 달'}</Typography>
+      {schedule &&
+        schedule.map(sched => (
+          <Typography sx={{ fontWeight: sched.isImportant ? 'bold' : 'normal' }}>
+            {sched.startTime} {sched.title}
+          </Typography>
+        ))
+      }
     </TableCell>
   );
 }

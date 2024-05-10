@@ -11,8 +11,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
+import Link from '@mui/material/Link';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
@@ -23,16 +25,16 @@ import Iconify from '../../components/iconify';
 import { genTime } from "./util";
 import useSched from './useSched';
 
-export default function SchedInsertDialog({ ymd }) {
+export default function SchedInsertDialog({ ymd, day, color, isOtherMonth }) {
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [sched, setSched] = useState({ title: '', sdate: ymd });
+  const [sched, setSched] = useState({ title: '', sdate: ymd, startTime: '', endTime: '', place: '', memo: '' });
   const timeList = genTime();
 
   const handleClickOpen = () => { setOpen(true); };
   const handleClose = () => { 
     setOpen(false); 
-    setSched({ title: '', sdate: ymd });
+    setSched({ title: '', sdate: ymd, startTime: '', endTime: '', place: '', memo: '' });
     setChecked(false);
   };
   const handleChange = e => {
@@ -40,14 +42,21 @@ export default function SchedInsertDialog({ ymd }) {
   }
   const { insertRecord } = useSched();
   const handleSubmit = () => {
-    const newSched = {...sched, email: sessionStorage.getItem('sessionEmail'), isHoliday: checked}
-    // insertRecord.mutate(newSched);
-    console.log(newSched);
+    const newSched = {...sched, email: sessionStorage.getItem('sessionEmail'), isImportant: checked}
+    insertRecord.mutate(newSched);
+    // console.log(newSched);
     handleClose();
   }
 
   return (
     <>
+      {/* <Link onClick={handleClickOpen}>
+        <Typography sx={{ fontWeight: 'bold', opacity: isOtherMonth ? 0.5 : 1 }} 
+          color={color}>
+          {day}
+          <SchedInsertDialog ymd={ymd} />
+        </Typography>
+      </Link> */}
       <IconButton size="small" onClick={handleClickOpen}>
         <AddIcon />
       </IconButton>
@@ -61,35 +70,62 @@ export default function SchedInsertDialog({ ymd }) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Stack spacing={2} sx={{ width: '40ch' }} alignItems="center">
-            <Stack direction='row' spacing={1}>
-              <FormGroup>
-                <FormControlLabel label="중요"
-                  control={
-                    <Checkbox checked={checked} onChange={() => setChecked(!checked)} />
-                  }  
+          <Stack spacing={1} sx={{ width: '40ch' }} alignItems="center">
+            <Grid container alignItems='center'>
+              <Grid item xs={3}>
+                <FormGroup>
+                  <FormControlLabel label="중요"
+                    control={
+                      <Checkbox checked={checked} onChange={() => setChecked(!checked)} />
+                    }  
+                  />
+                </FormGroup>
+              </Grid>
+              <Grid item xs={9}>
+                <TextField autoFocus required margin="dense" id="title"
+                  name="title" label="일정명" type="text" fullWidth
+                  defaultValue={sched.title} onChange={handleChange}
                 />
-              </FormGroup>
-              <TextField autoFocus required margin="dense" id="title"
-                name="title" label="일정명" type="text" fullWidth
-                defaultValue={sched.title} onChange={handleChange}
-              />
-            </Stack>
-            <Stack direction='row' spacing={1}>
-              <TextField required margin="dense" id="sdate"
-                name="sdate" label="날짜" type="text" fullWidth
-                value={sched.sdate} onChange={handleChange}
-              />
-              <FormControl fullWidth>
-                <InputLabel id="startTime">시작시간</InputLabel>
-                <Select required margin="dense" name='startTime' label="시작시간" id='startTime'
-                  defaultValue={sched.startTime} onChange={handleChange}>
-                  {timeList.map((item) => 
-                    <MenuItem value={item} key={item}>{item}</MenuItem>
-                  )}
-                </Select>
-              </FormControl>
-            </Stack>
+              </Grid> 
+            </Grid>
+            <Grid container alignItems='center' spacing={1}>
+              <Grid item xs={6}>
+                <TextField required margin="dense" id="sdate"
+                  name="sdate" label="날짜" type="text" fullWidth
+                  value={sched.sdate} onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="startTime">시작시간</InputLabel>
+                  <Select required margin="dense" name='startTime' label="시작시간" id='startTime'
+                    defaultValue={sched.startTime} onChange={handleChange}>
+                    {timeList.map((item) => 
+                      <MenuItem value={item} key={'s'+item}>{item}</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+              </Grid> 
+            </Grid>
+            <Grid container alignItems='center' spacing={1}>
+              <Grid item xs={6}>
+                <TextField required margin="dense"
+                  type="text" fullWidth disabled
+                  value={sched.sdate} onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="endTime">종료시간</InputLabel>
+                  <Select required margin="dense" name='endTime' label="종료시간" id='endTime'
+                    defaultValue={sched.endTime} onChange={handleChange}>
+                    {timeList.map((item) => 
+                      <MenuItem value={item} key={'e'+item}>{item}</MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+              </Grid> 
+            </Grid>
             <TextField required margin="dense" id="place"
               name="place" label="장소" type="text" fullWidth
               defaultValue={sched.place} onChange={handleChange}

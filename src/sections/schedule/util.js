@@ -12,11 +12,7 @@ function twoDigit(num) {
 
 export function getToday() {
   const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();   // 날짜
-  const date = "일 월 화 수 목 금 토".split(" ")[today.getDay()];   // 요일
-  return {year, month, day, date};    
+  return dateFormat(today);   
 }
 
 export function getDayInfo(ymd) {
@@ -31,7 +27,8 @@ export function getDayInfo(ymd) {
 }
 
 export function getYearMonth(yearMonth, arrow) {
-  let {year, month} = getToday();
+  let year = new Date().getFullYear();
+  let month = new Date().getMonth() + 1;
   if (yearMonth) {
     year = parseInt(yearMonth.substring(0, 4));
     month = parseInt(yearMonth.substring(5));
