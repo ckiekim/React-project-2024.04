@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -15,7 +15,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Iconify from '../../components/iconify';
-import useAnniv from "./useAnniv";
+import useAnniv from './useAnniv';
 
 export default function AnnivInsertDialog() {
   const [open, setOpen] = useState(false);
@@ -35,7 +35,7 @@ export default function AnnivInsertDialog() {
   const handleSubmit = () => {
     const newAnniv = {...anniv, email: sessionStorage.getItem('sessionEmail'), isHoliday: checked}
     insertRecord.mutate(newAnniv);
-    console.log(newAnniv);
+    // console.log(newAnniv);
     handleClose();
   }
 

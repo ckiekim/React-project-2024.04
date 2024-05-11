@@ -1,4 +1,3 @@
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
@@ -6,13 +5,12 @@ import Typography from '@mui/material/Typography';
 
 // import { posts } from '../../../_mock/blog';
 import useBlogs from '../useBlogs';
-import Iconify from '../../../components/iconify';
 import useUserInfo from '../../userInfo/useUserInfo';
 
 import PostCard from '../post-card';
 import PostSort from '../post-sort';
 import PostSearch from '../post-search';
-import PostInsertForm from '../post-insert-form';
+import PostInsertDialog from '../post-insert-dialog';
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +22,7 @@ export default function BlogView() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">블로그</Typography>
-        {account &&  <PostInsertForm account={account} />}
+        {account &&  <PostInsertDialog account={account} />}
       </Stack>
 
       {isLoading && <p>로딩중...</p>}

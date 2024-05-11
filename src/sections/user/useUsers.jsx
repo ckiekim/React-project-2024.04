@@ -1,12 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getUser, getUserList, insertUser, updateUser, deleteUser } from '../../api/firebase';
 
-export default function useUsers() {
+export default function useUsers(id) {
   const queryClient = useQueryClient();
   // const id = user && user.id;
 
   const getRecord = useQuery({
-    queryKey: ['users'],
+    queryKey: ['users', id],
     queryFn: id => getUser(id),
     staleTime: 1000 * 60 * 60,
   })

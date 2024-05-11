@@ -94,7 +94,7 @@ export default function UserInfoPage() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">사용자 정보</Typography>
-        {/* <UserInfoInsertForm /> */}
+        {/* <UserInfoInsertDialog /> */}
       </Stack>
 
       {isLoading && <p>로딩중...</p>}

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { MuiFileInput } from 'mui-file-input';
 
 import Button from '@mui/material/Button';
@@ -14,11 +14,11 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Iconify from '../../components/iconify';
-import useUserInfo from "./useUserInfo";
+import useUserInfo from './useUserInfo';
 import { getUserInfo } from '../../api/firebase';
-import { uploadImage } from "../../api/cloudinary";
+import { squareImage } from '../../api/cloudinary';
 
-export default function UserInfoUpdateForm({ uid, callback }) {
+export default function UserInfoUpdateDialog({ uid, callback }) {
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState();
   const [userInfo, setUserInfo] = useState({});
@@ -34,7 +34,7 @@ export default function UserInfoUpdateForm({ uid, callback }) {
   }
   const handleUpload = newFile => {
     setFile(newFile);
-    uploadImage(newFile)
+    squareImage(newFile)
       .then(url => setUserInfo(userInfo => ({...userInfo, ['avatarUrl']: url})));
   }
   const { updateRecord } = useUserInfo();
@@ -50,7 +50,7 @@ export default function UserInfoUpdateForm({ uid, callback }) {
   }, []);
 
   return (
-    <Fragment>
+    <>
       <MenuItem onClick={handleClickOpen}>
         <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} /> 수정
       </MenuItem>
@@ -84,6 +84,6 @@ export default function UserInfoUpdateForm({ uid, callback }) {
           <Button onClick={handleSubmit} variant="contained">수정</Button>
         </DialogActions>
       </Dialog>
-    </Fragment>
+    </>
   );
 }

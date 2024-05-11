@@ -30,17 +30,17 @@ export default function SchedulePage() {
     setIsLoading(true);
     const newYearMonth = getYearMonth(yearMonth, arrow);
     setYearMonth(newYearMonth);
-    const newCalendar = getCalendar(newYearMonth);
-    setCalendar(newCalendar);
-    setTimeout(() => { setIsLoading(false); }, 1000);
+    getCalendar(newYearMonth)
+      .then(newCalendar => { setCalendar(newCalendar); })
+      .then(() => { setIsLoading(false); });
   }
 
   useEffect(() => {
     const newYearMonth = getYearMonth(yearMonth, '');
     setYearMonth(newYearMonth);
-    const newCalendar = getCalendar(newYearMonth);
-    setCalendar(newCalendar);
-    setIsLoading(false);
+    getCalendar(newYearMonth)
+      .then(newCalendar => { setCalendar(newCalendar); })
+      .then(() => { setIsLoading(false); });
   }, []);
 
   return (

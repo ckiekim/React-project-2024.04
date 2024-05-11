@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -57,9 +55,3 @@ export default function UserInfoTableToolbar({ numSelected, filterName, onFilter
     </Toolbar>
   );
 }
-
-UserInfoTableToolbar.propTypes = {
-  numSelected: PropTypes.number,
-  filterName: PropTypes.string,
-  onFilterName: PropTypes.func,
-};

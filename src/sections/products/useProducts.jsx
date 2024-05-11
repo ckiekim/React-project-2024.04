@@ -1,11 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getProductList, getProduct, insertProduct, updateProduct, deleteProduct } from '../../api/firebase';
 
-export default function useProducts() {
+export default function useProducts(id) {
   const queryClient = useQueryClient();
 
   const getRecord = useQuery({
-    queryKey: ['products'],
+    queryKey: ['products', id],
     queryFn: id => getProduct(id),
     staleTime: 1000 * 60 * 5
   });

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import Avatar from '@mui/material/Avatar';
 import Checkbox from '@mui/material/Checkbox';
@@ -14,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import useUserInfo from './useUserInfo';
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
-import UserInfoUpdateForm from './userInfo-update-form';
+import UserInfoUpdateDialog from './userInfo-update-dialog';
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +53,6 @@ export default function UserInfoTableRow({
         <TableCell>{email}</TableCell>
         <TableCell>{job}</TableCell>
         <TableCell>{role}</TableCell>
-        {/* <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell> */}
 
         <TableCell>
           <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
@@ -75,7 +73,7 @@ export default function UserInfoTableRow({
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         sx={{ width: 140 }}
       >
-        <UserInfoUpdateForm uid={uid} callback={handleCloseMenu} />
+        <UserInfoUpdateDialog uid={uid} callback={handleCloseMenu} />
 
         <MenuItem onClick={handleDeleteMenu} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
@@ -85,15 +83,3 @@ export default function UserInfoTableRow({
     </>
   );
 }
-
-UserInfoTableRow.propTypes = {
-  avatarUrl: PropTypes.any,
-  company: PropTypes.any,
-  handleClick: PropTypes.func,
-  registeredAt: PropTypes.any,
-  name: PropTypes.any,
-  role: PropTypes.any,
-  email: PropTypes.any,
-  selected: PropTypes.any,
-  status: PropTypes.string,
-};

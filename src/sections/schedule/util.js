@@ -55,7 +55,7 @@ export function getYearMonth(yearMonth, arrow) {
   return year + '.' + twoDigit(month);
 }
 
-export function getCalendar(yearMonth) {
+export async function getCalendar(yearMonth) {
   const calendar = [];
   const year = parseInt(yearMonth.substring(0, 4));
   const month = parseInt(yearMonth.substring(5));
@@ -98,7 +98,7 @@ export function getCalendar(yearMonth) {
     const nextMonth = nextDay.getMonth() + 1;
     const nextYear = nextDay.getFullYear();
     for (let i = lastDate + 1, k = 1; i < 7; i++, k++) {
-      week.push(year + twoDigit(nextMonth) + twoDigit(k));
+      week.push(nextYear + twoDigit(nextMonth) + twoDigit(k));
     }
     calendar.push(week);
   }

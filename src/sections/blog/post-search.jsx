@@ -25,8 +25,7 @@ export default function PostSearch({ posts }) {
             ...params.InputProps,
             startAdornment: (
               <InputAdornment position="start">
-                <Iconify
-                  icon="eva:search-fill"
+                <Iconify icon="eva:search-fill"
                   sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                 />
               </InputAdornment>

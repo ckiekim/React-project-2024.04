@@ -23,17 +23,13 @@ export default function ShopProductSort() {
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
-
   const handleClose = () => {
     setOpen(null);
   };
 
   return (
     <>
-      <Button
-        disableRipple
-        color="inherit"
-        onClick={handleOpen}
+      <Button disableRipple color="inherit" onClick={handleOpen}
         endIcon={<Iconify icon={open ? 'eva:chevron-up-fill' : 'eva:chevron-down-fill'} />}
       >
         Sort By:&nbsp;
@@ -42,19 +38,12 @@ export default function ShopProductSort() {
         </Typography>
       </Button>
 
-      <Menu
-        open={!!open}
-        anchorEl={open}
-        onClose={handleClose}
+      <Menu open={!!open} anchorEl={open} onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         slotProps={{
           paper: {
-            sx: {
-              [`& .${listClasses.root}`]: {
-                p: 0,
-              },
-            },
+            sx: { [`& .${listClasses.root}`]: { p: 0, }, },
           },
         }}
       >

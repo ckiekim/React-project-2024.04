@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import Typography from '@mui/material/Typography';
 
-import useOrders from "../useOrders";
+import useOrders from '../useOrders';
 import OrdersTableRow from '../orders-table-row';
 import OrdersTableHead from '../orders-table-head';
 import OrdersTableToolbar from '../orders-table-toolbar';

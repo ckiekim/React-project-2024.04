@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { MuiFileInput } from 'mui-file-input';
 
 import Button from '@mui/material/Button';
@@ -14,11 +14,11 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Iconify from '../../components/iconify';
-import useUsers from "./useUsers";
+import useUsers from './useUsers';
 import { getUser } from '../../api/firebase';
-import { uploadImage } from "../../api/cloudinary";
+import { uploadImage } from '../../api/cloudinary';
 
-export default function UserUpdateForm({ id, callback }) {
+export default function UserUpdateDialog({ id, callback }) {
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState();
   const [userInfo, setUserInfo] = useState({});
@@ -50,7 +50,7 @@ export default function UserUpdateForm({ id, callback }) {
   }, []);
 
   return (
-    <Fragment>
+    <>
       <MenuItem onClick={handleClickOpen}>
         <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} /> 수정
       </MenuItem>
@@ -90,6 +90,6 @@ export default function UserUpdateForm({ id, callback }) {
           <Button onClick={handleSubmit} variant="contained">수정</Button>
         </DialogActions>
       </Dialog>
-    </Fragment>
+    </>
   );
 }

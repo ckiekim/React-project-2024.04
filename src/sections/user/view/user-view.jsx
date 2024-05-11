@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import useUsers from '../useUsers';
 import Scrollbar from '../../../components/scrollbar';
 
-import UserInsertForm from '../user-insert-form';
+import UserInsertDialog from '../user-insert-dialog';
 import TableNoData from '../table-no-data';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
@@ -95,7 +95,7 @@ export default function UserPage() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">사용자</Typography>
 
-        <UserInsertForm />
+        <UserInsertDialog />
       </Stack>
 
       {isLoading && <p>로딩중...</p>}

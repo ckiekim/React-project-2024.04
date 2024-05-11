@@ -1,11 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getBlogList, getBlog, insertBlog, updateBlog, deleteBlog } from '../../api/firebase';
 
-export default function useBlogs() {
+export default function useBlogs(id) {
   const queryClient = useQueryClient();
 
   const getRecord = useQuery({
-    queryKey: ['blogs'],
+    queryKey: ['blogs', id],
     queryFn: id => getBlog(id),
     staleTime: 1000 * 60 * 5
   });

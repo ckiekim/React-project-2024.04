@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import Avatar from '@mui/material/Avatar';
 import Checkbox from '@mui/material/Checkbox';
@@ -14,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import useUsers from './useUsers';
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
-import UserUpdateForm from './user-update-form';
+import UserUpdateDialog from './user-update-dialog';
 
 // ----------------------------------------------------------------------
 
@@ -75,7 +74,7 @@ export default function UserTableRow({
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         sx={{ width: 140 }}
       >
-        <UserUpdateForm id={id} callback={handleCloseMenu} />
+        <UserUpdateDialog id={id} callback={handleCloseMenu} />
 
         <MenuItem onClick={handleDeleteMenu} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
@@ -85,15 +84,3 @@ export default function UserTableRow({
     </>
   );
 }
-
-UserTableRow.propTypes = {
-  avatarUrl: PropTypes.any,
-  company: PropTypes.any,
-  handleClick: PropTypes.func,
-  registeredAt: PropTypes.any,
-  name: PropTypes.any,
-  role: PropTypes.any,
-  email: PropTypes.any,
-  selected: PropTypes.any,
-  status: PropTypes.string,
-};

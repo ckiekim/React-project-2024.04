@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
@@ -21,8 +21,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import Iconify from '../../components/iconify';
-import { genTime } from "./util";
+import { genTime } from './util';
 import useSched from './useSched';
 
 export default function SchedInsertDialog({ ymd, day, color, isOtherMonth }) {

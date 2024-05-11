@@ -1,13 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getOrderList, getOrder, insertOrder, updateOrder, deleteOrder } from '../../api/firebase';
 
-export default function useOrders() {
+export default function useOrders(oid) {
   const queryClient = useQueryClient();
   const email = sessionStorage.getItem('sessionEmail');
   const uid = email === 'admin@human.com' ? '' : sessionStorage.getItem('sessionUid');
 
   const getRecord = useQuery({
-    queryKey: ['orders'],
+    queryKey: ['orders', oid],
     queryFn: oid => getOrder(oid),
     staleTime: 1000 * 60 * 5
   });

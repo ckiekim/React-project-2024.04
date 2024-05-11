@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { MuiFileInput } from 'mui-file-input';
 
 import Button from '@mui/material/Button';
@@ -13,44 +13,45 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Iconify from '../../components/iconify';
-import useBlogs from './useBlogs';
-import { uploadImage } from "../../api/cloudinary";
+import useUserInfo from './useUserInfo';
+import { squareImage } from '../../api/cloudinary';
 
-export default function PostInsertForm({ account }) {
-  const { uid, displayName, avatarUrl } = account;
+export default function UserInfoInsertDialog({uid, email}) {
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState();
-  const [post, setPost] = useState({ author: {uid, displayName, avatarUrl}, title: '', });
+  const [userInfo, setUserInfo] = useState({uid, email, displayName:'', job:''});
   const handleClickOpen = () => { setOpen(true); };
   const handleClose = () => { 
     setOpen(false); 
-    setPost({ author: {uid, displayName, avatarUrl}, title: '', });
+    setUserInfo({uid, email, displayName:'', job:''});
     setFile();
   };
   const handleChange = e => {
-    setPost({...post, [e.target.name]: e.target.value});
+    setUserInfo({...userInfo, [e.target.name]: e.target.value});
   }
   const handleUpload = newFile => {
     setFile(newFile);
-    uploadImage(newFile)
-      .then(url => setPost({...post, ['cover']: url}));
+    squareImage(newFile)
+      .then(url => setUserInfo({...userInfo, ['avatarUrl']: url}));
   }
-  const { insertRecord } = useBlogs();
+  const { insertRecord } = useUserInfo();
   const handleSubmit = e => {
     e.preventDefault();
-    insertRecord.mutate(post);
-    handleClose();
+    insertRecord.mutate(userInfo);
+    setOpen(false);
+    setUserInfo({uid:'', email:'', displayName:'', job:''});
+    setFile();
   }
 
   return (
     <>
       <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}
         onClick={handleClickOpen}>
-        New Post
+        UserInfo
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          <Typography sx={{fontWeight: 'bold', fontSize: 18}}>포스트 추가</Typography>
+          <Typography sx={{fontWeight: 'bold', fontSize: 18}}>사용자 정보 등록</Typography>
         </DialogTitle>
         <IconButton aria-label="close" onClick={handleClose}
           sx={{ position: 'absolute', right: 8, top: 8, }} >
@@ -58,15 +59,19 @@ export default function PostInsertForm({ account }) {
         </IconButton>
         <DialogContent dividers>
           <Stack spacing={2} sx={{ width: '40ch' }} alignItems="center">
-            {file && <img src={post.cover} alt='post' width='80%' />}
+            {file && <img src={userInfo.avatarUrl} alt='photo' width='80%' />}
             <TextField disabled margin="dense" label="uid" fullWidth defaultValue={uid} />
-            <TextField disabled margin="dense" label="이름" fullWidth defaultValue={displayName} />
-            <TextField autoFocus required margin="dense" id="title"
-              name="title" label="제목" type="text" fullWidth
-              defaultValue={post.title} onChange={handleChange}
+            <TextField disabled margin="dense" label="이메일" fullWidth defaultValue={email} />
+            <TextField autoFocus required margin="dense" id="displayName"
+              name="displayName" label="이름" type="text" fullWidth
+              defaultValue={userInfo.displayName} onChange={handleChange}
+            />
+            <TextField required margin="dense" id="job"
+              name="job" label="직업" type="text" fullWidth
+              defaultValue={userInfo.job} onChange={handleChange}
             />
             <MuiFileInput required margin="dense" id="photo"
-              label='포스트 사진' value={file} name='file' fullWidth
+              label='프로필 사진' value={file} name='file' fullWidth
               onChange={handleUpload} />
           </Stack>
         </DialogContent>

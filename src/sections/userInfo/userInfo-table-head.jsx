@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
@@ -54,13 +52,3 @@ export default function UserInfoTableHead({ order, orderBy, rowCount, headLabel,
     </TableHead>
   );
 }
-
-UserInfoTableHead.propTypes = {
-  order: PropTypes.oneOf(['asc', 'desc']),
-  orderBy: PropTypes.string,
-  rowCount: PropTypes.number,
-  headLabel: PropTypes.array,
-  numSelected: PropTypes.number,
-  onRequestSort: PropTypes.func,
-  onSelectAllClick: PropTypes.func,
-};
