@@ -78,17 +78,6 @@ export async function getUserInfo(uid) {
     }); 
 }
 
-// export async function getUserInfoByEmail(email) {
-//   return get(ref(database, `userInfo`))
-//     .then(snapshot => {
-//       if (snapshot.exists()) {
-//         let records = Object.values(snapshot.val());
-//         return records.filter(user => user.email === email);
-//       }
-//       return null;
-//     }); 
-// }
-
 export async function insertUserInfo(userInfo) {
   const { uid, email, displayName, avatarUrl, job } = userInfo;
   return set(ref(database, `userInfo/${uid}`), {
@@ -98,10 +87,8 @@ export async function insertUserInfo(userInfo) {
 }
 
 export async function updateUserInfo(userInfo) {
-  const { uid, email, displayName, avatarUrl, job, role, status, isVerified, registeredAt } = userInfo;
-  return set(ref(database, `userInfo/${uid}`), {
-    uid, email, displayName, avatarUrl, job, role, status, isVerified, registeredAt
-  });
+  const { uid } = userInfo;
+  return set(ref(database, `userInfo/${uid}`), userInfo);
 }
 
 export async function deleteUserInfo(uid) {
@@ -191,10 +178,8 @@ export async function insertOrder(order) {
 }
 
 export async function updateOrder(order) {
-  const { oid, status } = order;
-  return set(ref(database, `orders/${oid}`), {
-    ...order, status
-    });
+  const { oid } = order;
+  return set(ref(database, `orders/${oid}`), order);
 }
 
 export async function deleteOrder(oid) {
@@ -236,10 +221,8 @@ export async function insertBlog(blog) {
 }
 
 export async function updateBlog(blog) {
-  const { id, title, author, cover, view, favorite, comment, share, createdAt } = blog;
-  return set(ref(database, `blogs/${id}`), {
-    id, title, author, cover, view, favorite, comment, share, createdAt
-  });
+  const { id } = blog;
+  return set(ref(database, `blogs/${id}`), blog);
 }
 
 export async function deleteBlog(id) {
@@ -271,13 +254,24 @@ export async function insertAnniv(anniv) {
   });
 }
 
+export async function updateAnniv(anniv) {
+  const { id } = anniv;
+  return set(ref(database, `anniversary/${id}`), anniv);
+}
+
+export async function deleteAnniv(id) {
+  return remove(ref(database, `anniversary/${id}`));
+}
+
 export async function getSchedList(sdate, email) {
   return get(ref(database, 'schedule'))
     .then(snapshot => {
       if (snapshot.exists()) {
         const objects = snapshot.val();
         let records = Object.values(objects);
-        records = records.filter(record => record.sdate === sdate && record.email === email);
+        records = records
+          .filter(record => record.sdate === sdate && record.email === email)
+          .sort((a, b) => a.startTime.localeCompare(b.startTime)); 
         return records;
       }
       return null;
@@ -289,6 +283,15 @@ export async function insertSched(sched) {
   return set(ref(database, `schedule/${id}`), {
     id, ...sched
   });
+}
+
+export async function updateSched(sched) {
+  const { id } = sched;
+  return set(ref(database, `schedule/${id}`), sched);
+}
+
+export async function deleteSched(id) {
+  return remove(ref(database, `schedule/${id}`));
 }
 
 /*========================= users =========================*/
@@ -326,10 +329,8 @@ export async function insertUser(user) {
 }
 
 export async function updateUser(user) {
-  const { id, email, avatarUrl, name, company, isVerified, status, role, registeredAt } = user;
-  return set(ref(database, `users/${id}`), {
-    id, email, avatarUrl, name, company, isVerified, status, role, registeredAt
-  });
+  const { id } = user;
+  return set(ref(database, `users/${id}`), user);
 }
 
 export async function deleteUser(id) {

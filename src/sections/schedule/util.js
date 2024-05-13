@@ -6,6 +6,16 @@ export function genTime() {
   return timeArray;
 }
 
+export function nearTime() {
+  const today = new Date();
+  let hour = today.getHours();
+  let min = today.getMinutes();
+  if (min < 30)
+    return { startTime: twoDigit(hour) + ':30', endTime: twoDigit((hour+1) % 24) + ':30' };
+  else
+    return { startTime: twoDigit((hour + 1) % 24) + ':00', endTime: twoDigit((hour + 2) % 24) + ':00' };
+}
+
 function twoDigit(num) {
   return num > 9 ? '' + num : '0' + num;
 }

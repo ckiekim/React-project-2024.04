@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getAnnivList, insertAnniv } from '../../api/firebase';
+import { getAnnivList, insertAnniv, updateAnniv, deleteAnniv } from '../../api/firebase';
 
 export default function useAnniv(ymd) {
   const queryClient = useQueryClient();
@@ -17,5 +17,17 @@ export default function useAnniv(ymd) {
     onError: console.error
   });
 
-  return { getList, insertRecord };
+  const updateRecord = useMutation({
+    mutationFn: anniv => updateAnniv(anniv),
+    onSuccess: () => { queryClient.invalidateQueries(['anniversary']); },
+    onError: console.error
+  });
+
+  const deleteRecord = useMutation({
+    mutationFn: id => deleteAnniv(id),
+    onSuccess: () => { queryClient.invalidateQueries(['anniversary']); },
+    onError: console.error
+  });
+
+  return { getList, insertRecord, updateRecord, deleteRecord };
 }

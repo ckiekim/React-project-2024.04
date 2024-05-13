@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getSchedList, insertSched } from '../../api/firebase';
+import { getSchedList, insertSched, updateSched, deleteSched } from '../../api/firebase';
 
 export default function useSched(ymd) {
   const queryClient = useQueryClient();
@@ -13,9 +13,21 @@ export default function useSched(ymd) {
 
   const insertRecord = useMutation({
     mutationFn: sched => insertSched(sched),
-    onSuccess: () => { queryClient.invalidateQueries(['anniversary']); },
+    onSuccess: () => { queryClient.invalidateQueries(['schedule']); },
     onError: console.error
   });
 
-  return { getList, insertRecord };
+  const updateRecord = useMutation({
+    mutationFn: sched => updateSched(sched),
+    onSuccess: () => { queryClient.invalidateQueries(['schedule']); },
+    onError: console.error
+  });
+
+  const deleteRecord = useMutation({
+    mutationFn: id => deleteSched(id),
+    onSuccess: () => { queryClient.invalidateQueries(['schedule']); },
+    onError: console.error
+  });
+
+  return { getList, insertRecord, updateRecord, deleteRecord };
 }

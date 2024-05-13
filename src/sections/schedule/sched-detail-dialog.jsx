@@ -20,37 +20,41 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import { genTime, nearTime } from './util';
+import { genTime } from './util';
 import useSched from './useSched';
 
-export default function SchedInsertDialog({ ymd, day, color, isOtherMonth }) {
-  const { startTime, endTime } = nearTime();
+export default function SchedDetailDialog({ sched }) {
   const [open, setOpen] = useState(false);
-  const [checked, setChecked] = useState(false);
-  const [sched, setSched] = useState({ title: '', sdate: ymd, place: '', memo: '' });
-  const [selectedStartTime, setSelectedStartTime] = useState(startTime);
-  const [selectedEndTime, setSelectedEndTime] = useState(endTime);
+  const [checked, setChecked] = useState(sched.isImportant);
+  const [newSched, setNewSched] = useState(
+    { title: sched.title, sdate: sched.sdate, place: sched.place, memo: sched.memo }
+  );
+  const [selectedStartTime, setSelectedStartTime] = useState(sched.startTime);
+  const [selectedEndTime, setSelectedEndTime] = useState(sched.endTime);
   const timeList = genTime();
 
   const handleClickOpen = () => { setOpen(true); };
   const handleClose = () => { 
     setOpen(false); 
-    setSched({ title: '', sdate: ymd, startTime, endTime, place: '', memo: '' });
-    setChecked(false);
+    setNewSched({ title: sched.title, sdate: sched.sdate, place: sched.place, memo: sched.memo });
+    setChecked(sched.isImportant);
   };
   const handleChange = e => {
-    setSched({...sched, [e.target.name]: e.target.value});
+    setNewSched(newSched => ({...newSched, [e.target.name]: e.target.value}));
   };
   const handleStartTime = e => { setSelectedStartTime(e.target.value); };
   const handleEndTime = e => { setSelectedEndTime(e.target.value); };
-  const { insertRecord } = useSched();
-  const handleSubmit = () => {
-    const newSched = {...sched, startTime:selectedStartTime, endTime: selectedEndTime,
-      email: sessionStorage.getItem('sessionEmail'), isImportant: checked}
-    insertRecord.mutate(newSched);
-    // console.log(newSched);
+  const { updateRecord, deleteRecord } = useSched();
+  const handleUpdate = () => {
+    const newSched2 = {...newSched, startTime:selectedStartTime, endTime: selectedEndTime,
+      id: sched.id, email: sched.email, isImportant: checked}
+    updateRecord.mutate(newSched2);
     handleClose();
   };
+  const handleDelete = () => {
+    deleteRecord.mutate(sched.id);
+    setOpen(false);
+  }
 
   return (
     <>
@@ -59,15 +63,14 @@ export default function SchedInsertDialog({ ymd, day, color, isOtherMonth }) {
           '&:hover': { cursor: 'pointer', textDecoration: 'underline', },
         }}
         onClick={handleClickOpen}>
-        <Typography sx={{ fontWeight: 'bold', opacity: isOtherMonth ? 0.5 : 1 }} 
-          color={color}>
-          {day}
+        <Typography sx={{ fontWeight: sched.isImportant ? 'bold' : 'normal' }}>
+          {sched.startTime} {sched.title}
         </Typography>
       </Link>
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          <Typography sx={{fontWeight: 'bold', fontSize: 18}}>일정 등록</Typography>
+          <Typography sx={{fontWeight: 'bold', fontSize: 18}}>상세일정 조회/수정/삭제</Typography>
         </DialogTitle>
         <IconButton aria-label="close" onClick={handleClose}
           sx={{ position: 'absolute', right: 8, top: 8, }} >
@@ -96,7 +99,7 @@ export default function SchedInsertDialog({ ymd, day, color, isOtherMonth }) {
               <Grid item xs={6}>
                 <TextField required margin="dense" id="sdate"
                   name="sdate" label="날짜" type="text" fullWidth
-                  value={sched.sdate} onChange={handleChange}
+                  defaultValue={sched.sdate} onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -145,7 +148,9 @@ export default function SchedInsertDialog({ ymd, day, color, isOtherMonth }) {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSubmit} variant="contained">제출</Button>
+          <Button onClick={handleUpdate} variant="contained">수정</Button>
+          <Button onClick={handleDelete} variant="contained" color='error'>삭제</Button>
+          <Button onClick={handleClose} variant="outlined">확인</Button>
         </DialogActions>
       </Dialog>
     </>

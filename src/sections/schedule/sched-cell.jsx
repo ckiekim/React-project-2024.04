@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 
 import Stack from '@mui/material/Stack';
 import TableCell from "@mui/material/TableCell";
-import Typography from '@mui/material/Typography';
 
 import { getDayInfo } from './util';
+import AnnivDetailDialog from './anniv-detail-dialog';
 import SchedInsertDialog from './sched-insert-dialog';
+import SchedDetailDialog from './sched-detail-dialog';
 import useAnniv from './useAnniv';
 import useSched from './useSched';
 
@@ -31,27 +32,21 @@ export default function ScheduleCell({ ymd, yearMonth, isToday }) {
   return (
     <TableCell key={ymd} 
       sx={{ verticalAlign: 'top', height: '120px', border: 1, p: 1, 
-            background: isToday ? '#D8EDE7' : '' }}>
+            background: isToday ? '#efffff' : '' }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={0.5}>
-        {/* <SchedInsertDialog ymd={ymd} day={day} color={color} isOtherMonth={isOtherMonth} /> */}
-        <Typography sx={{ fontWeight: 'bold', opacity: isOtherMonth ? 0.5 : 1 }} 
-          color={color}>
-          {day}
-          <SchedInsertDialog ymd={ymd} />
-        </Typography>
+        <SchedInsertDialog ymd={ymd} day={day} color={color} isOtherMonth={isOtherMonth} />
+
         {anniversary &&
-          <Typography>
-            {anniversary.reduce((acc, anniv, index) => 
-              acc + (index !== 0 ? '·' : '') + 
-              ((anniv.aname.indexOf('대체') >= 0) ? anniv.aname.substring(0,5) : anniv.aname), '')}
-          </Typography>
+          <Stack direction='row' spacing={0.2}>
+            {anniversary.map((anniv, index) => (
+              <AnnivDetailDialog anniv={anniv} index={index} middot={anniversary.length > 1} />
+            ))}
+          </Stack>
         }
       </Stack>
       {schedule &&
         schedule.map(sched => (
-          <Typography sx={{ fontWeight: sched.isImportant ? 'bold' : 'normal' }}>
-            {sched.startTime} {sched.title}
-          </Typography>
+          <SchedDetailDialog sched={sched} />
         ))
       }
     </TableCell>
