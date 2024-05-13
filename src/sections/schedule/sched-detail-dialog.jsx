@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -25,12 +25,10 @@ import useSched from './useSched';
 
 export default function SchedDetailDialog({ sched }) {
   const [open, setOpen] = useState(false);
-  const [checked, setChecked] = useState(sched.isImportant);
-  const [newSched, setNewSched] = useState(
-    { title: sched.title, sdate: sched.sdate, place: sched.place, memo: sched.memo }
-  );
-  const [selectedStartTime, setSelectedStartTime] = useState(sched.startTime);
-  const [selectedEndTime, setSelectedEndTime] = useState(sched.endTime);
+  const [checked, setChecked] = useState(false);
+  const [newSched, setNewSched] = useState({ });
+  const [selectedStartTime, setSelectedStartTime] = useState('');
+  const [selectedEndTime, setSelectedEndTime] = useState('');
   const timeList = genTime();
 
   const handleClickOpen = () => { setOpen(true); };
@@ -55,6 +53,13 @@ export default function SchedDetailDialog({ sched }) {
     deleteRecord.mutate(sched.id);
     setOpen(false);
   }
+
+  useEffect(() => {
+    setChecked(sched.isImportant);
+    setNewSched({ title: sched.title, sdate: sched.sdate, place: sched.place, memo: sched.memo });
+    setSelectedStartTime(sched.startTime);
+    setSelectedEndTime(sched.endTime);
+  }, []);
 
   return (
     <>

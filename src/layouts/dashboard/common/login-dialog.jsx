@@ -24,7 +24,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogActions-root': { padding: theme.spacing(1), },
 }));
 
-export default function LoginDialog({ callback }) {
+export default function LoginDialog() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -40,7 +40,7 @@ export default function LoginDialog({ callback }) {
     if (isLoginMode) {
       login(loginInfo); 
     } else {
-      register(loginInfo); callback(true);
+      register(loginInfo); 
     }
   }
   const handleMode = () => { setIsLoginMode(!isLoginMode); }

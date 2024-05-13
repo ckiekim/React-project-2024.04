@@ -26,7 +26,7 @@ export default function useUserInfo(user) {
 
   const updateRecord = useMutation({
     mutationFn: userInfo => updateUserInfo(userInfo),
-    onSuccess: () => { queryClient.invalidateQueries(['userInfo']); },
+    onSuccess: () => { queryClient.invalidateQueries(['userInfo', uid]); },
     onError: console.error,
   });
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from 'react-router-dom';
 import { useAuthContext } from "../context/AuthContext";
 
@@ -8,6 +8,8 @@ export default function ProtectedRoute({ children, requireAdmin }) {
   useEffect(() => {
     if (user)
       setIsLoading(false);
+    else
+      setIsLoading(false);  // 사용자가 로그인하지 않은 경우에도 로딩이 완료되었음을 설정함.
   }, [user]);
 
   if (isLoading)

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 import { alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import { bgGradient } from '../../theme/css';
 import Logo from '../../components/logo';
 import Iconify from '../../components/iconify';
-import { login } from '../../api/firebase';
+import { login, register } from '../../api/firebase';
 
 // ----------------------------------------------------------------------
 
@@ -26,15 +26,20 @@ export default function LoginView() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loginInfo, setLoginInfo] = useState({email: '', password: ''})
+  const [isLoginMode, setIsLoginMode] = useState(true);
 
   const handleChange = e => {
     setLoginInfo({...loginInfo, [e.target.name]: e.target.value});
   }
   const handleSubmit = e => {
-    e.preventDefault();
-    login(loginInfo);
+    if (isLoginMode) {
+      login(loginInfo); 
+    } else {
+      register(loginInfo);
+    }
     navigate('/');
   }
+  const handleMode = () => { setIsLoginMode(!isLoginMode); }
 
   return (
     <Box
@@ -52,13 +57,15 @@ export default function LoginView() {
 
       <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
         <Card sx={{ p: 5, width: 1, maxWidth: 420, }}>
-          <Typography variant="h4">CK World 로그인</Typography>
+          <Typography variant="h4">
+            CK World {isLoginMode ? '로그인' : '회원가입'}
+          </Typography>
 
           <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
-            계정이 없으신가요?
-            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-              등록하기
-            </Link>
+            {isLoginMode ? '계정이 없으신가요?' : '이미 회원이신가요?'}
+            <Button variant='text' sx={{ ml: 0.5 }} onClick={handleMode}>
+              {isLoginMode ? '등록하기' : '로그인'}
+            </Button>
           </Typography>
 
           <Stack direction="row" spacing={2}>
@@ -99,15 +106,17 @@ export default function LoginView() {
               }} 
             />
           </Stack>
-
+          
           <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
             <Link variant="subtitle2" underline="hover">
-              패스워드를 잊으셨나요?
+              {isLoginMode ? '패스워드를 잊으셨나요?' : ' '}
             </Link>
           </Stack>
 
-          <LoadingButton fullWidth type="submit" variant="contained" color="inherit" onClick={handleSubmit}>
-            <Typography sx={{fontWeight: 'bold'}}>로그인</Typography>
+          <LoadingButton fullWidth variant="contained" color="inherit" onClick={handleSubmit}>
+            <Typography sx={{fontWeight: 'bold'}}>
+              {isLoginMode ? '로그인' : '회원가입'}
+            </Typography>
           </LoadingButton>
         </Card>
       </Stack>

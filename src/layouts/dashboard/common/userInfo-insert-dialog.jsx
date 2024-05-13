@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import useUserInfo from '../../../sections/userInfo/useUserInfo';
-import { uploadImage } from '../../../api/cloudinary';
+import { squareImage } from '../../../api/cloudinary';
 
 export default function UserInfoInsertDialog({ userInfoOpen, callback, user }) {
   const [file, setFile] = useState();
@@ -28,7 +28,7 @@ export default function UserInfoInsertDialog({ userInfoOpen, callback, user }) {
   }
   const handleUpload = newFile => {
     setFile(newFile);
-    uploadImage(newFile)
+    squareImage(newFile)
     .then(url => setUserInfo({...userInfo, ['avatarUrl']: url}));
   }
   const { insertRecord } = useUserInfo();

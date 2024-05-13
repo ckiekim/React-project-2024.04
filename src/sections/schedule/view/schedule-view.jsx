@@ -67,7 +67,7 @@ export default function SchedulePage() {
 
       <Scrollbar>
         <TableContainer sx={{ overflow: 'unset' }}>
-          <Table sx={{ minWidth: 800 }}>
+          <Table sx={{ minWidth: 800 }} size='small'>
             <TableHead>
               <TableRow>
                 <TableCell sx={{ width: '14.286%', textAlign: 'center', border: 1 }}>
@@ -75,7 +75,7 @@ export default function SchedulePage() {
                 </TableCell>
                 {'월 화 수 목 금'.split(' ').map((date, index) => (
                   <TableCell sx={{ width: '14.286%', textAlign: 'center', border: 1 }}>
-                    <Typography variant='h6'>{date}</Typography>
+                    <Typography sx={{fontWeight: 'bold'}}>{date}</Typography>
                   </TableCell>
                 ))}
                 <TableCell sx={{ width: '14.286%', textAlign: 'center', border: 1 }}>

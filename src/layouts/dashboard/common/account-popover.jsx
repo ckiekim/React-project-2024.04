@@ -20,7 +20,7 @@ const MENU_OPTIONS = [
   { label: 'Profile', icon: 'eva:person-fill', },
 ];
 
-export default function AccountPopover({ user, logout, callback }) {
+export default function AccountPopover({ user, logout }) {
   const [open, setOpen] = useState(null);
   const { getRecord: { data: account } } = useUserInfo(user);
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export default function AccountPopover({ user, logout, callback }) {
 
   return (
     <>
-      {!user && <LoginDialog callback={callback} />}
+      {!user && <LoginDialog />}
       {user && <>
         <IconButton onClick={handleOpen}
           sx={{ width: 40, height: 40,
@@ -51,8 +51,9 @@ export default function AccountPopover({ user, logout, callback }) {
             }),
           }}
         >
+          {/* Avatar 컴포넌트에 key prop을 추가하면 Avatar가 업데이트될 때마다 Avatar가 렌더링됨. */}
           {account && 
-            <Avatar src={account.avatarUrl} alt={account.displayName}
+            <Avatar key={user.uid} src={account.avatarUrl} alt={account.displayName}
               sx={{ width: 36, height: 36,
                 border: (theme) => `solid 2px ${theme.palette.background.default}`,
               }}
