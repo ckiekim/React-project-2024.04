@@ -27,76 +27,43 @@ export default function AppView() {
 
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="주간 매출"
-            total={7148000}
-            color="success"
+          <AppWidgetSummary title="주간 매출" total={7148000} color="success"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="신규 사용자"
-            total={1352}
-            color="info"
+          <AppWidgetSummary title="신규 사용자" total={1352} color="info"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="주문 건수"
-            total={972}
-            color="warning"
+          <AppWidgetSummary title="주문 건수" total={972} color="warning"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="버그 건수"
-            total={34}
-            color="error"
+          <AppWidgetSummary title="버그 건수" total={34} color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
           />
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>
-          <AppWebsiteVisits
-            title="웹사이트 방문"
-            subheader="전년 대비 +43%"
+          <AppWebsiteVisits title="웹사이트 방문" subheader="전년 대비 +43%"
             chart={{
-              labels: [
-                '01/01/2023',
-                '02/01/2023',
-                '03/01/2023',
-                '04/01/2023',
-                '05/01/2023',
-                '06/01/2023',
-                '07/01/2023',
-                '08/01/2023',
-                '09/01/2023',
-                '10/01/2023',
-                '11/01/2023',
+              labels: [ '01/01/2023', '02/01/2023', '03/01/2023', '04/01/2023', '05/01/2023',
+                '06/01/2023', '07/01/2023', '08/01/2023', '09/01/2023', '10/01/2023', '11/01/2023',
               ],
               series: [
-                {
-                  name: 'Team A',
-                  type: 'column',
-                  fill: 'solid',
+                { name: 'Team A', type: 'column', fill: 'solid',
                   data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
                 },
-                {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
+                { name: 'Team B', type: 'area', fill: 'gradient',
                   data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
                 },
-                {
-                  name: 'Team C',
-                  type: 'line',
-                  fill: 'solid',
+                { name: 'Team C', type: 'line', fill: 'solid',
                   data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
                 },
               ],
@@ -108,32 +75,21 @@ export default function AppView() {
           <AppCurrentVisits
             title="방문 횟수"
             chart={{
-              series: [
-                { label: 'America', value: 4344 },
-                { label: 'Asia', value: 5435 },
-                { label: 'Europe', value: 1443 },
-                { label: 'Africa', value: 4443 },
+              series: [ { label: 'America', value: 4344 }, { label: 'Asia', value: 5435 },
+                { label: 'Europe', value: 1443 }, { label: 'Africa', value: 4443 }, 
               ],
             }}
           />
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>
-          <AppConversionRates
-            title="대화 비율"
-            subheader="전년 대비 +28%"
+          <AppConversionRates title="대화 비율" subheader="전년 대비 +28%"
             chart={{
-              series: [
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1380 },
+              series: [ { label: 'Italy', value: 400 }, { label: 'Japan', value: 430 },
+                { label: 'China', value: 448 }, { label: 'Canada', value: 470 },
+                { label: 'France', value: 540 }, { label: 'Germany', value: 580 },
+                { label: 'South Korea', value: 690 }, { label: 'Netherlands', value: 1100 },
+                { label: 'United States', value: 1200 }, { label: 'United Kingdom', value: 1380 },
               ],
             }}
           />
@@ -188,24 +144,16 @@ export default function AppView() {
           <AppTrafficBySite
             title="사이트별 트래픽"
             list={[
-              {
-                name: 'FaceBook',
-                value: 32323,
+              { name: 'FaceBook', value: 32323,
                 icon: <Iconify icon="eva:facebook-fill" color="#1877F2" width={32} />,
               },
-              {
-                name: 'Google',
-                value: 841212,
+              { name: 'Google', value: 841212,
                 icon: <Iconify icon="eva:google-fill" color="#DF3E30" width={32} />,
               },
-              {
-                name: 'Linkedin',
-                value: 41121,
+              { name: 'Linkedin', value: 41121,
                 icon: <Iconify icon="eva:linkedin-fill" color="#006097" width={32} />,
               },
-              {
-                name: 'Twitter',
-                value: 243232,
+              { name: 'Twitter', value: 243232,
                 icon: <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={32} />,
               },
             ]}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { MuiFileInput } from 'mui-file-input';
 
 import Button from '@mui/material/Button';
@@ -12,8 +12,8 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import useUserInfo from "../../../sections/userInfo/useUserInfo";
-import { uploadImage } from "../../../api/cloudinary";
+import useUserInfo from '../../../sections/userInfo/useUserInfo';
+import { uploadImage } from '../../../api/cloudinary';
 
 export default function UserInfoInsertDialog({ userInfoOpen, callback, user }) {
   const [file, setFile] = useState();

@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -10,7 +8,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { fToNow } from '../../utils/format-time';
-
 import Iconify from '../../components/iconify';
 import Scrollbar from '../../components/scrollbar';
 
@@ -44,12 +41,6 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
   );
 }
 
-AppNewsUpdate.propTypes = {
-  title: PropTypes.string,
-  subheader: PropTypes.string,
-  list: PropTypes.array.isRequired,
-};
-
 // ----------------------------------------------------------------------
 
 function NewsItem({ news }) {
@@ -80,12 +71,3 @@ function NewsItem({ news }) {
     </Stack>
   );
 }
-
-NewsItem.propTypes = {
-  news: PropTypes.shape({
-    image: PropTypes.string,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    postedAt: PropTypes.instanceOf(Date),
-  }),
-};

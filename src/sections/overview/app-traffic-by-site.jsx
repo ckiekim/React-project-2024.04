@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -16,10 +14,7 @@ export default function AppTrafficBySite({ title, subheader, list, ...other }) {
       <CardHeader title={title} subheader={subheader} />
 
       <Box
-        sx={{
-          p: 3,
-          gap: 2,
-          display: 'grid',
+        sx={{ p: 3, gap: 2, display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
         }}
       >
@@ -42,9 +37,3 @@ export default function AppTrafficBySite({ title, subheader, list, ...other }) {
     </Card>
   );
 }
-
-AppTrafficBySite.propTypes = {
-  title: PropTypes.string,
-  subheader: PropTypes.string,
-  list: PropTypes.array.isRequired,
-};

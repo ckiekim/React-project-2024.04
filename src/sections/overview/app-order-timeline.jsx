@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Timeline from '@mui/lab/Timeline';
@@ -20,12 +18,9 @@ export default function AnalyticsOrderTimeline({ title, subheader, list, ...othe
       <CardHeader title={title} subheader={subheader} />
 
       <Timeline
-        sx={{
-          m: 0,
-          p: 3,
+        sx={{ m: 0, p: 3,
           [`& .${timelineItemClasses.root}:before`]: {
-            flex: 0,
-            padding: 0,
+            flex: 0, padding: 0,
           },
         }}
       >
@@ -36,12 +31,6 @@ export default function AnalyticsOrderTimeline({ title, subheader, list, ...othe
     </Card>
   );
 }
-
-AnalyticsOrderTimeline.propTypes = {
-  list: PropTypes.array,
-  subheader: PropTypes.string,
-  title: PropTypes.string,
-};
 
 // ----------------------------------------------------------------------
 
@@ -72,8 +61,3 @@ function OrderItem({ item, lastTimeline }) {
     </TimelineItem>
   );
 }
-
-OrderItem.propTypes = {
-  item: PropTypes.object,
-  lastTimeline: PropTypes.bool,
-};

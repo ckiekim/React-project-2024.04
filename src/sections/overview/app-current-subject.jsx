@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import { styled, useTheme } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -33,12 +31,8 @@ export default function AppCurrentSubject({ title, subheader, chart, ...other })
 
   const chartOptions = useChart({
     colors,
-    stroke: {
-      width: 2,
-    },
-    fill: {
-      opacity: 0.48,
-    },
+    stroke: { width: 2, },
+    fill: { opacity: 0.48, },
     legend: {
       floating: true,
       position: 'bottom',
@@ -70,9 +64,3 @@ export default function AppCurrentSubject({ title, subheader, chart, ...other })
     </Card>
   );
 }
-
-AppCurrentSubject.propTypes = {
-  chart: PropTypes.object,
-  subheader: PropTypes.string,
-  title: PropTypes.string,
-};

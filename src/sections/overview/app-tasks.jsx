@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -41,12 +40,6 @@ export default function AnalyticsTasks({ title, subheader, list, ...other }) {
   );
 }
 
-AnalyticsTasks.propTypes = {
-  list: PropTypes.array,
-  subheader: PropTypes.string,
-  title: PropTypes.string,
-};
-
 // ----------------------------------------------------------------------
 
 function TaskItem({ task, checked, onChange }) {
@@ -85,10 +78,7 @@ function TaskItem({ task, checked, onChange }) {
       <Stack
         direction="row"
         alignItems="center"
-        sx={{
-          pl: 2,
-          pr: 1,
-          py: 1,
+        sx={{ pl: 2, pr: 1, py: 1,
           '&:not(:last-of-type)': {
             borderBottom: (theme) => `dashed 1px ${theme.palette.divider}`,
           },
@@ -139,9 +129,3 @@ function TaskItem({ task, checked, onChange }) {
     </>
   );
 }
-
-TaskItem.propTypes = {
-  checked: PropTypes.bool,
-  onChange: PropTypes.func,
-  task: PropTypes.object,
-};

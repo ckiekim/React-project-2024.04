@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { MuiFileInput } from 'mui-file-input';
 
 import Button from '@mui/material/Button';
@@ -13,8 +13,8 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import useUserInfo from "../../../sections/userInfo/useUserInfo";
-import { uploadImage } from "../../../api/cloudinary";
+import useUserInfo from '../../../sections/userInfo/useUserInfo';
+import { uploadImage } from '../../../api/cloudinary';
 
 export default function UserInfo2InsertDialog({ callback }) {
   const [openDialog, setOpenDialog] = useState(false);
@@ -59,7 +59,7 @@ export default function UserInfo2InsertDialog({ callback }) {
         <DialogTitle>
           <Typography sx={{fontWeight: 'bold', fontSize: 18}}>사용자 정보 등록</Typography>
         </DialogTitle>
-        <IconButton aria-label="close" onClick={handleClose}
+        <IconButton aria-label='close' onClick={handleClose}
           sx={{ position: 'absolute', right: 8, top: 8, }} >
           <CloseIcon />
         </IconButton>
