@@ -304,8 +304,9 @@ export async function getMessageList(email) {
         let records = Object.values(objects);
         records = records
           .filter(record => record.dstEmail === email)
-          .sort((a, b) => b.sentAt.localeCompare(a.sentAt)); 
-        console.log(records);
+          .sort((a, b) => b.sentAt.localeCompare(a.sentAt))
+          .sort((a, b) => a.status.localeCompare(b.status)); 
+        // console.log(records);
         return records;
       }
       return null;
@@ -317,6 +318,15 @@ export async function insertMessage(message) {
   return set(ref(database, `message/${mid}`), {
     mid, ...message, status: '신규', sentAt: new Date().toISOString()
   });
+}
+
+export async function updateMessage(message) {
+  const { mid } = message;
+  return set(ref(database, `message/${mid}`), message);
+}
+
+export async function deleteMessage(mid) {
+  return remove(ref(database, `message/${mid}`));
 }
 
 /*========================= users =========================*/

@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getMessageList, insertMessage } from '../../api/firebase';
+import { getMessageList, insertMessage, updateMessage, deleteMessage } from '../../api/firebase';
 
 export default function useMessage(email, mid) {
   const queryClient = useQueryClient();
@@ -16,5 +16,17 @@ export default function useMessage(email, mid) {
     onError: console.error,
   });
 
-  return { getList, insertRecord };
+  const updateRecord = useMutation({
+    mutationFn: message => updateMessage(message),
+    onSuccess: () => { queryClient.invalidateQueries(['message']); },
+    onError: console.error,
+  });
+
+  const deleteRecord = useMutation({
+    mutationFn: mid => deleteMessage(mid),
+    onSuccess: () => { queryClient.invalidateQueries(['message']); },
+    onError: console.error,
+  });
+
+  return { getList, insertRecord, updateRecord, deleteRecord };
 }

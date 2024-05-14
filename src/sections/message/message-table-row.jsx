@@ -10,17 +10,29 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
+import MessageReplyDialog from './message-reply-dialog';
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
 import { formatAgo } from '../../utils/format-time';
+import useMessage from './useMessage';
 
 export default function MessageTableRow({ message, selected, handleClick }) {
-  const { mid, content, status, srcEmail, srcName, srcAvatar, dstEmail, dstName, dstAvatar,
+  const { mid, content, status, srcName, srcAvatar, // srcEmail, dstEmail, dstName, dstAvatar,
     sentAt } = message;
   const [openPopover, setOpenPopover] = useState(null);
+  const { updateRecord, deleteRecord } = useMessage();
 
   const handleOpenMenu = (event) => { setOpenPopover(event.currentTarget); };
   const handleCloseMenu = () => { setOpenPopover(null); };
+  const handleUpdateStatus = () => {
+    const newMessage = {...message, status: '읽음'};
+    updateRecord.mutate(newMessage);
+    handleCloseMenu();
+  };
+  const handleDeleteMenu = () => {
+    deleteRecord.mutate(mid);
+    handleCloseMenu();
+  }
 
   return (
     <>
@@ -38,10 +50,14 @@ export default function MessageTableRow({ message, selected, handleClick }) {
           </Stack>
         </TableCell>
 
-        <TableCell>{content}</TableCell>
+        <TableCell>
+          <MessageReplyDialog message={message} />
+        </TableCell>
 
         <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
+          <Label color={(status === '읽음') ? 'primary' : (status === '신규') ? 'error' : 'success'}>
+            {status}
+          </Label>
         </TableCell>
 
         <TableCell>{formatAgo(sentAt, 'ko')}</TableCell>
@@ -59,7 +75,11 @@ export default function MessageTableRow({ message, selected, handleClick }) {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         sx={{ width: 140 }}
       >
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+        <MenuItem onClick={handleUpdateStatus}>
+          <Iconify icon="ic:outline-mark-chat-read" sx={{ mr: 2 }} />
+          읽음
+        </MenuItem>
+        <MenuItem onClick={handleDeleteMenu} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           삭제
         </MenuItem>
