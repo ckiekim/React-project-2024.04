@@ -22,7 +22,7 @@ export default function AppView() {
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        안녕! 다시 돌아왔어 👋
+        대시보드 👋
       </Typography>
 
       <Grid container spacing={3}>

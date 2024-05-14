@@ -294,6 +294,31 @@ export async function deleteSched(id) {
   return remove(ref(database, `schedule/${id}`));
 }
 
+/*========================= message =========================*/
+
+export async function getMessageList(email) {
+  return get(ref(database, 'message'))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        const objects = snapshot.val();
+        let records = Object.values(objects);
+        records = records
+          .filter(record => record.dstEmail === email)
+          .sort((a, b) => b.sentAt.localeCompare(a.sentAt)); 
+        console.log(records);
+        return records;
+      }
+      return null;
+    }); 
+}
+
+export async function insertMessage(message) {
+  const mid = uuid();
+  return set(ref(database, `message/${mid}`), {
+    mid, ...message, status: '신규', sentAt: new Date().toISOString()
+  });
+}
+
 /*========================= users =========================*/
 
 export async function getUserList() {

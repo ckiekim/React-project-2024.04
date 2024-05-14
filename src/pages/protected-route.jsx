@@ -9,7 +9,7 @@ export default function ProtectedRoute({ children, requireAdmin }) {
     if (user)
       setIsLoading(false);
     else
-      setIsLoading(false);  // 사용자가 로그인하지 않은 경우에도 로딩이 완료되었음을 설정함.
+      setIsLoading(false);  // 사용자가 로그인하지 않은 경우에도 로딩이 완료되었음을 설정해야 18번 코드가 실행이 됨.
   }, [user]);
 
   if (isLoading)
