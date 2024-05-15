@@ -1,7 +1,5 @@
 # React-Template-Project
 
-# Java-Web-Template
-
 ### 사용한 도구
 - Front-end: ReactJS, MUI
 - Back-end: Firebase Authentication, Firebase Realtime Database, Cloudinary
