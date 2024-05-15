@@ -1,3 +1,22 @@
+# React-Template-Project
+
+# Java-Web-Template
+
+### 사용한 도구
+- Front-end: ReactJS, MUI
+- Back-end: Firebase Authentication, Firebase Realtime Database, Cloudinary
+
+### 디지털 컨버전스 중심 데이터 처리 SW 개발자 양성 과정
+- 장소: 휴먼교육센터 수원
+- 기간: 2023.12 ~ 2024.06
+
+### 디자인 출처
+- Template Name: Minimal (Free version)
+- Template URL: https://github.com/minimal-ui-kit/material-kit-react
+- MIT License: Minimal UI (https://minimals.cc/)
+
+---------------------------------------------------------------------------------------------------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
