@@ -19,6 +19,7 @@ import Typography from '@mui/material/Typography';
 import Iconify from '../../components/iconify';
 import useMesssage from './useMessage';
 import useUserInfo from '../userInfo/useUserInfo';
+import useNotification from '../notification/useNotification';
 
 export default function MessageInsertDialog() {
   const [open, setOpen] = useState(false);
@@ -27,6 +28,7 @@ export default function MessageInsertDialog() {
   const sessionEmail = sessionStorage.getItem('sessionEmail');
   const { getList: {data: userInfo} } = useUserInfo();
   const { insertRecord } = useMesssage();
+  const { insertRecord: insertNotiRecord } = useNotification();
   const handleClickOpen = () => { setOpen(true); };
   const handleClose = () => { 
     setOpen(false); 
@@ -44,6 +46,8 @@ export default function MessageInsertDialog() {
     };
     // console.log(newMessage);
     insertRecord.mutate(newMessage);
+    const notification = { email: dstUser.email, type: '메세지', description: '신규 메세지가 있습니다.' };
+    insertNotiRecord.mutate(notification);
     handleClose();
   };
 

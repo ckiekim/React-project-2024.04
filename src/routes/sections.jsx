@@ -44,7 +44,7 @@ export default function Router() {
         { path: '/blog', element: <ProtectedRoute><BlogPage /></ProtectedRoute> },
         { path: '/album', element: <AlbumPage /> },
         { path: '/schedule', element: <ProtectedRoute><SchedulePage /></ProtectedRoute> },
-        { path: '/message', element: <MessagePage /> },
+        { path: '/message', element: <ProtectedRoute><MessagePage /></ProtectedRoute> },
         { path: '/youtube', element: <YoutubePage /> },
         { path: '/userInfo', element: <ProtectedRoute><UserInfoPage /></ProtectedRoute> },
         { path: '/user', element: <UserPage /> },

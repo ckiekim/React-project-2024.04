@@ -15,6 +15,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const database = getDatabase(app);
 
+// login, userInfo, products, orders, blogs, anniversary, schedule, message, notification, user
+
 /*========================= login =========================*/
 
 export function login({email, password}) {
@@ -229,7 +231,7 @@ export async function deleteBlog(id) {
   return remove(ref(database, `blogs/${id}`));
 }
 
-/*========================= scheduler =========================*/
+/*========================= anniversary =========================*/
 
 export async function getAnnivList(adate, email) {
   return get(ref(database, 'anniversary'))
@@ -262,6 +264,8 @@ export async function updateAnniv(anniv) {
 export async function deleteAnniv(id) {
   return remove(ref(database, `anniversary/${id}`));
 }
+
+/*========================= schedule =========================*/
 
 export async function getSchedList(sdate, email) {
   return get(ref(database, 'schedule'))
@@ -327,6 +331,55 @@ export async function updateMessage(message) {
 
 export async function deleteMessage(mid) {
   return remove(ref(database, `message/${mid}`));
+}
+
+/*========================= notification =========================*/
+
+export async function getNotificationList(email) {
+  return get(ref(database, 'notification'))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        const objects = snapshot.val();
+        let records = Object.values(objects);
+        records = records
+          .filter(record => record.dstEmail === email && record.status === '신규')
+          .sort((a, b) => b.createdAt.localeCompare(a.createdAt)); 
+        console.log(records);
+        return records;
+      }
+      return null;
+    }); 
+}
+
+export async function getNotificationCount(email) {
+  return get(ref(database, 'notification'))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        const objects = snapshot.val();
+        let records = Object.values(objects);
+        records = records
+          .filter(record => record.dstEmail === email && record.status === '신규');
+        console.log(records);
+        return records.length;
+      }
+      return 0;
+    }); 
+}
+
+export async function insertNotification(notification) {
+  const nid = uuid();
+  return set(ref(database, `notification/${nid}`), {
+    nid, ...notification, status: '신규', createdAt: new Date().toISOString()
+  });
+}
+
+export async function updateNotification(notification) {
+  const { nid } = notification;
+  return set(ref(database, `notification/${nid}`), notification);
+}
+
+export async function deleteNotification(nid) {
+  return remove(ref(database, `notification/${nid}`));
 }
 
 /*========================= users =========================*/

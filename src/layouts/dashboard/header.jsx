@@ -13,6 +13,7 @@ import Searchbar from './common/searchbar';
 import { NAV, HEADER } from './config-layout';
 import AccountPopover from './common/account-popover';
 import LanguagePopover from './common/language-popover';
+// import NotificationsPopover from '../../sections/notification/notifications-popover';
 import NotificationsPopover from './common/notifications-popover';
 // import UserInfoInsertDialog from './common/userInfo-insert-dialog';
 import { useAuthContext } from '../../context/AuthContext';
@@ -70,7 +71,7 @@ export default function Header({ onOpenNav }) {
       <Box sx={{ flexGrow: 1 }} />
       <Stack direction="row" alignItems="center" spacing={1}>
         <LanguagePopover />
-        <NotificationsPopover />
+        <NotificationsPopover user={user} />
         <AccountPopover user={user} logout={logout} />
         {/* <AccountPopover callback={setUserInfoOpen} user={user} logout={logout} /> */}
         {/* {userInfo && 
