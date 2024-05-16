@@ -29,7 +29,8 @@ export default function MessageReplyDialog({ message }) {
     updateRecord.mutate({ ...message, status: '읽음' });
   };
   const handleChange = e => { setContent(e.target.value); };
-  const handleSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault();
     const replyMessage = { 
       content, 
       srcEmail: message.dstEmail, srcName: message.dstName, srcAvatar: message.dstAvatar,
@@ -64,6 +65,10 @@ export default function MessageReplyDialog({ message }) {
         </IconButton>
         <DialogContent dividers>
           <Stack spacing={2} sx={{ width: '40ch' }} alignItems="center">
+            <Stack spacing={2} direction='row' alignItems='center'>
+              <Avatar alt={message.srcName} src={message.srcAvatar} /> 
+              <Typography>{message.srcName}</Typography>
+            </Stack>
             <TextField margin="dense" multiline fullWidth
               label="받은 메세지" type="text" value={message.content}
             />

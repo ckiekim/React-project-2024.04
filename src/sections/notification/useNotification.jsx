@@ -3,6 +3,7 @@ import { getNotificationList, getNotificationCount, insertNotification, updateNo
 
 export default function useNotification(email) {
   const queryClient = useQueryClient();
+  // console.log(email);
 
   const getList = useQuery({
     queryKey: ['notification', email],

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Badge from '@mui/material/Badge';
-import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
@@ -22,20 +21,15 @@ import useNotification from './useNotification';
 // ----------------------------------------------------------------------
 
 export default function NotificationsPopover({ user }) {
-  // const sessionEmail = sessionStorage.getItem('sessionEmail');
-  const sessionEmail = user?.email;
-  const { 
-    getList: {data: notifications}, 
-    getCount: {data: totalUnRead},
-    updateRecord } = useNotification(sessionEmail);
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState(false);
+  const email = user?.email;    // optional chaining operator (?.)
+  const { getList: {data: notifications}, updateRecord } = useNotification(email);
 
   const handleOpen = (event) => {
-    setOpen(event.currentTarget);
+    setOpen(event.currentTarget);   // popover 띄우는 방향
+    console.log(notifications);
   };
-  const handleClose = () => {
-    setOpen(null);
-  };
+  const handleClose = () => { setOpen(false); };
   const handleMarkAllAsRead = () => {
     notifications.forEach(noti => {
       updateRecord.mutate({...noti, status: '읽음'})
@@ -44,48 +38,54 @@ export default function NotificationsPopover({ user }) {
 
   return (
     <>
-      <IconButton color={open ? 'primary' : 'default'} onClick={handleOpen}>
-        <Badge badgeContent={totalUnRead} color="error">
+      {notifications && 
+      (notifications.length > 0) ? (
+        <IconButton color={open ? 'primary' : 'default'} onClick={handleOpen}>
+          <Badge badgeContent={notifications.length} color="error">
+            <Iconify width={24} icon="solar:bell-bing-bold-duotone" />
+          </Badge>
+        </IconButton> ) : (
+        <IconButton color='default'>
           <Iconify width={24} icon="solar:bell-bing-bold-duotone" />
-        </Badge>
-      </IconButton>
+        </IconButton> )
+      }
 
-    {sessionEmail &&
-      <Popover open={!!open} anchorEl={open} onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{ sx: { mt: 1.5, ml: 0.75, width: 360, }, }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center', py: 2, px: 2.5 }}>
-          <Box sx={{ flexGrow: 1 }}>
-            <Typography variant="subtitle1">Notifications</Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              {totalUnRead}개의 읽지 않은 알림이 있습니다.
-            </Typography>
+      {notifications &&
+        <Popover open={!!open} anchorEl={open} onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          PaperProps={{ sx: { mt: 1.5, ml: 0.75, width: 360, }, }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', py: 2, px: 2.5 }}>
+            <Box sx={{ flexGrow: 1 }}>
+              <Typography variant="subtitle1">Notifications</Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                {notifications.length}개의 읽지 않은 알림이 있습니다.
+              </Typography>
+            </Box>
+
+            {notifications.length > 0 && (
+              <Tooltip title=" 모두 읽음으로 변경">
+                <IconButton color="primary" onClick={handleMarkAllAsRead}>
+                  <Iconify icon="eva:done-all-fill" />
+                </IconButton>
+              </Tooltip>
+            )}
           </Box>
 
-          {totalUnRead > 0 && (
-            <Tooltip title=" 모두 읽음으로 변경">
-              <IconButton color="primary" onClick={handleMarkAllAsRead}>
-                <Iconify icon="eva:done-all-fill" />
-              </IconButton>
-            </Tooltip>
-          )}
-        </Box>
+          <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
-        {notifications &&
-          <Scrollbar sx={{ height: { xs: 340, sm: 'auto' } }}>
-            <List disablePadding>
-              {notifications.map((notification) => (
-                <NotificationItem key={notification.nid} notification={notification} />
-              ))}
-            </List>
-          </Scrollbar>
-        }
-      </Popover>
-  }
+          {notifications && notifications.length > 0 &&
+            <Scrollbar sx={{ height: { xs: 340, sm: 'auto' } }}>
+              <List disablePadding>
+                {notifications.map((notification) => (
+                  <NotificationItem key={notification.nid} notification={notification} />
+                ))}
+              </List>
+            </Scrollbar>
+          }
+        </Popover>
+      }
     </>
   );
 }
@@ -122,6 +122,7 @@ function NotificationItem({ notification }) {
 // ----------------------------------------------------------------------
 
 function renderContent(notification) {
+  console.log(notification);
   const title = (
     <Typography variant="subtitle2">
       {notification.type}

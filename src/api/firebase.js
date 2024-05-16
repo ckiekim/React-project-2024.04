@@ -342,9 +342,9 @@ export async function getNotificationList(email) {
         const objects = snapshot.val();
         let records = Object.values(objects);
         records = records
-          .filter(record => record.dstEmail === email && record.status === '신규')
+          .filter(record => record.email === email && record.status === '신규')
           .sort((a, b) => b.createdAt.localeCompare(a.createdAt)); 
-        console.log(records);
+        // console.log(records);
         return records;
       }
       return null;
@@ -358,8 +358,8 @@ export async function getNotificationCount(email) {
         const objects = snapshot.val();
         let records = Object.values(objects);
         records = records
-          .filter(record => record.dstEmail === email && record.status === '신규');
-        console.log(records);
+          .filter(record => record.email === email && record.status === '신규');
+        console.log(records.length);
         return records.length;
       }
       return 0;
