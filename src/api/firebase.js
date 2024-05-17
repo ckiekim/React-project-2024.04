@@ -240,7 +240,7 @@ export async function getAnnivList(adate, email) {
         const objects = snapshot.val();
         let records = Object.values(objects);
         records = records.filter(record => record.adate === adate && 
-          (record.email === 'admin@human.com' || record.email === email)
+          (record.email === process.env.REACT_APP_ADMIN_USER || record.email === email)
         );
         return records;
       }
@@ -359,7 +359,7 @@ export async function getNotificationCount(email) {
         let records = Object.values(objects);
         records = records
           .filter(record => record.email === email && record.status === '신규');
-        console.log(records.length);
+        // console.log(records.length);
         return records.length;
       }
       return 0;
@@ -367,6 +367,7 @@ export async function getNotificationCount(email) {
 }
 
 export async function insertNotification(notification) {
+  console.log(notification);
   const nid = uuid();
   return set(ref(database, `notification/${nid}`), {
     nid, ...notification, status: '신규', createdAt: new Date().toISOString()

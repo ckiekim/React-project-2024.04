@@ -23,11 +23,11 @@ import useNotification from './useNotification';
 export default function NotificationsPopover({ user }) {
   const [open, setOpen] = useState(false);
   const email = user?.email;    // optional chaining operator (?.)
-  const { getList: {data: notifications}, updateRecord } = useNotification(email);
+  const { notifications, updateRecord } = useNotification(email);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);   // popover 띄우는 방향
-    console.log(notifications);
+    // console.log(notifications);
   };
   const handleClose = () => { setOpen(false); };
   const handleMarkAllAsRead = () => {
@@ -122,7 +122,6 @@ function NotificationItem({ notification }) {
 // ----------------------------------------------------------------------
 
 function renderContent(notification) {
-  console.log(notification);
   const title = (
     <Typography variant="subtitle2">
       {notification.type}

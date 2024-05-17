@@ -25,6 +25,7 @@ import Typography from '@mui/material/Typography';
 import Iconify from '../../components/iconify';
 import { fCurrency } from '../../utils/format-number';
 import useOrders from '../orders/useOrders';
+import useNotification from '../notification/useNotification';
 
 // ----------------------------------------------------------------------
 
@@ -59,6 +60,7 @@ export default function CartWidget({ count, handleCount }) {
   const { insertRecord } = useOrders();
   const uid = sessionStorage.getItem('sessionUid');
   const email = sessionStorage.getItem('sessionEmail');
+  const { insertRecord: insertNotiRecord } = useNotification(email);
 
   const handleClickOpen = () => { 
     if (count === 0)
@@ -91,6 +93,7 @@ export default function CartWidget({ count, handleCount }) {
     updateSession(); handleCount(0);
     sessionStorage.removeItem('sessionCart');
     setOpen(false);
+    insertNotiRecord.mutate({ email, type: '주문', description: '주문이 완료되었습니다.' });
   }
   const handleMinus = (index) => {
     if (items[index].quantity === 1)

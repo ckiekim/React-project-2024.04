@@ -56,7 +56,7 @@ export default function ProductUpdateDialog(props) {
     handleClose();
   }
 
-  if (sessionStorage.getItem('sessionEmail') !== 'admin@human.com') {
+  if (sessionStorage.getItem('sessionEmail') !== process.env.REACT_APP_ADMIN_USER) {
     return (
       <Link color="inherit" underline="hover" variant="subtitle2" noWrap>
         {product.name}

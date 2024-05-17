@@ -4,7 +4,7 @@ import { getOrderList, getOrder, insertOrder, updateOrder, deleteOrder } from '.
 export default function useOrders(oid) {
   const queryClient = useQueryClient();
   const email = sessionStorage.getItem('sessionEmail');
-  const uid = email === 'admin@human.com' ? '' : sessionStorage.getItem('sessionUid');
+  const uid = email === process.env.REACT_APP_ADMIN_USER ? '' : sessionStorage.getItem('sessionUid');
 
   const getRecord = useQuery({
     queryKey: ['orders', oid],

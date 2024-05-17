@@ -14,12 +14,14 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import useMesssage from './useMessage';
+import useNotification from '../notification/useNotification';
 
 export default function MessageReplyDialog({ message }) {
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState('');
 
   const { insertRecord, updateRecord } = useMesssage();
+  const { refetchNoti } = useNotification(message.dstEmail);
   const handleClickOpen = () => { 
     setOpen(true); 
   };
@@ -27,6 +29,7 @@ export default function MessageReplyDialog({ message }) {
     setContent('');
     setOpen(false); 
     updateRecord.mutate({ ...message, status: '읽음' });
+    refetchNoti();
   };
   const handleChange = e => { setContent(e.target.value); };
   const handleSubmit = e => {

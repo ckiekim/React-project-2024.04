@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
@@ -17,6 +17,7 @@ import MessageInsertDialog from '../message-insert-dialog';
 import MessageTableHead from '../message-table-head';
 import MessageTableRow from '../message-table-row';
 import useMessage from '../useMessage';
+import useNotification from '../../notification/useNotification';
 import {emptyRows, applyFilter, getComparator } from '../../../utils/table-utils';
 
 export default function MessageView() {
@@ -29,6 +30,7 @@ export default function MessageView() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const { getList: {isLoading, data: messageList} } = useMessage(sessionEmail);
+  const { notifications, updateRecord } = useNotification(sessionEmail); 
   
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -80,6 +82,15 @@ export default function MessageView() {
   });
 
   const notFound = messageList && !dataFiltered.length && !!filterName;
+
+  useEffect(() => {
+    if (notifications) {
+      notifications.forEach(notification => {
+        if (notification.type === '메세지' && notification.status === '신규')
+          updateRecord.mutate({ ...notification, status: '읽음' });
+      });
+    }
+  }, [notifications]);
 
   return (
     <Container>

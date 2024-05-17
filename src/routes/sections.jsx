@@ -39,7 +39,7 @@ export default function Router() {
       ),
       children: [
         { element: <IndexPage />, index: true },
-        { path: '/products', element: <ProductsPage /> },
+        { path: '/products', element: <ProtectedRoute><ProductsPage /></ProtectedRoute> },
         { path: '/order', element: <ProtectedRoute><OrdersPage /></ProtectedRoute> },
         { path: '/blog', element: <ProtectedRoute><BlogPage /></ProtectedRoute> },
         { path: '/album', element: <AlbumPage /> },

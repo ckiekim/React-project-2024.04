@@ -21,13 +21,8 @@ export default function ProductsView() {
   const { getList: {isLoading, data: products} } = useProducts();
   const [cartCount, setCartCount] = useState(0);
 
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
-
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
-  };
+  const handleOpenFilter = () => { setOpenFilter(true); };
+  const handleCloseFilter = () => { setOpenFilter(false); };
 
   return (
     <Container>

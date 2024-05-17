@@ -11,7 +11,7 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 
 import LoginDialog from './login-dialog';
-import UserInfo2InsertDialog from './userInfo2-insert-dialog';
+import UserInfoInsertDialog from './userInfo-insert-dialog';
 // import { account } from '../../../_mock/account';
 import useUserInfo from '../../../sections/userInfo/useUserInfo';
 
@@ -87,7 +87,7 @@ export default function AccountPopover({ user, logout }) {
             </MenuItem>
           ))}
 
-          <UserInfo2InsertDialog callback={setOpen} />
+          <UserInfoInsertDialog callback={setOpen} />
 
           <Divider sx={{ borderStyle: 'dashed', m: 0 }} />
 
