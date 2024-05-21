@@ -5,6 +5,7 @@ import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
+import Pagination from '@mui/material/Pagination';
 import Paper from '@mui/material/Paper';
 import SearchIcon from '@mui/icons-material/Search';
 import Stack from '@mui/material/Stack';
@@ -16,12 +17,18 @@ import { useMovies } from '../../../api/tmdb';
 export default function TmdbView() {
   const [text, setText] = useState('');
   const [keyword, setKeyword] = useState('');
-  const { isLoading, error, movies } = useMovies(keyword, '1');
+  const [page, setPage] = useState(1);
+  const { isLoading, error, movies } = useMovies(keyword, page);
 
   const handleSubmit = e => {
     e.preventDefault();
     setKeyword(text);
     setText('');
+    setPage(1);
+  }
+
+  const handlePageChange = (e, value) => {
+    setPage(value);
   }
 
   return (
@@ -50,13 +57,16 @@ export default function TmdbView() {
       {isLoading && <p>로딩중...</p>}
       {error && <Typography color="error">에러 발생: {error.message}</Typography>}
       {movies && 
-        <Grid container spacing={3}>
-          {movies.map((movie) => (
-            <Grid item key={movie.id} xs={12} sm={6} md={4} lg={3}>
-              <MovieCard movie={movie} />
-            </Grid>
-          ))}
-        </Grid>
+        <Stack spacing={3} justifyContent='center' alignItems='center'>
+          <Grid container spacing={3}>
+            {movies.map((movie) => (
+              <Grid item key={movie.id} xs={12} sm={6} md={4} lg={3}>
+                <MovieCard movie={movie} />
+              </Grid>
+            ))}
+          </Grid>
+          <Pagination count={10} page={page} onChange={handlePageChange} color="primary" />
+        </Stack>
       }
     </Container>
   );

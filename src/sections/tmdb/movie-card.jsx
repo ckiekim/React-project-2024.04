@@ -21,12 +21,17 @@ export default function MovieCard({ movie }) {
           "&:hover": { transform: 'scale(1.05)', transition: 'transform 0.3s' } }}
       >
         <Link onClick={handleClickOpen}
-          sx={{  '&:hover': { cursor: 'pointer', textDecoration: 'underline', }, }}
+          sx={{ '&:hover': { cursor: 'pointer', textDecoration: 'underline', }, }}
         >
           <Box sx={{ pt: '100%', position: 'relative' }}>
-            <Box component="img" src={uri + movie.poster_path} alt={movie.title}
-              sx={{ top: 0, width: 1, height: 1, objectFit: 'cover', position: 'absolute', }}
-            />
+            {movie.poster_path ?
+              <Box component="img" src={uri + movie.poster_path} alt={movie.title}
+                sx={{ top: 0, width: 1, height: 1, objectFit: 'cover', position: 'absolute', }}
+              /> : 
+              <Box component="img" src='/assets/img/film_icon.png' alt={movie.title} 
+                sx={{ top: 0, width: 1, height: 1, objectFit: 'cover', position: 'absolute', }}
+              />
+            } 
           </Box>
         </Link>
         <CardContent sx={{ flexGrow: 1, display: 'flex', 

@@ -46,9 +46,12 @@ export default function ShopProductCard({ product, handleCart }) {
 
   return (
     <>
-      <Card>
+      <Card sx={{ maxWidth: 345,  height: '100%', display: 'flex', 
+          flexDirection: 'column', justifyContent: 'space-between',
+          "&:hover": { transform: 'scale(1.05)', transition: 'transform 0.3s' } }}
+      >
         <Link onClick={handleClickOpen}>
-          <Box sx={{ pt: '100%', position: 'relative', "&:hover": {transform: 'scale(1.05)'} }}>
+          <Box sx={{ pt: '100%', position: 'relative' }}>
             {product.status && renderStatus(product)}
             {renderImg(product)}
           </Box>

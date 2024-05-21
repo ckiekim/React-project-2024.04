@@ -10,12 +10,12 @@ export const useDetailMovie = (id) => {
     queryFn: async () => {
       const uri = URL + '/movie/' + id + '?language=ko&api_key=' + API_KEY;
       return axios
-              .get('/data/mock_detail_movie.json')
-              // .get(uri)
-              .then(res => {
-                console.log(res); return res.data;
-              });
-              // .then(res => res.data);
+              .get(uri)
+              .then(res => res.data);
+              // .get('/data/mock_detail_movie.json')
+              // .then(res => {
+              //   console.log(res); return res.data;
+              // });
     },
     staleTime: 1000 * 60 * 5
   });
@@ -23,15 +23,15 @@ export const useDetailMovie = (id) => {
 }
 
 export const useMovies = (keyword, page) => {
-  // let uri = URL + '/movie/popular?api_key=' + API_KEY;
-  let uri = '/data/mock_popular_movies.json';
+  let uri = URL + '/movie/popular?api_key=' + API_KEY + '&page=' + page;
+  // let uri = '/data/mock_popular_movies.json';
   if (keyword) {
-    // uri = URL + '/search/movie?query=' + encodeURI(keyword) + '&api_key=' + API_KEY;
-    uri = '/data/mock_search_movies.json';
+    uri = URL + '/search/movie?query=' + encodeURI(keyword) + '&api_key=' + API_KEY + '&page=' + page;
+    // uri = '/data/mock_search_movies.json';
   }
   const { isLoading, error, data: movies } = useQuery({
-    queryKey: ['movies', keyword ? keyword : ''],
-    queryFn: async (keyword) => {
+    queryKey: ['movies', keyword ? keyword : '', page],
+    queryFn: async () => {
       return axios
               .get(uri)
               .then(res => res.data.results);
