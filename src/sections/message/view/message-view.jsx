@@ -18,7 +18,7 @@ import MessageTableHead from '../message-table-head';
 import MessageTableRow from '../message-table-row';
 import useMessage from '../useMessage';
 import useNotification from '../../notification/useNotification';
-import {emptyRows, applyFilter, getComparator } from '../../../utils/table-utils';
+import { emptyRows, applyFilter, getComparator } from '../utils';
 
 export default function MessageView() {
   const sessionEmail = sessionStorage.getItem('sessionEmail');
@@ -129,9 +129,8 @@ export default function MessageView() {
                     />
                   ))}
 
-                <TableEmptyRows
-                  height={77} emptyRows={emptyRows(page, rowsPerPage, messageList.length)}
-                  numCols={5}
+                <TableEmptyRows height={70} numCols={5}
+                  emptyRows={emptyRows(page, rowsPerPage, messageList.length)}
                 />
 
                 {notFound && <TableNoData query={filterName} />}

@@ -51,12 +51,14 @@ export default function MovieDetailDialog({ dialogOpen, dialogHandle, id }) {
                 평점: {movie.vote_average} &nbsp;&nbsp;&nbsp;
                 참가인원: {fCurrency(movie.vote_count)}
               </Typography>
-              <Typography variant='h5' color='textSecondary'>{movie.tagline}</Typography>
+              <Typography variant='h5' color='textSecondary' gutterBottom>
+                {movie.tagline}
+              </Typography>
               <Typography variant='h5'>개요</Typography>
               <Typography variant='body2' mb={5}>{movie.overview}</Typography>
               <Stack direction='row' spacing={3} flexWrap="wrap">
                 {movie.production_companies.map((company) => (
-                  <Stack key={company.id} direction='row' spacing={1} alignItems='center'>
+                  <Stack key={company.id} direction='row' spacing={1} pb={1}>
                     {company.logo_path &&
                       <Box component="img" src={uri2 + company.logo_path} alt={company.name}
                         sx={{ height: '32px' }}

@@ -13,10 +13,10 @@ import Typography from '@mui/material/Typography';
 import useUserInfo from '../useUserInfo';
 import Scrollbar from '../../../components/scrollbar';
 
-import TableNoData from '../table-no-data';
+import TableNoData from '../../../components/table-no-data';
 import UserInfoTableRow from '../userInfo-table-row';
 import UserInfoTableHead from '../userInfo-table-head';
-import TableEmptyRows from '../table-empty-rows';
+import TableEmptyRows from '../../../components/table-empty-rows';
 import UserInfoTableToolbar from '../userInfo-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import { formatAgo } from '../../../utils/format-time';
@@ -79,7 +79,9 @@ export default function UserInfoPage() {
 
   const handleFilterByName = (event) => {
     setPage(0);
-    setFilterName(event.target.value);
+    const a = event.target.value;
+    console.log(a);
+    setFilterName(a);
   };
 
   const dataFiltered = userInfo && applyFilter({
@@ -132,8 +134,8 @@ export default function UserInfoPage() {
                     />
                   ))}
 
-                <TableEmptyRows
-                  height={77} emptyRows={emptyRows(page, rowsPerPage, userInfo.length)}
+                <TableEmptyRows height={70} numCols={7}
+                  emptyRows={emptyRows(page, rowsPerPage, userInfo.length)}
                 />
 
                 {notFound && <TableNoData query={filterName} />}
