@@ -18,12 +18,18 @@ import Typography from '@mui/material/Typography';
 
 import { renderStatus, renderPrice } from './product-card';
 import { fCurrency } from '../../utils/format-number';
+import useCart from './useCart';
 
 export default function ProductDetailDialog({ dialogOpen, dialogHandle, product, handleCart }) {
-  const [color, setColor] = useState(product.colors[0]);
+  const uid = sessionStorage.getItem('sessionUid');
+	const [color, setColor] = useState(product.colors[0]);
 	const [quantity, setQuantity] = useState(1);
-	const [message, setMessage] = useState();
-  const handleClose = () => { dialogHandle(false); };
+	const [message, setMessage] = useState('');
+
+	const { getRecord: { data: cart }, insertRecord, updateRecord } = useCart(uid);
+  const handleClose = () => { 
+		dialogHandle(false); setMessage(''); setQuantity(1);
+	};
   const handleColor = e => { setColor(e.target.value); };
 	const handleQuantity = e => { setQuantity(e.target.value); };
   const handleProduct = () => {
@@ -31,24 +37,36 @@ export default function ProductDetailDialog({ dialogOpen, dialogHandle, product,
 		const newProduct = {id: product.id, pname: product.name, cover: product.cover, 
 			unitPrice: product.price, option: color, quantity, subTotal
 		}
-		const sessionCart = sessionStorage.getItem('sessionCart');
-		if (sessionCart) {
-			const cart = JSON.parse(sessionCart);
-			cart.count++; 
-			cart.totalPrice += subTotal;
-			cart.items.push(newProduct);
-			sessionStorage.setItem('sessionCart', JSON.stringify(cart));
-			handleCart(cart.count);
-			// console.log(cart);
+		if (cart) {
+			const items = cart.items;
+			items.push(newProduct);
+			const itemCount = cart.itemCount + 1;
+			const totalPrice = cart.totalPrice + subTotal;
+			const newCart = { id: uid, itemCount, totalPrice, items };
+			updateRecord.mutate(newCart);
 		} else {
-			const cart = {count: 1, totalPrice: subTotal, items: [newProduct]};
-			sessionStorage.setItem('sessionCart', JSON.stringify(cart));
-			handleCart(1);
-			// console.log(cart);
+			const newCart = { id: uid, itemCount: 1, totalPrice: subTotal, items: [newProduct] };
+			insertRecord.mutate(newCart);
 		}
+		// const sessionCart = sessionStorage.getItem('sessionCart');
+		// if (sessionCart) {
+		// 	const cart = JSON.parse(sessionCart);
+		// 	cart.count++; 
+		// 	cart.totalPrice += subTotal;
+		// 	cart.items.push(newProduct);
+		// 	sessionStorage.setItem('sessionCart', JSON.stringify(cart));
+		// 	handleCart(cart.count);
+		// 	// console.log(cart);
+		// } else {
+		// 	const cart = {count: 1, totalPrice: subTotal, items: [newProduct]};
+		// 	sessionStorage.setItem('sessionCart', JSON.stringify(cart));
+		// 	handleCart(1);
+		// 	// console.log(cart);
+		// }
+
 		setMessage(`${color}, 수량: ${quantity}, 소계: ${fCurrency(subTotal)}원을 장바구니에 담았습니다.`);
 		setTimeout(() => {
-			setMessage(''); handleClose(); setQuantity(1);
+			handleClose(); 
 		}, 3000);
   }
 

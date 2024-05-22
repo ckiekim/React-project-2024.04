@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 
 // import { products } from '../../../_mock/products';
 import useProducts from '../useProducts';
+import useCart from '../useCart';
 
 import ProductCard from '../product-card';
 import ProductSort from '../product-sort';
@@ -17,12 +18,19 @@ import ProductInsertDialog from '../product-insert-dialog';
 // ----------------------------------------------------------------------
 
 export default function ProductsView() {
+  const uid = sessionStorage.getItem('sessionUid');
   const [openFilter, setOpenFilter] = useState(false);
   const { getList: {isLoading, data: products} } = useProducts();
+  const { getRecord: { data: cart } } = useCart(uid);
   const [cartCount, setCartCount] = useState(0);
 
   const handleOpenFilter = () => { setOpenFilter(true); };
   const handleCloseFilter = () => { setOpenFilter(false); };
+
+  useEffect(() => {
+    if (cart)
+      setCartCount(cart.itemCount);
+  }, [cart]);
 
   return (
     <Container>

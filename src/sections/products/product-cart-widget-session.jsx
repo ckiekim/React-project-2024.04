@@ -30,7 +30,6 @@ import Iconify from '../../components/iconify';
 import { fCurrency } from '../../utils/format-number';
 import useOrders from '../orders/useOrders';
 import useNotification from '../notification/useNotification';
-import useCart from './useCart';
 
 // ----------------------------------------------------------------------
 
@@ -62,36 +61,41 @@ export default function CartWidget({ count, handleCount }) {
   const [itemCount, setItemCount] = useState(count);
   const [totalPrice, setTotalPrice] = useState(0);
   const [items, setItems] = useState([]);
-  const { insertRecord: insertOrderRecord } = useOrders();
+  const { insertRecord } = useOrders();
   const uid = sessionStorage.getItem('sessionUid');
   const email = sessionStorage.getItem('sessionEmail');
   const { insertRecord: insertNotiRecord } = useNotification(email);
-  const { getRecord: { data: cart}, 
-    updateRecord: updateCartRecord, deleteRecord: deleteCartRecord } = useCart(uid);
 
   const handleClickOpen = () => { 
     if (count === 0)
       return;
-    setItemCount(cart.itemCount);
-    setTotalPrice(cart.totalPrice);
-    setItems(cart.items);
+    const sessionCart = sessionStorage.getItem('sessionCart');
+    if (sessionCart) {
+      const cart = JSON.parse(sessionCart);
+      console.log(cart);
+      setItemCount(cart.count);
+      setTotalPrice(cart.totalPrice);
+      setItems(cart.items);
+    } else {
+      setItemCount(0);
+    }
     setOpen(true); 
   };
   const updateSession = () => {
-    const newCart = { id: uid, itemCount, totalPrice, items };
-    updateCartRecord.mutate(newCart);
+    const cart = {count: itemCount, totalPrice, items};
     // console.log(cart);
-    // sessionStorage.setItem('sessionCart', JSON.stringify(cart));
-    // handleCount(itemCount);
+    sessionStorage.setItem('sessionCart', JSON.stringify(cart));
+    handleCount(itemCount);
   }
-  const handleClose = () => { setOpen(false); };
+  const handleClose = () => { 
+    setOpen(false); updateSession(); 
+  };
   const handleOrder = () => {
     const order = { uid, email, totalPrice, itemCount, items };
     // console.log(order);
-    insertOrderRecord.mutate(order);
-    deleteCartRecord.mutate(uid);
-    // updateSession(); handleCount(0);
-    // sessionStorage.removeItem('sessionCart');
+    insertRecord.mutate(order);
+    updateSession(); handleCount(0);
+    sessionStorage.removeItem('sessionCart');
     setOpen(false);
     insertNotiRecord.mutate({ email, type: '주문', description: '주문이 완료되었습니다.' });
   }
@@ -100,39 +104,28 @@ export default function CartWidget({ count, handleCount }) {
       return;
     const { unitPrice, quantity, subTotal } = items[index];
     const row = {...items[index], quantity: quantity - 1, subTotal: unitPrice * (quantity - 1)};
-    const newItems = items.toSpliced(index, 1, row);
-    const newPrice = totalPrice - subTotal + unitPrice * (quantity - 1);
-    setItems(newItems);
-    setTotalPrice(newPrice);
-    const newCart = { id: uid, itemCount, totalPrice: newPrice, items: newItems };
-    updateCartRecord.mutate(newCart);
+    setItems(items.toSpliced(index, 1, row));
+    setTotalPrice(totalPrice - subTotal + unitPrice * (quantity - 1));
+    updateSession();
   }
   const handlePlus = (index) => {
     const { unitPrice, quantity, subTotal } = items[index];
     const row = {...items[index], quantity: quantity + 1, subTotal: unitPrice * (quantity + 1)};
     // console.log(row);
-    const newItems = items.toSpliced(index, 1, row);
-    const newPrice = totalPrice - subTotal + unitPrice * (quantity + 1);
-    setItems(newItems);
-    setTotalPrice(newPrice);
-    const newCart = { id: uid, itemCount, totalPrice: newPrice, items: newItems };
-    updateCartRecord.mutate(newCart);
+    setItems(items.toSpliced(index, 1, row));
+    setTotalPrice(totalPrice - subTotal + unitPrice * (quantity + 1));
+    updateSession();
   }
   const handleDelete = (index) => {
     const { subTotal } = items[index];
-    const newItems = items.filter((_, idx) => (idx !== index));
-    const newPrice = totalPrice - subTotal;
-    setItems(newItems);
-    setTotalPrice(newPrice);
-    setItemCount(newItems.length);
+    setItems(items.filter((_, idx) => (idx !== index)));
+    setTotalPrice(totalPrice - subTotal);
+    setItemCount(prev => (prev - 1));
+    updateSession();
     if (itemCount <= 1) {
       setOpen(false);
-      // handleCount(0);
-      // sessionStorage.removeItem('sessionCart');
-      deleteCartRecord.mutate(uid);
-    } else {
-      const newCart = { id: uid, itemCount: newItems.length, totalPrice: newPrice, items: newItems };
-      updateCartRecord.mutate(newCart);
+      handleCount(0);
+      sessionStorage.removeItem('sessionCart');
     }
   }
 

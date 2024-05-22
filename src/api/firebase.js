@@ -145,6 +145,32 @@ export async function deleteProduct(id) {
   return remove(ref(database, `products/${id}`));
 }
 
+/*========================= carts =========================*/
+
+export async function getCart(id) {
+  return get(ref(database, `carts/${id}`))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        return snapshot.val();
+      }
+      return null;
+    }); 
+}
+
+export async function insertCart(cart) {
+  console.log(cart);
+  return set(ref(database, `carts/${cart.id}`), cart);
+}
+
+export async function updateCart(cart) {
+  console.log(cart);
+  return set(ref(database, `carts/${cart.id}`), cart);
+}
+
+export async function deleteCart(id) {
+  return remove(ref(database, `carts/${id}`));
+}
+
 /*========================= orders =========================*/
 
 export async function getOrderList(uid) {
