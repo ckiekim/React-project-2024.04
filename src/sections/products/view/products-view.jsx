@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 // import { products } from '../../../_mock/products';
 import useProducts from '../useProducts';
 import useCart from '../useCart';
-
+import LoadingProgress from '../../../components/loading-progress';
 import ProductCard from '../product-card';
 import ProductSort from '../product-sort';
 import ProductFilters from '../product-filters';
@@ -21,7 +21,7 @@ export default function ProductsView() {
   const uid = sessionStorage.getItem('sessionUid');
   const [openFilter, setOpenFilter] = useState(false);
   const { getList: {isLoading, data: products} } = useProducts();
-  const { getRecord: { data: cart } } = useCart(uid);
+  const { cart } = useCart(uid);
   const [cartCount, setCartCount] = useState(0);
 
   const handleOpenFilter = () => { setOpenFilter(true); };
@@ -30,6 +30,8 @@ export default function ProductsView() {
   useEffect(() => {
     if (cart)
       setCartCount(cart.itemCount);
+    else
+      setCartCount(0);
   }, [cart]);
 
   return (
@@ -51,16 +53,16 @@ export default function ProductsView() {
         </Stack>
       </Stack>
 
-      {isLoading && <p>로딩중...</p>}
+      {isLoading && <LoadingProgress />}
       {products && <Grid container spacing={3}>
         {products.map((product) => (
           <Grid key={product.id} xs={12} sm={6} md={4} lg={3}>
-            <ProductCard product={product} handleCart={setCartCount} />
+            <ProductCard product={product} />
           </Grid>
         ))}
       </Grid>}
 
-      <ProductCartWidget count={cartCount} handleCount={setCartCount} />
+      <ProductCartWidget count={cartCount} />
     </Container>
   );
 }

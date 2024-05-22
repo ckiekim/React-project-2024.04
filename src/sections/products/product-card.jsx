@@ -40,7 +40,7 @@ export const renderPrice = product => (
   </Typography>
 );
 
-export default function ShopProductCard({ product, handleCart }) {
+export default function ProductCard({ product }) {
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => { setOpen(true); };
 
@@ -66,7 +66,7 @@ export default function ShopProductCard({ product, handleCart }) {
         </Stack>
       </Card>
       
-      <ProductDetailDialog dialogOpen={open} dialogHandle={setOpen} product={product} handleCart={handleCart} />
+      <ProductDetailDialog dialogOpen={open} dialogHandle={setOpen} product={product} />
     </>
   );
 }

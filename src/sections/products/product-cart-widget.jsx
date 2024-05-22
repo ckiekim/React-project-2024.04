@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import DaumAddressDialog from '../../components/daum-address-dialog';
 
 import { styled } from '@mui/material/styles';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -13,7 +14,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import Stack from '@mui/material/Stack';
@@ -25,7 +25,6 @@ import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import DaumAddressDialog from '../../components/daum-address-dialog';
 import Iconify from '../../components/iconify';
 import { fCurrency } from '../../utils/format-number';
 import useOrders from '../orders/useOrders';
@@ -57,7 +56,7 @@ const StyledRoot = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function CartWidget({ count, handleCount }) {
+export default function CartWidget({ count }) {
   const [open, setOpen] = useState(false);
   const [itemCount, setItemCount] = useState(count);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -66,7 +65,7 @@ export default function CartWidget({ count, handleCount }) {
   const uid = sessionStorage.getItem('sessionUid');
   const email = sessionStorage.getItem('sessionEmail');
   const { insertRecord: insertNotiRecord } = useNotification(email);
-  const { getRecord: { data: cart}, 
+  const { cart, // refetchCart,
     updateRecord: updateCartRecord, deleteRecord: deleteCartRecord } = useCart(uid);
 
   const handleClickOpen = () => { 
@@ -77,24 +76,24 @@ export default function CartWidget({ count, handleCount }) {
     setItems(cart.items);
     setOpen(true); 
   };
-  const updateSession = () => {
-    const newCart = { id: uid, itemCount, totalPrice, items };
+
+  const updateCart = (ic, tp, is) => {
+    const newCart = { id: uid, itemCount: ic, totalPrice: tp, items: is };
     updateCartRecord.mutate(newCart);
-    // console.log(cart);
-    // sessionStorage.setItem('sessionCart', JSON.stringify(cart));
-    // handleCount(itemCount);
   }
+
   const handleClose = () => { setOpen(false); };
+
   const handleOrder = () => {
     const order = { uid, email, totalPrice, itemCount, items };
     // console.log(order);
     insertOrderRecord.mutate(order);
     deleteCartRecord.mutate(uid);
-    // updateSession(); handleCount(0);
-    // sessionStorage.removeItem('sessionCart');
+    // refetchCart();
     setOpen(false);
     insertNotiRecord.mutate({ email, type: '주문', description: '주문이 완료되었습니다.' });
   }
+
   const handleMinus = (index) => {
     if (items[index].quantity === 1)
       return;
@@ -104,9 +103,9 @@ export default function CartWidget({ count, handleCount }) {
     const newPrice = totalPrice - subTotal + unitPrice * (quantity - 1);
     setItems(newItems);
     setTotalPrice(newPrice);
-    const newCart = { id: uid, itemCount, totalPrice: newPrice, items: newItems };
-    updateCartRecord.mutate(newCart);
+    updateCart(itemCount, newPrice, newItems);
   }
+
   const handlePlus = (index) => {
     const { unitPrice, quantity, subTotal } = items[index];
     const row = {...items[index], quantity: quantity + 1, subTotal: unitPrice * (quantity + 1)};
@@ -115,9 +114,9 @@ export default function CartWidget({ count, handleCount }) {
     const newPrice = totalPrice - subTotal + unitPrice * (quantity + 1);
     setItems(newItems);
     setTotalPrice(newPrice);
-    const newCart = { id: uid, itemCount, totalPrice: newPrice, items: newItems };
-    updateCartRecord.mutate(newCart);
+    updateCart(itemCount, newPrice, newItems);
   }
+
   const handleDelete = (index) => {
     const { subTotal } = items[index];
     const newItems = items.filter((_, idx) => (idx !== index));
@@ -127,12 +126,10 @@ export default function CartWidget({ count, handleCount }) {
     setItemCount(newItems.length);
     if (itemCount <= 1) {
       setOpen(false);
-      // handleCount(0);
-      // sessionStorage.removeItem('sessionCart');
       deleteCartRecord.mutate(uid);
+      // refetchCart();
     } else {
-      const newCart = { id: uid, itemCount: newItems.length, totalPrice: newPrice, items: newItems };
-      updateCartRecord.mutate(newCart);
+      updateCart(newItems.length, newPrice, newItems);
     }
   }
 

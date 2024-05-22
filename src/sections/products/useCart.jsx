@@ -4,7 +4,8 @@ import { getCart, insertCart, updateCart, deleteCart } from '../../api/firebase'
 export default function useCart(uid) {
   const queryClient = useQueryClient();
 
-  const getRecord = useQuery({
+  const { data: cart, isLoading: isCartLoading, isError: isCartError, 
+    refetch: refetchCart } = useQuery({
     queryKey: ['carts', uid],
     queryFn: () => getCart(uid),
     staleTime: 1000 * 60 * 5
@@ -24,9 +25,9 @@ export default function useCart(uid) {
 
   const deleteRecord = useMutation({
     mutationFn: uid => deleteCart(uid),
-    onSuccess: () => { queryClient.invalidateQueries(['carts']); },
+    onSuccess: () => { queryClient.invalidateQueries(['carts', uid]); },
     onError: console.error,
   });
 
-  return { getRecord, insertRecord, updateRecord, deleteRecord };
+  return { cart, isCartLoading, isCartError, refetchCart, insertRecord, updateRecord, deleteRecord };
 }

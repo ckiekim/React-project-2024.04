@@ -12,6 +12,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import MovieCard from '../movie-card';
+import LoadingProgress from '../../../components/loading-progress';
 import { useMovies } from '../../../api/tmdb';
 
 export default function TmdbView() {
@@ -54,7 +55,7 @@ export default function TmdbView() {
         </Grid>
       </Stack>
 
-      {isLoading && <p>로딩중...</p>}
+      {isLoading && <LoadingProgress />}
       {error && <Typography color="error">에러 발생: {error.message}</Typography>}
       {movies && 
         <Stack spacing={3} justifyContent='center' alignItems='center'>

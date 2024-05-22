@@ -13,9 +13,10 @@ import useOrders from '../useOrders';
 import OrdersTableRow from '../orders-table-row';
 import OrdersTableHead from '../orders-table-head';
 import OrdersTableToolbar from '../orders-table-toolbar';
-import TableEmptyRows from '../table-empty-rows';
-import TableNoData from '../table-no-data';
+import TableEmptyRows from '../../../components/table-empty-rows';
+import TableNoData from '../../../components/table-no-data';
 import Scrollbar from '../../../components/scrollbar';
+import LoadingProgress from '../../../components/loading-progress';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
 export default function OrdersView() {
@@ -85,7 +86,7 @@ export default function OrdersView() {
         <Typography variant="h4">주문 내역</Typography>
       </Stack>
 
-      {isLoading && <p>로딩중...</p>}
+      {isLoading && <LoadingProgress />}
       {orders && <Card>
         <OrdersTableToolbar numSelected={selected.length} filterName={filterName}
           onFilterName={handleFilterByName}/>
@@ -117,8 +118,8 @@ export default function OrdersView() {
                   ))
                 }
 
-                <TableEmptyRows
-                  height={77} emptyRows={emptyRows(page, rowsPerPage, orders.length)}
+                <TableEmptyRows height={70} numCols={7}
+                  emptyRows={emptyRows(page, rowsPerPage, orders.length)}
                 />
 
                 {notFound && <TableNoData query={filterName} />}

@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import Iconify from '../../../components/iconify';
 import CldImage from '../cld-image';
+import Iconify from '../../../components/iconify';
+import LoadingProgress from '../../../components/loading-progress';
 
 export default function AlbumView() {
   const [photos, setPhotos] = useState({});
@@ -81,8 +83,8 @@ export default function AlbumView() {
         </Button>
       </Stack>
 
-      {isLoading && <p>로딩중...</p>}
-      {!isLoading && photos.length !== 0 ? (
+      {isLoading && <LoadingProgress />}
+      {!isLoading && photos.length !== 0 && (
         <Grid container spacing={3}>
           {uploadedImages.length !== 0 && (
             <>
@@ -99,10 +101,6 @@ export default function AlbumView() {
             </Grid>
           ))}
         </Grid>
-      ) : (
-        <Typography variant='h5'>
-          No photos to list. Please make sure that you have uploaded some images using this app.
-        </Typography>
       )}
     </Container>
   );

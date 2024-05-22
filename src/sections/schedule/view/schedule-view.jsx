@@ -16,6 +16,7 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
 import Scrollbar from '../../../components/scrollbar';
+import LoadingProgress from '../../../components/loading-progress';
 import AnnivInsertDialog from '../anniv-insert-dialog';
 import ScheduleCell from '../sched-cell';
 import { getYearMonth, getCalendar, getToday } from '../util';
@@ -84,6 +85,7 @@ export default function SchedulePage() {
               </TableRow>
             </TableHead>
             <TableBody>
+              {isLoading && <LoadingProgress />}
               {!isLoading && calendar.map((week, rowIdx) => (
                 <TableRow key={rowIdx}>
                   {week.map(day => (

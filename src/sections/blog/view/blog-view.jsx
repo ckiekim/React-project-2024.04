@@ -11,6 +11,7 @@ import PostCard from '../post-card';
 import PostSort from '../post-sort';
 import PostSearch from '../post-search';
 import PostInsertDialog from '../post-insert-dialog';
+import LoadingProgress from '../../../components/loading-progress';
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +26,7 @@ export default function BlogView() {
         {account &&  <PostInsertDialog account={account} />}
       </Stack>
 
-      {isLoading && <p>로딩중...</p>}
+      {isLoading && <LoadingProgress />}
       {posts && <>
         <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
           <PostSearch posts={posts} />

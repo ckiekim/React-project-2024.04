@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 // import { userInfo } from '../../../_mock/user';
 import useUserInfo from '../useUserInfo';
 import Scrollbar from '../../../components/scrollbar';
-
+import LoadingProgress from '../../../components/loading-progress';
 import TableNoData from '../../../components/table-no-data';
 import UserInfoTableRow from '../userInfo-table-row';
 import UserInfoTableHead from '../userInfo-table-head';
@@ -99,7 +99,7 @@ export default function UserInfoPage() {
         {/* <UserInfoInsertDialog /> */}
       </Stack>
 
-      {isLoading && <p>로딩중...</p>}
+      {isLoading && <LoadingProgress />}
       {userInfo && <Card>
         <UserInfoTableToolbar numSelected={selected.length} filterName={filterName}
           onFilterName={handleFilterByName}/>

@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 // import { users } from '../../../_mock/user';
 import useUsers from '../useUsers';
 import Scrollbar from '../../../components/scrollbar';
-
+import LoadingProgress from '../../../components/loading-progress';
 import UserInsertDialog from '../user-insert-dialog';
 import TableNoData from '../table-no-data';
 import UserTableRow from '../user-table-row';
@@ -98,7 +98,7 @@ export default function UserPage() {
         <UserInsertDialog />
       </Stack>
 
-      {isLoading && <p>로딩중...</p>}
+      {isLoading && <LoadingProgress />}
       {users && <Card>
         <UserTableToolbar numSelected={selected.length} filterName={filterName}
           onFilterName={handleFilterByName}/>

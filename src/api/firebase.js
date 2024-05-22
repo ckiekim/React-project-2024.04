@@ -158,12 +158,10 @@ export async function getCart(id) {
 }
 
 export async function insertCart(cart) {
-  console.log(cart);
   return set(ref(database, `carts/${cart.id}`), cart);
 }
 
 export async function updateCart(cart) {
-  console.log(cart);
   return set(ref(database, `carts/${cart.id}`), cart);
 }
 

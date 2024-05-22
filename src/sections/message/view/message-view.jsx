@@ -16,6 +16,7 @@ import MessageTableToolbar from '../message-table-toolbar';
 import MessageInsertDialog from '../message-insert-dialog';
 import MessageTableHead from '../message-table-head';
 import MessageTableRow from '../message-table-row';
+import LoadingProgress from '../../../components/loading-progress';
 import useMessage from '../useMessage';
 import useNotification from '../../notification/useNotification';
 import { emptyRows, applyFilter, getComparator } from '../utils';
@@ -99,7 +100,7 @@ export default function MessageView() {
         <MessageInsertDialog />
       </Stack>
 
-      {isLoading && <p>로딩중...</p>}
+      {isLoading && <LoadingProgress />}
       {messageList && <Card>
         <MessageTableToolbar numSelected={selected.length} filterName={filterName}
           onFilterName={handleFilterByName}/>
