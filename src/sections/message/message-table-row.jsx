@@ -17,7 +17,7 @@ import { formatAgo } from '../../utils/format-time';
 import useMessage from './useMessage';
 
 export default function MessageTableRow({ message, selected, handleClick }) {
-  const { mid, content, status, srcName, srcAvatar, // srcEmail, dstEmail, dstName, dstAvatar,
+  const { mid, status, srcName, srcAvatar, // content, srcEmail, dstEmail, dstName, dstAvatar,
     sentAt } = message;
   const [openPopover, setOpenPopover] = useState(null);
   const { updateRecord, deleteRecord } = useMessage();
@@ -44,14 +44,12 @@ export default function MessageTableRow({ message, selected, handleClick }) {
         <TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
             <Avatar alt={srcName} src={srcAvatar} />
-            <Typography variant="subtitle2" noWrap>
-              {srcName}
-            </Typography>
+            <Typography variant="body2" noWrap>{srcName}</Typography>
           </Stack>
         </TableCell>
 
         <TableCell>
-          <MessageReplyDialog message={message} />
+          <Typography variant="body2"><MessageReplyDialog message={message} /></Typography>
         </TableCell>
 
         <TableCell>
@@ -60,7 +58,9 @@ export default function MessageTableRow({ message, selected, handleClick }) {
           </Label>
         </TableCell>
 
-        <TableCell>{formatAgo(sentAt, 'ko')}</TableCell>
+        <TableCell>
+          <Typography variant="body2">{formatAgo(sentAt, 'ko')}</Typography>
+        </TableCell>
 
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>

@@ -40,7 +40,7 @@ export default function OrdersTableHead({ order, orderBy, rowCount, headLabel,
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={onSort(headCell.id)}
             >
-              <Typography>{headCell.label}</Typography>
+              <Typography variant="subtitle2">{headCell.label}</Typography>
               {orderBy === headCell.id ? (
                 <Box sx={{ ...visuallyHidden }}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}

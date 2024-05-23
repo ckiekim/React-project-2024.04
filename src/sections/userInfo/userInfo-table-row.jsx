@@ -44,21 +44,29 @@ export default function UserInfoTableRow({
         <TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
             <Avatar alt={displayName} src={avatarUrl} />
-            <Typography variant="subtitle2" noWrap>
+            <Typography variant="body2" noWrap>
               {displayName}
             </Typography>
           </Stack>
         </TableCell>
 
-        <TableCell>{email}</TableCell>
-        <TableCell>{job}</TableCell>
-        <TableCell>{role}</TableCell>
+        <TableCell>
+          <Typography variant="body2">{email}</Typography>
+        </TableCell>
+        <TableCell>
+          <Typography variant="body2">{job}</Typography>
+        </TableCell>
+        <TableCell>
+          <Typography variant="body2">{role}</Typography>
+        </TableCell>
 
         <TableCell>
           <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
         </TableCell>
 
-        <TableCell>{registeredAt}</TableCell>
+        <TableCell>
+          <Typography variant="body2">{registeredAt}</Typography>
+        </TableCell>
 
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>

@@ -44,24 +44,24 @@ export default function OrdersTableRow({ order, selected, handleClick }) {
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
         <TableCell>
-          <Typography>{order.email}</Typography>
+          <Typography variant="body2">{order.email}</Typography>
         </TableCell>
         <TableCell align="center">
-          <Typography>{formatAgo(order.orderedAt, 'ko')}</Typography>
+          <Typography variant="body2">{formatAgo(order.orderedAt, 'ko')}</Typography>
         </TableCell>
         <TableCell>
           <Stack direction='row' spacing={1} alignItems='center'>
             <Avatar src={order.items[0].cover} alt={order.items[0].pname} />
-            <Typography>
+            <Typography variant="body2">
               {order.items[0].pname} 外 {order.itemCount - 1} 종
             </Typography>
           </Stack>
         </TableCell>
         <TableCell align="right">
-          <Typography>{fCurrency(order.wholePrice)}</Typography>
+          <Typography variant="body2">{fCurrency(order.wholePrice)}</Typography>
         </TableCell>
         <TableCell align="center">
-          <Typography
+          <Typography variant="body2"
             aria-owns={!!anchorEl ? 'mouse-over-popover' : undefined}
             aria-haspopup="true"
             onMouseEnter={handlePopoverOpen}
@@ -75,15 +75,15 @@ export default function OrdersTableRow({ order, selected, handleClick }) {
             transformOrigin={{ vertical: 'top', horizontal: 'left', }}
             onClose={handlePopoverClose} disableRestoreFocus
           >
-            <Typography sx={{ p: 1 }}>{order.deliveryInfo.zoneCode}</Typography>
-            <Typography sx={{ p: 1 }}>{order.deliveryInfo.addr1}</Typography>
-            <Typography sx={{ p: 1 }}>{order.deliveryInfo.addr2}</Typography>
-            <Typography sx={{ p: 1 }}>{order.deliveryInfo.tel}</Typography>
-            <Typography sx={{ p: 1 }}>{order.deliveryInfo.memo}</Typography>
+            <Typography sx={{ p: 1 }} variant="body2">{order.deliveryInfo.zoneCode}</Typography>
+            <Typography sx={{ p: 1 }} variant="body2">{order.deliveryInfo.addr1}</Typography>
+            <Typography sx={{ p: 1 }} variant="body2">{order.deliveryInfo.addr2}</Typography>
+            <Typography sx={{ p: 1 }} variant="body2">{order.deliveryInfo.tel}</Typography>
+            <Typography sx={{ p: 1 }} variant="body2">{order.deliveryInfo.memo}</Typography>
           </Popover>
         </TableCell>
         <TableCell align="center">
-          <Typography>{order.status}</Typography>
+          <Typography variant="body2">{order.status}</Typography>
         </TableCell>
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>

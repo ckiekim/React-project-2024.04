@@ -5,6 +5,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import DashboardLayout from '../layouts/dashboard';
 import { AuthContextProvider } from '../context/AuthContext';
 import ProtectedRoute from '../pages/protected-route';
+import { CheckoutPage } from '../components/toss-payments/Checkout';
+import { SuccessPage } from '../components/toss-payments/Success';
+import { FailPage } from '../components/toss-payments/Fail';
 
 export const IndexPage = lazy(() => import('../pages/app'));
 export const BlogPage = lazy(() => import('../pages/blog'));
@@ -50,6 +53,9 @@ export default function Router() {
         { path: '/userInfo', element: <ProtectedRoute><UserInfoPage /></ProtectedRoute> },
         { path: '/youtube', element: <YoutubePage /> },
         { path: '/user', element: <UserPage /> },
+        { path: '/toss/checkout', element: <CheckoutPage /> },
+        { path: '/toss/success', element: <SuccessPage /> },
+        { path: '/toss/fail', element: <FailPage /> },
       ],
     },
     { path: 'login', element: <LoginPage />, },

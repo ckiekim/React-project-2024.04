@@ -4,6 +4,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
+import Typography from '@mui/material/Typography';
 
 const visuallyHidden = {
   border: 0, margin: -1, padding: 0, width: '1px', height: '1px',
@@ -40,7 +41,7 @@ export default function MessageTableHead({ order, orderBy, rowCount, headLabel,
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={onSort(headCell.id)}
             >
-              {headCell.label}
+              <Typography variant="subtitle2">{headCell.label}</Typography>
               {orderBy === headCell.id ? (
                 <Box sx={{ ...visuallyHidden }}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
