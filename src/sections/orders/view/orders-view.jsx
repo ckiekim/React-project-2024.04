@@ -101,7 +101,8 @@ export default function OrdersView() {
                   { id: 'email', label: '이메일' },
                   { id: 'orderedAt', label: '주문시간' },
                   { id: 'items', label: '주문상품' },
-                  { id: 'totalPrice', label: '총 금액' },
+                  { id: 'wholePrice', label: '총 금액' },
+                  { id: 'deliveryInfo', label: '배송정보' },
                   { id: 'status', label: '상태' },
                   { id: '' },
                 ]}
@@ -109,7 +110,7 @@ export default function OrdersView() {
               <TableBody>
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map(row => (
+                  .map((row) => (
                     <OrdersTableRow
                       order={row}
                       selected={selected.indexOf(row.email) !== -1}

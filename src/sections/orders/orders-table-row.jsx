@@ -17,8 +17,15 @@ import { fCurrency } from '../../utils/format-number';
 
 export default function OrdersTableRow({ order, selected, handleClick }) {
   const [openPopover, setOpenPopover] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const { updateRecord } = useOrders();
 
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
   const handleOpenMenu = (event) => {
     setOpenPopover(event.currentTarget);
   };
@@ -36,8 +43,12 @@ export default function OrdersTableRow({ order, selected, handleClick }) {
         <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
-        <TableCell>{order.email}</TableCell>
-        <TableCell align="center">{formatAgo(order.orderedAt, 'ko')}</TableCell>
+        <TableCell>
+          <Typography>{order.email}</Typography>
+        </TableCell>
+        <TableCell align="center">
+          <Typography>{formatAgo(order.orderedAt, 'ko')}</Typography>
+        </TableCell>
         <TableCell>
           <Stack direction='row' spacing={1} alignItems='center'>
             <Avatar src={order.items[0].cover} alt={order.items[0].pname} />
@@ -46,8 +57,34 @@ export default function OrdersTableRow({ order, selected, handleClick }) {
             </Typography>
           </Stack>
         </TableCell>
-        <TableCell align="right">{fCurrency(order.totalPrice)}</TableCell>
-        <TableCell align="center">{order.status}</TableCell>
+        <TableCell align="right">
+          <Typography>{fCurrency(order.wholePrice)}</Typography>
+        </TableCell>
+        <TableCell align="center">
+          <Typography
+            aria-owns={!!anchorEl ? 'mouse-over-popover' : undefined}
+            aria-haspopup="true"
+            onMouseEnter={handlePopoverOpen}
+            onMouseLeave={handlePopoverClose}
+          >
+            {order.deliveryInfo.addr1}
+          </Typography>
+          <Popover id="mouse-over-popover" sx={{ pointerEvents: 'none', }}
+            open={!!anchorEl} anchorEl={anchorEl}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
+            transformOrigin={{ vertical: 'top', horizontal: 'left', }}
+            onClose={handlePopoverClose} disableRestoreFocus
+          >
+            <Typography sx={{ p: 1 }}>{order.deliveryInfo.zoneCode}</Typography>
+            <Typography sx={{ p: 1 }}>{order.deliveryInfo.addr1}</Typography>
+            <Typography sx={{ p: 1 }}>{order.deliveryInfo.addr2}</Typography>
+            <Typography sx={{ p: 1 }}>{order.deliveryInfo.tel}</Typography>
+            <Typography sx={{ p: 1 }}>{order.deliveryInfo.memo}</Typography>
+          </Popover>
+        </TableCell>
+        <TableCell align="center">
+          <Typography>{order.status}</Typography>
+        </TableCell>
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />

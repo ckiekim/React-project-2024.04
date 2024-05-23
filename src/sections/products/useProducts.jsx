@@ -6,7 +6,7 @@ export default function useProducts(id) {
 
   const getRecord = useQuery({
     queryKey: ['products', id],
-    queryFn: id => getProduct(id),
+    queryFn: () => getProduct(id),
     staleTime: 1000 * 60 * 5
   });
 

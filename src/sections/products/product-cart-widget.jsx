@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DaumAddressDialog from '../../components/daum-address-dialog';
 
 import { styled } from '@mui/material/styles';
@@ -14,8 +14,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
+import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -32,6 +37,8 @@ import useNotification from '../notification/useNotification';
 import useCart from './useCart';
 
 // ----------------------------------------------------------------------
+
+const DELIVERY_COST = 3000;
 
 const StyledRoot = styled('div')(({ theme }) => ({
   zIndex: 999,
@@ -60,6 +67,7 @@ export default function CartWidget({ count }) {
   const [open, setOpen] = useState(false);
   const [itemCount, setItemCount] = useState(count);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [wholePrice, setWholePrice] = useState(0);
   const [items, setItems] = useState([]);
   const { insertRecord: insertOrderRecord } = useOrders();
   const uid = sessionStorage.getItem('sessionUid');
@@ -74,6 +82,7 @@ export default function CartWidget({ count }) {
     setItemCount(cart.itemCount);
     setTotalPrice(cart.totalPrice);
     setItems(cart.items);
+    setWholePrice(cart.totalPrice + DELIVERY_COST);
     setOpen(true); 
   };
 
@@ -85,13 +94,15 @@ export default function CartWidget({ count }) {
   const handleClose = () => { setOpen(false); };
 
   const handleOrder = () => {
-    const order = { uid, email, totalPrice, itemCount, items };
+    const deliveryInfo = { zoneCode, addr1, addr2, tel, memo };
+    // console.log(deliveryInfo);
+    const order = { uid, email, totalPrice, itemCount, items, deliveryInfo, wholePrice };
     // console.log(order);
     insertOrderRecord.mutate(order);
     deleteCartRecord.mutate(uid);
-    // refetchCart();
-    setOpen(false);
     insertNotiRecord.mutate({ email, type: '주문', description: '주문이 완료되었습니다.' });
+    setZoneCode(''); setAddr1(''); setAddr2(''); setTel(''); setMemo('선택 안 함');
+    setOpen(false);
   }
 
   const handleMinus = (index) => {
@@ -103,6 +114,7 @@ export default function CartWidget({ count }) {
     const newPrice = totalPrice - subTotal + unitPrice * (quantity - 1);
     setItems(newItems);
     setTotalPrice(newPrice);
+    setWholePrice(newPrice + DELIVERY_COST);
     updateCart(itemCount, newPrice, newItems);
   }
 
@@ -114,6 +126,7 @@ export default function CartWidget({ count }) {
     const newPrice = totalPrice - subTotal + unitPrice * (quantity + 1);
     setItems(newItems);
     setTotalPrice(newPrice);
+    setWholePrice(newPrice + DELIVERY_COST);
     updateCart(itemCount, newPrice, newItems);
   }
 
@@ -123,6 +136,7 @@ export default function CartWidget({ count }) {
     const newPrice = totalPrice - subTotal;
     setItems(newItems);
     setTotalPrice(newPrice);
+    setWholePrice(newPrice + DELIVERY_COST);
     setItemCount(newItems.length);
     if (itemCount <= 1) {
       setOpen(false);
@@ -135,13 +149,27 @@ export default function CartWidget({ count }) {
 
   const [addr1, setAddr1] = useState('');
   const [addr2, setAddr2] = useState('');
+  const [tel, setTel] = useState('');
+  const [memo, setMemo] = useState('선택 안 함');
   const [zoneCode, setZoneCode] = useState('');
+  const deliveryMemos = ['선택 안 함', '문앞에 놓아주세요', '부재시 연락 부탁드려요',
+    '배송 전 미리 연락해 주세요', '부재시 1층 택배 보관장소에 맡겨주세요'];
 
   const handleComplete = data => {
     setZoneCode(data.zonecode);
     setAddr1(data.address);
-    console.log(data);
   }
+  const handlePress = e => {
+    const regex = /^[0-9\b -]{0,13}$/;
+    if (regex.test(e.target.value)) 
+      setTel(e.target.value);
+  }
+  useEffect(() => {
+    if (tel.length === 10)
+      setTel(tel.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'));
+    if (tel.length === 13)
+      setTel(tel.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+  }, [tel]);
 
   return (
     <>
@@ -160,7 +188,7 @@ export default function CartWidget({ count }) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          {items && <Table>
+          {items && <Table size={itemCount > 3 ? 'small' : ''}>
             <TableHead>
               <TableRow>
                 <TableCell align="center">상품</TableCell>
@@ -207,18 +235,59 @@ export default function CartWidget({ count }) {
             </TableBody>
           </Table>}
           {totalPrice && 
-            <Typography variant='h5' textAlign='right' sx={{mt: 2, px: 2}}>총계: &#8361; {fCurrency(totalPrice)}</Typography>}
+            <Stack direction='row' spacing={2} alignItems='center' mt={2}>
+              <TextField label='상품가격' value={fCurrency(totalPrice)}
+                InputProps={{ readOnly: true, inputProps: { style: { textAlign: 'right' } } }} />
+              <Typography variant='h5'>&#43;</Typography>
+              <TextField label='배송비' value={fCurrency(DELIVERY_COST)} 
+                InputProps={{ readOnly: true, inputProps: { style: { textAlign: 'right' } } }} />
+              <Typography variant='h5'>&#61;</Typography>
+              <Typography variant='h5' textAlign='right' sx={{mt: 2, px: 2}}>총계: &#8361; {fCurrency(wholePrice)}</Typography>
+            </Stack>
+          }
           
           <Divider sx={{ my: 2}} />
           
-          <Typography variant='h5'>배송지</Typography>
-          <Stack spacing={2}>
-            <Stack direction='row' spacing={2} alignItems='center'>
-              <TextField value={zoneCode} label="우편번호" variant="standard" />
-              <DaumAddressDialog handler={handleComplete} />
-            </Stack>
-            <TextField value={addr1} label="기본주소" variant="standard" />
-            <TextField defaultValuealue={addr2} label="상세주소" onChange={e => setAddr2(e.target.value)} />
+          <Typography variant='h5'>배송정보</Typography>
+          <Stack alignItems='center' spacing={0.1}>
+            <Grid container alignItems='center' spacing={1}>
+              <Grid item xs={6}>
+                <TextField value={zoneCode} label="우편번호" variant="standard" fullWidth />
+              </Grid>
+              <Grid item xs={6}>
+                <DaumAddressDialog handler={handleComplete} />
+              </Grid>
+            </Grid>
+            <Grid container alignItems='center' spacing={1}>
+              <Grid item xs={12}>
+                <TextField margin="dense" value={addr1} label="기본주소" variant="standard" fullWidth />
+              </Grid>
+            </Grid>
+            <Grid container alignItems='center' spacing={1}>
+              <Grid item xs={6}>
+                <TextField required margin="dense" defaultValue={addr2} label="상세주소" fullWidth 
+                  onChange={e => setAddr2(e.target.value)} />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField required margin="dense" value={tel} label="전화번호" fullWidth
+                  onChange={handlePress} placeholder='숫자만 입력하세요' />
+              </Grid>
+            </Grid>
+            <Grid container alignItems='center' spacing={1}>
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel id="memo">배송메모</InputLabel>
+                  <Select required margin="dense" name='memo' label="배송메모" id='memo'
+                    value={memo} onChange={e => setMemo(e.target.value)}>
+                    {deliveryMemos.map((delMemo) =>
+                      <MenuItem value={delMemo} key={'e'+delMemo}>
+                        {delMemo}
+                      </MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
           </Stack>
         </DialogContent>
         <DialogActions>

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';

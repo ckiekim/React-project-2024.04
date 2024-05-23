@@ -18,7 +18,7 @@ export default function DaumAddressDialog({ handler }) {
 
   return (
     <>
-      <Button onClick={handleClick}>주소 찾기</Button>
+      <Button onClick={handleClick} variant='outlined'>주소 찾기</Button>
 
       <Dialog open={open} onClose={handleClose} fullWidth={true}>
         <DialogTitle>

@@ -8,7 +8,7 @@ export default function useOrders(oid) {
 
   const getRecord = useQuery({
     queryKey: ['orders', oid],
-    queryFn: oid => getOrder(oid),
+    queryFn: () => getOrder(oid),
     staleTime: 1000 * 60 * 5
   });
 
