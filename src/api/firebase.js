@@ -196,11 +196,13 @@ export async function getOrder(oid) {
     }); 
 }
 
+// oid 값을 반환하여 결제 처리시 사용
 export async function insertOrder(order) {
   const oid = uuid();
-  return set(ref(database, `orders/${oid}`), {
+  await set(ref(database, `orders/${oid}`), {
     ...order, oid, status:'주문완료', orderedAt: new Date().toISOString()
   });
+  return oid;
 }
 
 export async function updateOrder(order) {
@@ -391,7 +393,7 @@ export async function getNotificationCount(email) {
 }
 
 export async function insertNotification(notification) {
-  console.log(notification);
+  // console.log(notification);
   const nid = uuid();
   return set(ref(database, `notification/${nid}`), {
     nid, ...notification, status: '신규', createdAt: new Date().toISOString()

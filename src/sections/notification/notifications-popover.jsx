@@ -149,4 +149,10 @@ function renderContent(notification) {
       title,
     };
   }
+  if (notification.type === '오류') {
+    return {
+      avatar: <img alt={notification.type} src="/assets/icons/ic_notification_error.svg" />,
+      title,
+    };
+  }
 }

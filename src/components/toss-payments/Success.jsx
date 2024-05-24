@@ -1,49 +1,38 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+
+import useOrders from '../../sections/orders/useOrders';
+import useNotification from '../../sections/notification/useNotification';
+import { fCurrency } from '../../utils/format-number';
 
 export function SuccessPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [countdown, setCountdown] = useState(5);
+  const oid = searchParams.get('orderId');
+  const amount = searchParams.get('amount');
+  const paymentKey = searchParams.get('paymentKey');
+  // console.log(email, oid, amount, paymentKey);
+
+  const [flag, setFlag] = useState(false);
+  const [countdown, setCountdown] = useState(3);
+  const email = sessionStorage.getItem('sessionEmail');
+
+  const { getRecord: {data: order}, updateRecord: updateOrderRecord } = useOrders(oid);
+  const { insertRecord: insertNotiRecord } = useNotification(email);
 
   useEffect(() => {
-    const confirm = async () => {
-      const orderId = searchParams.get('orderId');
-      const amount = searchParams.get('amount');
-      const paymentKey = searchParams.get('paymentKey');
-
-      const requestData = {
-        orderId,
-        amount,
-        paymentKey,
-      };
-      
-      // try {
-      //   const response = await fetch('ft/confirm', {
-      //     method: 'POST',
-      //     headers: { 'Content-Type': 'application/json', },
-      //     body: JSON.stringify(requestData),
-      //   });
-
-      //   const json = await response.json();
-
-      //   if (!response.ok) {
-      //     navigate(`/fail?message=${json.message}&code=${json.code}`);
-      //     return;
-      //   }
-
-      //   // 결제 성공 시 처리할 로직을 여기에 추가하세요.
-      //   // 예: navigate(`/success?orderId=${json.orderId}`);
-      // } catch (error) {
-      //   console.error('Error confirming payment:', error);
-      // }
-    };
-
-    confirm();
-  }, [navigate, searchParams]);
+    if (!order)
+      return;
+    if (!flag) {
+      updateOrderRecord.mutate({ ...order, status: '결제완료', paymentKey });
+      insertNotiRecord.mutate({ email, type: '주문', description: '결제가 완료되었습니다.' });
+      setFlag(true);
+    }
+  }, [order]);
 
   useEffect(() =>{
     const interval  = setInterval (() =>{
@@ -55,21 +44,22 @@ export function SuccessPage() {
 
   useEffect(() => {
     if (countdown === 0) {
-      navigate('/'); // Replace '/' with your home page path
+      navigate('/order');   // Replace '/' with your home page path
     }
   }, [countdown, navigate]);
   
   return (
-    <Card variant="outlined" style={{ maxWidth: 400, margin: 'auto', marginTop: 50, padding: 20, marginBottom: 50 }}>
+    <Card variant="outlined" 
+      style={{ maxWidth: 400, margin: 'auto', marginTop: 50, padding: 20, marginBottom: 50 }}>
       <CardContent>
-        <Typography variant="h5" component="h1">
+        <Typography variant="h5" gutterBottom>
           결제 성공
         </Typography>
         <Typography color="textSecondary" gutterBottom>
-          {`주문번호: ${searchParams.get('orderId')}`}
+          {`주문번호: ${oid}`}
         </Typography>
         <Typography color="textSecondary" gutterBottom>
-          {`결제 금액: ${Number(searchParams.get('amount')).toLocaleString()}원`}
+          {`결제 금액: ${fCurrency(amount)}원`}
         </Typography>
         <Typography>
           {`${countdown}초 후에 홈페이지로 이동합니다`}

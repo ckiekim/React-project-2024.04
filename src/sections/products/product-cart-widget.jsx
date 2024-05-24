@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DaumAddressDialog from '../../components/daum-address-dialog';
 
 import { styled } from '@mui/material/styles';
@@ -69,10 +70,12 @@ export default function CartWidget({ count }) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [wholePrice, setWholePrice] = useState(0);
   const [items, setItems] = useState([]);
-  const { insertRecord: insertOrderRecord } = useOrders();
   const uid = sessionStorage.getItem('sessionUid');
   const email = sessionStorage.getItem('sessionEmail');
-  const { insertRecord: insertNotiRecord } = useNotification(email);
+
+  const navigate = useNavigate();
+  const { insertRecord: insertOrderRecord } = useOrders();
+  // const { insertRecord: insertNotiRecord } = useNotification(email);
   const { cart, // refetchCart,
     updateRecord: updateCartRecord, deleteRecord: deleteCartRecord } = useCart(uid);
 
@@ -95,14 +98,22 @@ export default function CartWidget({ count }) {
 
   const handleOrder = () => {
     const deliveryInfo = { zoneCode, addr1, addr2, tel, memo };
-    // console.log(deliveryInfo);
     const order = { uid, email, totalPrice, itemCount, items, deliveryInfo, wholePrice };
-    // console.log(order);
-    insertOrderRecord.mutate(order);
-    deleteCartRecord.mutate(uid);
-    insertNotiRecord.mutate({ email, type: '주문', description: '주문이 완료되었습니다.' });
-    setZoneCode(''); setAddr1(''); setAddr2(''); setTel(''); setMemo('선택 안 함');
-    setOpen(false);
+    try {
+      insertOrderRecord.mutate(order, {
+        onSuccess: oid => {
+          navigate('/toss/checkout', {
+            state: { order: { ...order, oid } }
+          });
+        }
+      });
+      deleteCartRecord.mutate(uid);
+      // insertNotiRecord.mutate({ email, type: '주문', description: '주문이 완료되었습니다.' });
+      setZoneCode(''); setAddr1(''); setAddr2(''); setTel(''); setMemo('선택 안 함');
+      setOpen(false);
+    } catch (error) {
+      console.error('Error processing order:', error);
+    }
   }
 
   const handleMinus = (index) => {
@@ -141,7 +152,6 @@ export default function CartWidget({ count }) {
     if (itemCount <= 1) {
       setOpen(false);
       deleteCartRecord.mutate(uid);
-      // refetchCart();
     } else {
       updateCart(newItems.length, newPrice, newItems);
     }

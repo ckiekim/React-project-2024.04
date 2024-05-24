@@ -19,6 +19,8 @@ export default function OrdersTableRow({ order, selected, handleClick }) {
   const [openPopover, setOpenPopover] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const { updateRecord } = useOrders();
+  const orderItem = order.itemCount >= 2 ?
+    `${order.items[0].pname} 外 ${order.itemCount - 1} 종` : order.items[0].pname;
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -52,9 +54,7 @@ export default function OrdersTableRow({ order, selected, handleClick }) {
         <TableCell>
           <Stack direction='row' spacing={1} alignItems='center'>
             <Avatar src={order.items[0].cover} alt={order.items[0].pname} />
-            <Typography variant="body2">
-              {order.items[0].pname} 外 {order.itemCount - 1} 종
-            </Typography>
+            <Typography variant="body2">{orderItem}</Typography>
           </Stack>
         </TableCell>
         <TableCell align="right">

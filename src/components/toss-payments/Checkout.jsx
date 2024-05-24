@@ -1,8 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk';
-import { Button, Card, CardContent } from '@mui/material';
-import axios from 'axios';
+
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+
+import useNotification from '../../sections/notification/useNotification';
+import { fCurrency } from '../../utils/format-number';
 
 const widgetClientKey = process.env.REACT_APP_TOSS_WIDGET_CLIENT_KEY;
 const customerKey = process.env.REACT_APP_TOSS_CUSTOMER_KEY;
@@ -12,8 +18,11 @@ export function CheckoutPage() {
   const paymentMethodsWidgetRef = useRef(null);
   const [price, setPrice] = useState(0); 
   const location = useLocation();
-  const { orderData } = location.state || {};
-  console.log(orderData.order.orderId);
+  const { order } = location.state || {};
+
+  const email = process.env.REACT_APP_ADMIN_USER;
+  const { insertRecord } = useNotification(email);
+
   useEffect(() => {
     const fetchPaymentWidget = async () => {
       try {
@@ -28,17 +37,17 @@ export function CheckoutPage() {
   }, []);
 
   useEffect(() => {
-    if (paymentWidget === null || !orderData) {
+    if (paymentWidget === null || !order) {
       return;
     }
 
-    // 주문 총 금액을 계산하여 설정
-    const totalPrice = orderData.order.totalPrice || 0;
-    setPrice(totalPrice);
+    // 주문 총 금액 설정
+    const wholePrice = order.wholePrice;
+    setPrice(wholePrice);
 
     const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
       "#payment-widget",
-      { value: totalPrice },
+      { value: wholePrice },
       { variantKey: "DEFAULT" }
     );
 
@@ -48,37 +57,35 @@ export function CheckoutPage() {
     );
 
     paymentMethodsWidgetRef.current = paymentMethodsWidget;
-  }, [paymentWidget, orderData]);
+  }, [paymentWidget, order]);
 
   useEffect(() => {
     const paymentMethodsWidget = paymentMethodsWidgetRef.current;
 
-    if (paymentMethodsWidget == null) {
+    if (paymentMethodsWidget == null) 
       return;
-    }
 
     paymentMethodsWidget.updateAmount(price);
   }, [price]);
   
   const handlePaymentRequest = async () => {
     try {
-      // 주문 정보를 서버에 전송하고 응답을 받음
-      // const response = await axios.post('/ft/order/insert', orderData);
-      // console.log(response);
-      
       // 주문 정보를 이용하여 결제 요청을 보냄
       await paymentWidget?.requestPayment({
-        orderId: orderData.order.orderId,
-        orderName: `${orderData.orderItems.length > 1 ? '외 ' + (orderData.orderItems.length - 1) + ', ' : ''}${orderData.orderItems[0].name}`, // 주문명을 설정
-        customerName: orderData.order.name || "", // 주문자 이름 설정
-        customerEmail: orderData.order.email || "", // 주문자 이메일 설정
-        customerMobilePhone: orderData.order.tel ? orderData.order.tel.replace(/-/g, '') : "",// 주문자 전화번호 설정
+        orderId: order.oid,
+        orderName: `${order.items[0].pname} ${order.items.length > 1 ? '외 ' + (order.items.length - 1) : ''}`, // 주문명을 설정
+        customerEmail: order.email || "",   // 주문자 이메일 설정
+        customerTel: order.deliveryInfo.tel,  // 주문자 전화번호 설정
         successUrl: `${window.location.origin}/toss/success`,
         failUrl: `${window.location.origin}/toss/fail`,
       });
       
-      // 결제 성공 후 /success 페이지로 이동, orderData도 함께 전달
     } catch (error) {
+      insertRecord.mutate({ email, type: '오류', 
+        description: '결제시 에러가 발생하였습니다. ' + error });
+      console.log("Error requesting payment:", error)
+
+      /*
       console.error("Error requesting payment:", error);
       
       // 에러 처리
@@ -90,6 +97,7 @@ export function CheckoutPage() {
         // 기타 일반적인 에러 처리
         // 여기에는 서버로부터 받은 오류나 네트워크 문제 등에 대한 처리를 할 수 있습니다.
       }
+      */
     }
 };
   
@@ -97,6 +105,9 @@ export function CheckoutPage() {
     <div style={{ padding: 50, textAlign: 'center' }}>
       <Card>
         <CardContent>
+          <Typography mt={3} variant='h5'>
+            주문금액: {fCurrency(price)} 원
+          </Typography>
           <div id="payment-widget" />
           <div id="agreement" />
           <div style={{ marginTop: 20 }}>

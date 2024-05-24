@@ -20,7 +20,9 @@ export default function useOrders(oid) {
 
   const insertRecord = useMutation({
     mutationFn: order => insertOrder(order),
-    onSuccess: () => { queryClient.invalidateQueries(['orders']); },
+    onSuccess: (oid) => {     // oid 값을 결제시 이용할 수 있음
+      queryClient.invalidateQueries(['orders']); 
+    },
     onError: console.error,
   });
 
