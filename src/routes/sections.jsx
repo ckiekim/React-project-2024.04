@@ -1,13 +1,19 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import DashboardLayout from '../layouts/dashboard';
 import { AuthContextProvider } from '../context/AuthContext';
 import ProtectedRoute from '../pages/protected-route';
-import { CheckoutPage } from '../components/toss-payments/Checkout';
-import { SuccessPage } from '../components/toss-payments/Success';
-import { FailPage } from '../components/toss-payments/Fail';
+// import { CheckoutPage } from '../components/toss-payments/Checkout';
+import CheckoutPage from '../components/toss-payments-dialog/checkout-page';
+import CheckoutDialog from '../components/toss-payments-dialog/checkout-dialog';
+// import { SuccessPage } from '../components/toss-payments/Success';
+import SuccessPage from '../components/toss-payments-dialog/success-page';
+import SuccessDialog from '../components/toss-payments-dialog/success-dialog';
+// import { FailPage } from '../components/toss-payments/Fail';
+import FailurePage from '../components/toss-payments-dialog/failure-page';
+import FailureDialog from '../components/toss-payments-dialog/failure-dialog';
 
 export const IndexPage = lazy(() => import('../pages/app'));
 export const BlogPage = lazy(() => import('../pages/blog'));
@@ -28,10 +34,17 @@ export const UserPage = lazy(() => import('../pages/user'));
 const queryClient = new QueryClient();
 
 export default function Router() {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const handleClose = () => { setDialogOpen(false); };
+  const [successDialogOpen, setSuccessDialogOpen] = useState(false);
+  const handleSuccessClose = () => { setSuccessDialogOpen(false); };
+  const [failureDialogOpen, setFailureDialogOpen] = useState(false);
+  const handleFailureClose = () => { setFailureDialogOpen(false); };
+
   const routes = useRoutes([
     {
       element: (
-        <QueryClientProvider client={queryClient}>
+        // <QueryClientProvider client={queryClient}>
           <AuthContextProvider>
             <DashboardLayout>
               <Suspense>
@@ -39,7 +52,7 @@ export default function Router() {
               </Suspense>
             </DashboardLayout>
           </AuthContextProvider>
-        </QueryClientProvider>
+        // </QueryClientProvider>
       ),
       children: [
         { element: <IndexPage />, index: true },
@@ -53,9 +66,9 @@ export default function Router() {
         { path: '/userInfo', element: <ProtectedRoute><UserInfoPage /></ProtectedRoute> },
         { path: '/youtube', element: <YoutubePage /> },
         { path: '/user', element: <UserPage /> },
-        { path: '/toss/checkout', element: <CheckoutPage /> },
-        { path: '/toss/success', element: <SuccessPage /> },
-        { path: '/toss/fail', element: <FailPage /> },
+        { path: '/toss/checkout', element: <CheckoutPage setDialogOpen={setDialogOpen} /> },
+        { path: '/toss/success', element: <SuccessPage setSuccessDialogOpen={setSuccessDialogOpen} /> },
+        { path: '/toss/fail', element: <FailurePage setFailureDialogOpen={setFailureDialogOpen} /> },
       ],
     },
     { path: 'login', element: <LoginPage />, },
@@ -63,5 +76,14 @@ export default function Router() {
     { path: '*', element: <Navigate to="/404" replace />, },
   ]);
 
-  return routes;
+  return (
+    <>
+      <QueryClientProvider client={queryClient}>
+        {routes}
+        <CheckoutDialog open={dialogOpen} onClose={handleClose} />
+        <SuccessDialog open={successDialogOpen} onClose={handleSuccessClose} />
+        <FailureDialog open={failureDialogOpen} onClose={handleFailureClose} />
+      </QueryClientProvider>
+    </>
+  );
 }
