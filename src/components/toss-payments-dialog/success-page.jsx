@@ -6,7 +6,7 @@ export default function SuccessPage({ setSuccessDialogOpen }) {
 
   useEffect(() => {
     setSuccessDialogOpen(true);
-    return () => navigate('/');
+    return () => navigate('/order');
   }, [setSuccessDialogOpen, navigate]);
 
   return null;
