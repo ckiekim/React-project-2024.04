@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
@@ -15,37 +15,43 @@ import Iconify from '../../components/iconify';
 import MyEditor from '../../components/my-editor';
 import useBoard from './useBoard';
 
-export default function BoardInsertDialog({ account }) {
-  const { uid, displayName, avatarUrl } = account;
-  const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState('');
+export default function BoardDetailDialog({ open, onClose, board }) {
+  const [title, setTitle] = useState(board.title);
+  const [viewCount, setViewCount] = useState(board.viewCount);
   const [editorContent, setEditorContent] = useState('');
 
-  const { insertRecord } = useBoard();
-  const handleClickOpen = () => { setOpen(true); };
+  useEffect(() => {
+    const initialContent = {
+      blocks: board.content.blocks,
+      entityMap: {}
+    }
+    setEditorContent(initialContent);
+  })
+
+  const { updateRecord } = useBoard();
   const handleClose = () => { 
-    setOpen(false); 
+    onClose(false); 
   };
   const handleSubmit = () => {
-    const board = { title, content: editorContent, 
-      writer: { uid, displayName, avatarUrl }
-    }
-    insertRecord.mutate(board);
+    const newBoard = { ...board, title, content: editorContent, viewCount };
+    updateRecord.mutate(board);
     handleClose();
   }
   const handleEditorContentChange = (content) => {
     setEditorContent(content);
   };
 
+  useEffect(() => {
+    const uid = sessionStorage.getItem('sessionUid');
+    if (uid !== board.writer.uid)
+      setViewCount(board.viewCount + 1);
+  }, []);
+
   return (
     <>
-      <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}
-        onClick={handleClickOpen}>
-        글 쓰기
-      </Button>
       <Dialog open={open} onClose={handleClose} maxWidth='lg'>
         <DialogTitle>
-          <Typography sx={{fontWeight: 'bold', fontSize: 18}}>게시글 쓰기</Typography>
+          <Typography sx={{fontWeight: 'bold', fontSize: 18}}>게시글 읽기</Typography>
         </DialogTitle>
         <IconButton aria-label="close" onClick={handleClose}
           sx={{ position: 'absolute', right: 8, top: 8, }} >
@@ -53,15 +59,15 @@ export default function BoardInsertDialog({ account }) {
         </IconButton>
         <DialogContent dividers>
           <Stack spacing={2}>
-            <TextField autoFocus required margin="dense" id="title"
-              name="title" label="제목" type="text" fullWidth
-              defaultValue={title} onChange={e => setTitle(e.target.value)}
+            <Typography variant='h6'>{board.title}</Typography>
+            <MyEditor 
+              initialContent={editorContent}
+              onContentChange={handleEditorContentChange} 
             />
-            <MyEditor onContentChange={handleEditorContentChange} />
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSubmit} variant="contained">제출</Button>
+          <Button onClick={handleSubmit} variant="contained">확인</Button>
         </DialogActions>
       </Dialog>
     </>

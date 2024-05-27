@@ -1,12 +1,28 @@
-import { useState } from 'react';
-import { EditorState, AtomicBlockUtils } from 'draft-js';
+import { useEffect, useState } from 'react';
+import { EditorState, AtomicBlockUtils, ContentState, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './my-editor.css';
 import { uploadImage } from '../../api/cloudinary';
 
-export default function MyEditor() {
-	const [editorState, setEditorState] = useState(EditorState.createEmpty());
+export default function MyEditor({ initialContent, onContentChange }) {
+	const [editorState, setEditorState] = useState(() => {
+    if (initialContent) {
+      // console.log(initialContent);
+      const contentState = convertFromRaw(initialContent);
+      // console.log(contentState);
+      return EditorState.createWithContent(contentState);
+    } else 
+      return EditorState.createEmpty()
+  });
+
+  useEffect(() => {
+    if (onContentChange) {
+      onContentChange(editorState);
+    }
+  }, [editorState, onContentChange]);
+
+  const handleEditorChange = newContent => onContentChange(newContent);
   
   const uploadImageCallBack = async (file) => {
     try {
@@ -24,9 +40,11 @@ export default function MyEditor() {
         newEditorState.getCurrentContent().getSelectionAfter()
       );
       setEditorState(forcedEditorState);
+      // closeUploadPopup();
       return { data: { link: url } };
     } catch (error) {
       console.error('Image upload failed:', error);
+      // closeUploadPopup();
       return { error: 'Image upload failed' };
     }
   };
@@ -55,7 +73,8 @@ export default function MyEditor() {
 
     return media;
   };
-	
+	const dummy = () => {}
+
 	return (
     <div className="editor-container">
       <Editor
@@ -69,6 +88,7 @@ export default function MyEditor() {
           },
         }}
         editorClassName='editor'
+        onChange={ !!handleEditorChange ? handleEditorChange : dummy }
       />
     </div>
   );

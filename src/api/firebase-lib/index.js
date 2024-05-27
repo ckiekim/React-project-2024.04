@@ -1,0 +1,1 @@
+export { getBoard, getBoardList, insertBoard, updateBoard, deleteBoard } from './board';

@@ -5,7 +5,7 @@ export function fNumber(number) {
 }
 
 export function fCurrency(number) {
-  const format = number ? numeral(number).format('0,0') : '';
+  const format = number ? numeral(number).format('0,0') : '0';
   return format;
 }
 
