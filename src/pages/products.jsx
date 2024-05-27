@@ -8,7 +8,7 @@ export default function ProductsPage() {
   return (
     <>
       <Helmet>
-        <title> Products | CK React App </title>
+        <title> Products | CK React World </title>
       </Helmet>
 
       <ProductsView />

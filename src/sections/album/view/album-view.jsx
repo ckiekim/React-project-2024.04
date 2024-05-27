@@ -73,7 +73,7 @@ export default function AlbumView() {
   }, [loaded]);
 
   return (
-    <Container>
+    <Container maxWidth="xl">
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Cloudinary Photo Album</Typography>
         <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}

@@ -8,7 +8,7 @@ import MyEditor from '../my-editor';
 export default function YoutubeView() {
 
   return (
-    <Container>
+    <Container maxWidth="xl">
       <Typography variant="h4" mb={5}>Youtube</Typography>
       
       <MyEditor />

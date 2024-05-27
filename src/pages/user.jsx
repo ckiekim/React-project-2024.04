@@ -8,7 +8,7 @@ export default function UserPage() {
   return (
     <>
       <Helmet>
-        <title> User | CK React App </title>
+        <title> User | CK React World </title>
       </Helmet>
 
       <UserView />

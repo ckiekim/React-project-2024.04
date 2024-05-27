@@ -33,7 +33,7 @@ export default function TmdbView() {
   }
 
   return (
-    <Container>
+    <Container maxWidth="xl">
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4"> 영화 (TMDB)</Typography>
         <Grid item xs={7} md={6} lg={4}>

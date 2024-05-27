@@ -9,7 +9,7 @@ export default function AlbumPage() {
   return (
     <>
       <Helmet>
-        <title> Album | CK React App </title>
+        <title> Album | CK React World </title>
       </Helmet>
 
       <AlbumView />

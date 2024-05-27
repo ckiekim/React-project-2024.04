@@ -25,41 +25,6 @@ export default function Header({ onOpenNav }) {
   const lgUp = useResponsive('up', 'lg');
   const { user, logout } = useAuthContext();
 
-  // 타이밍 문제 발생
-  // 사용자 정보를 등록하는 다이얼로그를 띄우기 전에
-  // 새로이 사용자 정보(uid, email)를 가져와야 하는데 안됨
-
-  // const [userInfoOpen, setUserInfoOpen] = useState(false);
-  // const [newUser, setNewUser] = useState();
-  // const [userInfo, setUserInfo] = useState(null);
-
-  // useEffect(() => {
-  //   if (user && userInfoOpen) {
-  //     setUserInfo({uid: user.uid, email: user.email});
-  //     console.log(userInfoOpen);
-  //     console.log(userInfo);
-  //   }
-  // }, [user]);
-  // useEffect(() => {
-  //   if (!userInfoOpen)
-  //     setUserInfo(null);
-  // }, [userInfoOpen]);
-  // useEffect(() => {
-  //   if (user) {
-  //     console.log(user.email, user.uid);
-  //     setNewUser(user);
-  //     console.log(newUser);
-  //   }
-  // }, [user]);
-  // useEffect(() => {
-  //   if (userInfoOpen && newUser)
-  //     setNewUser(null);
-  // }, [userInfoOpen]);
-  // useEffect(() => {
-  //   if (!userInfoOpen)
-  //     setNewUser(null);
-  // }, [userInfoOpen]);
-
   const renderContent = (
     <>
       {!lgUp && (
@@ -73,10 +38,6 @@ export default function Header({ onOpenNav }) {
         <LanguagePopover />
         <NotificationsPopover user={user} />
         <AccountPopover user={user} logout={logout} />
-        {/* <AccountPopover callback={setUserInfoOpen} user={user} logout={logout} /> */}
-        {/* {userInfo && 
-              <UserInfoInsertDialog userInfoOpen={userInfoOpen} callback={setUserInfoOpen} 
-                uInfo={userInfo} />} */}
       </Stack>
     </>
   );

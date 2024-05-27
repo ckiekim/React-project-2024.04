@@ -8,7 +8,7 @@ export default function MessagePage() {
   return (
     <>
       <Helmet>
-        <title> Message | CK React App </title>
+        <title> Message | CK React World </title>
       </Helmet>
 
       <MessageView />

@@ -38,14 +38,6 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       <Typography variant="h4" >CK World</Typography>
-
-      {/* <Avatar src={account.photoURL} alt="photoURL" />
-      <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {account.role}
-        </Typography>
-      </Box> */}
     </Box>
   );
 
@@ -66,8 +58,8 @@ export default function Nav({ openNav, onCloseNav }) {
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column', },
       }}
     >
-      <Logo sx={{ mt: 3, ml: 4 }} />
-      {renderAccount}
+      <Logo sx={{ mt: 3, mb: 5, ml: 4 }} />
+      {/* {renderAccount} */}
       {renderMenu}
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>

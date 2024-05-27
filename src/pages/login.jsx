@@ -8,7 +8,7 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title> Login | CK React App </title>
+        <title> Login | CK React World </title>
       </Helmet>
 
       <LoginView />

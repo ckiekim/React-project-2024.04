@@ -1,17 +1,18 @@
 import { Helmet } from 'react-helmet-async';
 
-import { TmdbView } from '../sections/tmdb/view';
+import { BoardView } from '../sections/board/view';
 
 // ----------------------------------------------------------------------
 
-export default function TmdbPage() {
+
+export default function BoardPage() {
   return (
     <>
       <Helmet>
-        <title> TMDB | CK React World </title>
+        <title> Board | CK React World </title>
       </Helmet>
 
-      <TmdbView />
+      <BoardView />
     </>
   );
 }

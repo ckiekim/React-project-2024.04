@@ -10,6 +10,7 @@ const navConfig = [
   { title: '대시보드', path: '/', icon: icon('ic_analytics'), },
   { title: '스케쥴러', path: '/schedule', icon: icon('ic_schedule'), },
   { title: '영화 (TMDB)', path: '/tmdb', icon: icon('ic_movie'), },
+  { title: '게시판', path: '/board', icon: icon('ic_board'), },
   { title: '상품', path: '/products', icon: icon('ic_product'), },
   { title: '주문', path: '/order', icon: icon('ic_cart'), },
   { title: '블로그', path: '/blog', icon: icon('ic_blog'), },

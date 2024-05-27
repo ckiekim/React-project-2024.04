@@ -93,7 +93,7 @@ export default function UserInfoPage() {
   const notFound = userInfo && !dataFiltered.length && !!filterName;
 
   return (
-    <Container>
+    <Container maxWidth="xl">
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">사용자 정보</Typography>
         {/* <UserInfoInsertDialog /> */}

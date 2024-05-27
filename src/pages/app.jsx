@@ -8,7 +8,7 @@ export default function AppPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard | CK React App </title>
+        <title> Dashboard | CK React World </title>
       </Helmet>
 
       <AppView />

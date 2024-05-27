@@ -9,7 +9,7 @@ export default function BlogPage() {
   return (
     <>
       <Helmet>
-        <title> Blog | CK React App </title>
+        <title> Blog | CK React World </title>
       </Helmet>
 
       <BlogView />

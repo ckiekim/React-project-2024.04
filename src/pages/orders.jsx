@@ -8,7 +8,7 @@ export default function OrdersPage() {
   return (
     <>
       <Helmet>
-        <title> Orders | CK React App </title>
+        <title> Orders | CK React World </title>
       </Helmet>
 
       <OrdersView />

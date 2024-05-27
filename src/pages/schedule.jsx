@@ -8,7 +8,7 @@ export default function SchedulePage() {
   return (
     <>
       <Helmet>
-        <title> Schedule | CK React App </title>
+        <title> Schedule | CK React World </title>
       </Helmet>
 
       <ScheduleView />

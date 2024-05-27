@@ -20,7 +20,7 @@ export default function BlogView() {
   const { getRecord: { data: account } } = useUserInfo({ uid: sessionStorage.getItem('sessionUid') });
 
   return (
-    <Container>
+    <Container maxWidth="xl">
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">블로그</Typography>
         {account &&  <PostInsertDialog account={account} />}

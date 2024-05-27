@@ -1,8 +1,10 @@
 import { forwardRef } from 'react';
 
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import { useTheme } from '@mui/material/styles';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 import { RouterLink } from '../../routes/components';
 
@@ -27,9 +29,10 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   const logo = (
     <Box
       ref={ref} component="div"
-      sx={{ width: 40, height: 40, display: 'inline-flex', ...sx, }}
+      sx={{ width: 200, height: 40, display: 'inline-flex', ...sx, }}
       {...other}
     >
+      <Stack direction='row' spacing={2} alignItems='center'>
       <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512">
         <defs>
           <linearGradient id="BG1" x1="100%" x2="50%" y1="9.946%" y2="50%">
@@ -63,6 +66,8 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
           />
         </g>
       </svg>
+      <Typography variant='h6'>CK_React_World</Typography>
+      </Stack>
     </Box>
   );
 

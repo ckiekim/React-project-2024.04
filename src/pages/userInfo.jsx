@@ -8,7 +8,7 @@ export default function UserInfoPage() {
   return (
     <>
       <Helmet>
-        <title> User Info | CK React App </title>
+        <title> User Info | CK React World </title>
       </Helmet>
 
       <UserInfoView />

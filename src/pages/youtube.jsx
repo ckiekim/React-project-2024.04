@@ -8,7 +8,7 @@ export default function YoutubePage() {
   return (
     <>
       <Helmet>
-        <title> Youtube | CK React App </title>
+        <title> Youtube | CK React World </title>
       </Helmet>
 
       <YoutubeView />

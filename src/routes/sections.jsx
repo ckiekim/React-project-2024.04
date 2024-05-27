@@ -17,6 +17,7 @@ import FailureDialog from '../components/toss-payments-dialog/failure-dialog';
 
 export const IndexPage = lazy(() => import('../pages/app'));
 export const BlogPage = lazy(() => import('../pages/blog'));
+export const BoardPage = lazy(() => import('../pages/board'));
 export const UserInfoPage = lazy(() => import('../pages/userInfo'));
 export const LoginPage = lazy(() => import('../pages/login'));
 export const ProductsPage = lazy(() => import('../pages/products'));
@@ -59,6 +60,7 @@ export default function Router() {
         { path: '/products', element: <ProtectedRoute><ProductsPage /></ProtectedRoute> },
         { path: '/order', element: <ProtectedRoute><OrdersPage /></ProtectedRoute> },
         { path: '/blog', element: <ProtectedRoute><BlogPage /></ProtectedRoute> },
+        { path: '/board', element: <ProtectedRoute><BoardPage /></ProtectedRoute> },
         { path: '/album', element: <AlbumPage /> },
         { path: '/schedule', element: <ProtectedRoute><SchedulePage /></ProtectedRoute> },
         { path: '/message', element: <ProtectedRoute><MessagePage /></ProtectedRoute> },

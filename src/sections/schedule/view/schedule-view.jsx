@@ -45,7 +45,7 @@ export default function SchedulePage() {
   }, []);
 
   return (
-    <Container>
+    <Container maxWidth="xl">
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">스케쥴러</Typography>
         <Stack direction="row" alignItems="center" spacing={0.5}>

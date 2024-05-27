@@ -81,7 +81,7 @@ export default function OrdersView() {
   const notFound = orders && !dataFiltered.length && !!filterName;
 
   return (
-    <Container>
+    <Container maxWidth="xl">
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">주문 내역</Typography>
       </Stack>
