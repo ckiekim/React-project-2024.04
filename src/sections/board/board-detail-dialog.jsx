@@ -26,7 +26,7 @@ export default function BoardDetailDialog({ open, onClose, board }) {
       entityMap: {}
     }
     setEditorContent(initialContent);
-  })
+  }, [])
 
   const { updateRecord } = useBoard();
   const handleClose = () => { 
@@ -41,11 +41,11 @@ export default function BoardDetailDialog({ open, onClose, board }) {
     setEditorContent(content);
   };
 
+  const uid = sessionStorage.getItem('sessionUid');
   useEffect(() => {
-    const uid = sessionStorage.getItem('sessionUid');
     if (uid !== board.writer.uid)
       setViewCount(board.viewCount + 1);
-  }, []);
+  }, [uid]);
 
   return (
     <>
