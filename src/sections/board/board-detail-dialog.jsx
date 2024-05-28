@@ -1,19 +1,20 @@
 import { useEffect, useState, useCallback } from 'react';
 
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography'
 
-import Iconify from '../../components/iconify';
 import MyEditor from '../../components/my-editor';
 import useBoard from './useBoard';
+import { formatAgo, fDateTime } from '../../utils/format-time';
 
 export default function BoardDetailDialog({ open, onClose, board }) {
   const uid = sessionStorage.getItem('sessionUid');
@@ -55,13 +56,32 @@ export default function BoardDetailDialog({ open, onClose, board }) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Stack spacing={2}>
-            <Typography variant='h6'>{board.title}</Typography>
-            <MyEditor 
-              initialContent={editorContent}
-              mode='read'
-            />
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
+            <Stack spacing={0.3}>
+              <Typography variant='h5'>{board.title}</Typography>
+              <Typography variant='subtitle2'>{board.bid}</Typography>
+              <Typography variant='subtitle2'>
+                {fDateTime(board.modifiedAt, 'yyyy-MM-dd HH:mm:ss')} ({formatAgo(board.modifiedAt, 'ko')})
+              </Typography>
+            </Stack>
+            <Stack alignItems="flex-end" textAlign="right" spacing={0.1}>
+              <Stack direction='row' spacing={1} alignItems='center'>
+                <Avatar src={board.writer.avatarUrl} alt={board.writer.displayName}
+                  sx={{ width: 36, height: 36 }} />
+                <Typography variant="h6">{board.writer.displayName}</Typography>
+              </Stack>
+              <Stack direction='row' spacing={1} alignItems='center'>
+                <FavoriteBorderIcon />
+                <Typography variant='subtitle2'>
+                  {board.likeCount}
+                </Typography>
+              </Stack>
+              <Typography variant='subtitle2'>
+                조회: {board.viewCount},&nbsp;&nbsp;댓글: {board.replyCount}
+              </Typography>
+            </Stack>
           </Stack>
+          <MyEditor initialContent={editorContent} mode='read' />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} variant="contained">확인</Button>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { convertToRaw } from 'draft-js';
 
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
@@ -29,6 +30,7 @@ export default function BoardInsertDialog({ account }) {
   };
   const handleSubmit = () => {
     console.log(editorContent);
+    // const content = convertToRaw(editorContent.getCurrentContent()); // Convert editor content to raw JSON format
     const board = { title, content: editorContent, 
       writer: { uid, displayName, avatarUrl }
     }

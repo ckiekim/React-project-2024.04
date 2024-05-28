@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState, useCallback } from 'react';
 import { EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -29,12 +29,17 @@ export default function MyEditor({ initialContent, onContentChange, mode }) {
     }
   }, [initialContent]);
 
+  const handleEditorContentChange = useCallback((newEditorState) => {
+    setEditorState(newEditorState);
+  }, []);
+
   useEffect(() => {
     if (onContentChange) {
+      console.log(editorState);
       const rawContent = convertToRaw(editorState.getCurrentContent());
       onContentChange(rawContent);
     }
-  }, [editorState, onContentChange]);
+  }, [editorState]);
 
   const uploadImageCallBack = async (file) => {
     try {
@@ -58,7 +63,7 @@ export default function MyEditor({ initialContent, onContentChange, mode }) {
         newEditorState.getCurrentContent().getSelectionAfter()
       );
       
-      setEditorState(forcedEditorState);
+      handleEditorContentChange(forcedEditorState);
       return { data: { link: url } };
     } catch (error) {
       console.error('Image upload failed:', error);
@@ -82,15 +87,14 @@ export default function MyEditor({ initialContent, onContentChange, mode }) {
   
     // Check if entity key exists and get the entity
     const entity = entityKey ? contentState.getEntity(entityKey) : null;
-    if (!entity) return null;
+    if (!entity) 
+      return null;
   
     const { src } = entity.getData();
     const type = entity.getType();
-    console.log(type);
     if (type === 'image') {
       return <img src={src} alt="Uploaded content" />;
     }
-  
     return null;
   }, (prevProps, nextProps) => {
     // Custom comparison function to prevent re-renders if contentState and block are the same
@@ -102,13 +106,14 @@ export default function MyEditor({ initialContent, onContentChange, mode }) {
     <div className="editor-container">
       <Editor
         editorState={editorState}
-        onEditorStateChange={(newState) => {
-          if (newState instanceof EditorState) {
-            setEditorState(newState);
-          } else {
-            console.error('Invalid EditorState:', newState);
-          }
-        }}
+        // onEditorStateChange={(newState) => {
+        //   if (newState instanceof EditorState) {
+        //     setEditorState(newState);
+        //   } else {
+        //     console.error('Invalid EditorState:', newState);
+        //   }
+        // }}
+        onEditorStateChange={handleEditorContentChange}
         blockRendererFn={myBlockRenderer}
         toolbar={{
           image: {

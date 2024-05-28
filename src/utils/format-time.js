@@ -33,3 +33,4 @@ register('ko', koLocale)
 export function formatAgo(date, lang='en_US') {
   return fmt(date, lang);
 }
+
