@@ -24,9 +24,11 @@ export default function BoardInsertDialog({ account }) {
   const { insertRecord } = useBoard();
   const handleClickOpen = () => { setOpen(true); };
   const handleClose = () => { 
+    setTitle('');
     setOpen(false); 
   };
   const handleSubmit = () => {
+    console.log(editorContent);
     const board = { title, content: editorContent, 
       writer: { uid, displayName, avatarUrl }
     }
@@ -57,7 +59,7 @@ export default function BoardInsertDialog({ account }) {
               name="title" label="제목" type="text" fullWidth
               defaultValue={title} onChange={e => setTitle(e.target.value)}
             />
-            <MyEditor onContentChange={handleEditorContentChange} />
+            <MyEditor onContentChange={handleEditorContentChange} mode='write' />
           </Stack>
         </DialogContent>
         <DialogActions>

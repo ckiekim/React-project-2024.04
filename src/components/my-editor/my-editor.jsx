@@ -1,57 +1,73 @@
-import { useEffect, useState } from 'react';
-import { EditorState, AtomicBlockUtils, ContentState, convertFromRaw } from 'draft-js';
+import React, { memo, useEffect, useState } from 'react';
+import { EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './my-editor.css';
 import { uploadImage } from '../../api/cloudinary';
 
-export default function MyEditor({ initialContent, onContentChange }) {
-	const [editorState, setEditorState] = useState(() => {
+export default function MyEditor({ initialContent, onContentChange, mode }) {
+  const [editorState, setEditorState] = useState(() => {
     if (initialContent) {
-      // console.log(initialContent);
-      const contentState = convertFromRaw(initialContent);
-      // console.log(contentState);
-      return EditorState.createWithContent(contentState);
-    } else 
-      return EditorState.createEmpty()
+      try {
+        const contentState = convertFromRaw(initialContent);
+        return EditorState.createWithContent(contentState);
+      } catch (error) {
+        console.error('Failed to convert initial content:', error);
+      }
+    }
+    return EditorState.createEmpty();
   });
 
   useEffect(() => {
+    if (initialContent) {
+      try {
+        const contentState = convertFromRaw(initialContent);
+        setEditorState(EditorState.createWithContent(contentState));
+      } catch (error) {
+        console.error('Failed to convert initial content:', error);
+      }
+    }
+  }, [initialContent]);
+
+  useEffect(() => {
     if (onContentChange) {
-      onContentChange(editorState);
+      const rawContent = convertToRaw(editorState.getCurrentContent());
+      onContentChange(rawContent);
     }
   }, [editorState, onContentChange]);
 
-  const handleEditorChange = newContent => onContentChange(newContent);
-  
   const uploadImageCallBack = async (file) => {
     try {
       const url = await uploadImage(file);
       const contentState = editorState.getCurrentContent();
-      const contentStateWithEntity = contentState.createEntity(
-        'image', 'IMMUTABLE', { src: url }
-      );
+      const contentStateWithEntity = contentState.createEntity('image', 'IMMUTABLE', { src: url });
       const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-      const newEditorState = AtomicBlockUtils.insertAtomicBlock(
-        editorState, entityKey, ' '
-      );
+      
+      // Check if entityKey is null
+      if (!entityKey) {
+        console.error('Entity key is null');
+        return;
+      }
+
+      // Insert the new atomic block with the image entity
+      const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' ');
+      
+      // Force selection to the new state
       const forcedEditorState = EditorState.forceSelection(
         newEditorState,
         newEditorState.getCurrentContent().getSelectionAfter()
       );
+      
       setEditorState(forcedEditorState);
-      // closeUploadPopup();
       return { data: { link: url } };
     } catch (error) {
       console.error('Image upload failed:', error);
-      // closeUploadPopup();
       return { error: 'Image upload failed' };
     }
   };
 
   const myBlockRenderer = (contentBlock) => {
     const type = contentBlock.getType();
-    console.log(type);
     if (type === 'atomic') {
       return {
         component: Media,
@@ -60,26 +76,39 @@ export default function MyEditor({ initialContent, onContentChange }) {
     }
   };
 
-  const Media = (props) => {
-    const entity = props.contentState.getEntity(props.block.getEntityAt(0));
+  const Media = memo((props) => {
+    const { block, contentState } = props;
+    const entityKey = block.getEntityAt(0);
+  
+    // Check if entity key exists and get the entity
+    const entity = entityKey ? contentState.getEntity(entityKey) : null;
+    if (!entity) return null;
+  
     const { src } = entity.getData();
     const type = entity.getType();
-
-    let media;
+    console.log(type);
     if (type === 'image') {
-      console.log(type);
-      media = <img src={src} alt="Uploaded content" />;
+      return <img src={src} alt="Uploaded content" />;
     }
+  
+    return null;
+  }, (prevProps, nextProps) => {
+    // Custom comparison function to prevent re-renders if contentState and block are the same
+    return prevProps.block === nextProps.block && prevProps.contentState === nextProps.contentState;
+  });
+  
 
-    return media;
-  };
-	const dummy = () => {}
-
-	return (
+  return (
     <div className="editor-container">
       <Editor
         editorState={editorState}
-        onEditorStateChange={setEditorState}
+        onEditorStateChange={(newState) => {
+          if (newState instanceof EditorState) {
+            setEditorState(newState);
+          } else {
+            console.error('Invalid EditorState:', newState);
+          }
+        }}
         blockRendererFn={myBlockRenderer}
         toolbar={{
           image: {
@@ -87,8 +116,9 @@ export default function MyEditor({ initialContent, onContentChange }) {
             alt: { present: true, mandatory: true },
           },
         }}
-        editorClassName='editor'
-        onChange={ !!handleEditorChange ? handleEditorChange : dummy }
+        editorClassName="editor"
+        readOnly={mode === 'read'}
+        toolbarHidden={mode === 'read'}
       />
     </div>
   );

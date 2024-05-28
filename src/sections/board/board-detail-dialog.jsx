@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
@@ -16,36 +16,33 @@ import MyEditor from '../../components/my-editor';
 import useBoard from './useBoard';
 
 export default function BoardDetailDialog({ open, onClose, board }) {
-  const [title, setTitle] = useState(board.title);
+  const uid = sessionStorage.getItem('sessionUid');
   const [viewCount, setViewCount] = useState(board.viewCount);
   const [editorContent, setEditorContent] = useState('');
 
   useEffect(() => {
     const initialContent = {
       blocks: board.content.blocks,
-      entityMap: {}
+      entityMap: board.content.entityMap ? board.content.entityMap : {}
     }
     setEditorContent(initialContent);
-  }, [])
+  }, [board])
 
   const { updateRecord } = useBoard();
+  const memoizedUpdateRecord = useCallback(updateRecord, []);
   const handleClose = () => { 
+    if (uid !== board.writer.uid) 
+      memoizedUpdateRecord.mutate({ ...board, viewCount });
     onClose(false); 
   };
-  const handleSubmit = () => {
-    const newBoard = { ...board, title, content: editorContent, viewCount };
-    updateRecord.mutate(board);
-    handleClose();
-  }
   const handleEditorContentChange = (content) => {
     setEditorContent(content);
   };
 
-  const uid = sessionStorage.getItem('sessionUid');
   useEffect(() => {
     if (uid !== board.writer.uid)
       setViewCount(board.viewCount + 1);
-  }, [uid]);
+  }, [board, uid]);
 
   return (
     <>
@@ -62,12 +59,12 @@ export default function BoardDetailDialog({ open, onClose, board }) {
             <Typography variant='h6'>{board.title}</Typography>
             <MyEditor 
               initialContent={editorContent}
-              onContentChange={handleEditorContentChange} 
+              mode='read'
             />
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSubmit} variant="contained">확인</Button>
+          <Button onClick={handleClose} variant="contained">확인</Button>
         </DialogActions>
       </Dialog>
     </>
