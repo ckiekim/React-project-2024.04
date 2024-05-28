@@ -1,3 +1,14 @@
+/*
+ *  board table
+ *    bid
+ *    title
+ *    content
+ *    writer: {uid, displayName, avatarUrl}
+ *    modifiedAt
+ *    viewCount
+ *    replyCount
+ *    likeCount
+ */
 import { database } from './config'
 import { ref, get, set, remove } from 'firebase/database';
 import { v4 as uuid } from 'uuid';
