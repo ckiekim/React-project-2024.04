@@ -1,5 +1,5 @@
 /* CKEditor 커스텀 스타일링 */
 .ck-editor__editable {
-  min-height: 350px;
+  min-height: 300px;
   overflow: auto;
 }

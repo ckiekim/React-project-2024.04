@@ -11,3 +11,4 @@ export { getProduct, getProductList, insertProduct, updateProduct, deleteProduct
 export { getSchedList, insertSched, updateSched, deleteSched } from './schedule';
 export { getUserInfo, getUserInfoList, insertUserInfo, updateUserInfo, deleteUserInfo } from './userInfo';
 export { getUser, getUserList, insertUser, updateUser, deleteUser } from './users';
+export { getReply, getReplyList, insertReply, updateReply, deleteReply } from './reply';

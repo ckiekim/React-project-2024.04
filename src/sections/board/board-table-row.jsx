@@ -17,10 +17,9 @@ import Iconify from '../../components/iconify';
 import { formatAgo } from '../../utils/format-time';
 import { fCurrency } from '../../utils/format-number';
 
-export default function BoardTableRow({ board, selected, handleClick }) {
+export default function BoardTableRow({ board, account, selected, handleClick }) {
   const [openPopover, setOpenPopover] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
-  const uid = sessionStorage.getItem('sessionUid');
 
   const handleOpenMenu = (event) => { setOpenPopover(event.currentTarget); };
   const handleCloseMenu = () => { setOpenPopover(null); };
@@ -75,11 +74,11 @@ export default function BoardTableRow({ board, selected, handleClick }) {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         sx={{ width: 160 }}
       >
-        <BoardUpdateDialog board={board} uid={uid} onClose={handleCloseMenu} />
-        <BoardDeleteDialog board={board} uid={uid} onClose={handleCloseMenu} />
+        <BoardUpdateDialog board={board} account={account} onClose={handleCloseMenu} />
+        <BoardDeleteDialog board={board} account={account} onClose={handleCloseMenu} />
       </Popover>
 
-      <BoardDetailDialog open={openDialog} onClose={setOpenDialog} board={board} />
+      <BoardDetailDialog open={openDialog} account={account} onClose={setOpenDialog} board={board} />
     </>
   );
 }

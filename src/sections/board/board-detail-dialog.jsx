@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -10,28 +10,47 @@ import DialogTitle from '@mui/material/DialogTitle';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
 import MyEditor from '../../components/my-editor';
 import useBoard from './useBoard';
+import useReply from './useReply';
 import { formatAgo, fDateTime } from '../../utils/format-time';
 
-export default function BoardDetailDialog({ open, onClose, board }) {
-  const uid = sessionStorage.getItem('sessionUid');
+export default function BoardDetailDialog({ open, account, onClose, board }) {
   const [viewCount, setViewCount] = useState(board.viewCount);
+  const [replyCount, setReplyCount] = useState(board.replyCount);
+  const [comment, setComment] = useState('');
 
-  const { updateRecord } = useBoard();
-  const memoizedUpdateRecord = useCallback(updateRecord, []);
+  const { updateRecord: updateBoardRecord } = useBoard();
   const handleClose = () => { 
-    if (uid !== board.writer.uid) 
-      memoizedUpdateRecord.mutate({ ...board, viewCount });
+    if (account.uid !== board.writer.uid) 
+      updateBoardRecord.mutate({ ...board, viewCount });
     onClose(false); 
   };
-
   useEffect(() => {
-    if (uid !== board.writer.uid)
+    if (account.uid !== board.writer.uid)
       setViewCount(board.viewCount + 1);
-  }, [board, uid]);
+  }, [board, account]);
+
+  const { getList: { data: replies }, insertRecord: insertReplyRecord } = useReply(board.bid);
+  const handleReply = () => {
+    if (comment && comment.trim().length > 1) {
+      setReplyCount(board.replyCount + 1);
+      const reply = { bid: board.bid, comment, commenter: account,
+        isMine: account.uid === board.writer.uid };
+      insertReplyRecord.mutate(reply);
+      updateBoardRecord.mutate({ ...board, replyCount: board.replyCount + 1 });
+      setComment('');
+    }
+  }
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Enter 키로 인한 기본 submit 동작 방지
+      handleReply();
+    }
+  };
 
   return (
     <>
@@ -65,15 +84,47 @@ export default function BoardDetailDialog({ open, onClose, board }) {
                 </Typography>
               </Stack>
               <Typography variant='subtitle2'>
-                조회: {viewCount},&nbsp;&nbsp;댓글: {board.replyCount}
+                조회: {viewCount},&nbsp;&nbsp;댓글: {replyCount}
               </Typography>
             </Stack>
           </Stack>
           <MyEditor initialContent={board.content} mode='read' />
+
+          {replies &&
+            replies.map(reply => (
+              <Stack direction='row' spacing={2} mt={2} key={reply.rid}
+                justifyContent={reply.isMine ? 'flex-end' : 'flex-start'}
+                textAlign={reply.isMine ? 'right' : 'left'}
+                sx={{
+                  alignItems: 'flex-start',
+                  '& > *': { textAlign: reply.isMine ? 'right' : 'left' }
+                }}
+              >
+                {!reply.isMine && 
+                  <Avatar src={reply.commenter.avatarUrl} alt={reply.commenter.displayName} />
+                }
+                <Stack spacing={0.1}>
+                  <Typography variant='body2'>
+                    {reply.commenter.displayName}&nbsp;&nbsp;
+                    {fDateTime(reply.writtenAt, 'yyyy-MM-dd HH:mm:ss')} ({formatAgo(reply.writtenAt, 'ko')})
+                  </Typography>
+                  <Typography>{reply.comment}</Typography>
+                </Stack>
+                {reply.isMine && 
+                  <Avatar src={reply.commenter.avatarUrl} alt={reply.commenter.displayName} />
+                }
+              </Stack>
+            ))
+          }
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} variant="contained">확인</Button>
+        <DialogActions sx={{ justifyContent: 'center', width: '100%', my: 1 }}>
+          <TextField margin="dense" id="comment" multiline
+            name="comment" label="댓글" type="text" sx={{ width: '70%' }}
+            value={comment} onChange={e => { setComment(e.target.value); }}
+            onKeyDown={handleKeyDown}
+          />
         </DialogActions>
+
       </Dialog>
     </>
   );

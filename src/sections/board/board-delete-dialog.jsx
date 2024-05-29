@@ -13,12 +13,12 @@ import Typography from '@mui/material/Typography'
 import Iconify from '../../components/iconify';
 import useBoard from './useBoard';
 
-export default function BoardDeleteDialog({ board, uid, onClose }) {
+export default function BoardDeleteDialog({ board, account, onClose }) {
   const [open, setOpen] = useState(false);
   const { deleteRecord } = useBoard();
 
   const handleOpen = () => {
-    if (uid !== board.writer.uid) {
+    if (account.uid !== board.writer.uid) {
       onClose();
       return null;
     } else 

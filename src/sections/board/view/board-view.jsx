@@ -115,7 +115,7 @@ export default function BoardView() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <BoardTableRow
-                      board={row}
+                      board={row} account={account}
                       selected={selected.indexOf(row.bid) !== -1}
                       handleClick={(event) => handleClick(event, row.bid)}
                     />

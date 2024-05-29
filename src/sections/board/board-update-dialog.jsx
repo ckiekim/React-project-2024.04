@@ -16,7 +16,7 @@ import Iconify from '../../components/iconify';
 import MyEditor from '../../components/my-editor';
 import useBoard from './useBoard';
 
-export default function BoardUpdateDialog({ board, uid, onClose }) {
+export default function BoardUpdateDialog({ board, account, onClose }) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(board.title);
   const [editorContent, setEditorContent] = useState(board.content);
@@ -24,7 +24,7 @@ export default function BoardUpdateDialog({ board, uid, onClose }) {
   const { updateRecord } = useBoard();
 
   const handleOpen = () => {
-    if (uid !== board.writer.uid) {
+    if (account.uid !== board.writer.uid) {
       onClose();
       return null;
     } else 
