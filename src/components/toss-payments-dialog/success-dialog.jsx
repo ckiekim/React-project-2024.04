@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
 
 import useOrders from '../../sections/orders/useOrders';
-import useNotification from '../../sections/notification/useNotification';
+import useNotification from '../../hooks/useNotification';
 import { fCurrency } from '../../utils/format-number';
 
 export default function SuccessDialog({ open, onClose }) {

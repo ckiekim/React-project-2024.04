@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 // import { posts } from '../../../_mock/blog';
-import useBlogs from '../useBlogs';
+import useBlogs from '../../../hooks/useBlogs'
 import useUserInfo from '../../userInfo/useUserInfo';
 
 import PostCard from '../post-card';

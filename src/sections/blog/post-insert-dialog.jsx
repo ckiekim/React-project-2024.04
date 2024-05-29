@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Iconify from '../../components/iconify';
-import useBlogs from './useBlogs';
+import useBlogs from '../../hooks/useBlogs';
 import { uploadImage } from "../../api/cloudinary";
 
 export default function PostInsertDialog({ account }) {

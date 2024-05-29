@@ -14,7 +14,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import useUserInfo from '../../../sections/userInfo/useUserInfo';
-import useNotification from '../../../sections/notification/useNotification';
+import useNotification from '../../../hooks/useNotification';
 import { squareImage } from '../../../api/cloudinary';
 
 export default function UserInfoInsertDialog({ callback }) {

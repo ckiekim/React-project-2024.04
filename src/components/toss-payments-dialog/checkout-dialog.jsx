@@ -10,7 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
 
-import useNotification from '../../sections/notification/useNotification';
+import useNotification from '../../hooks/useNotification';
 import { fCurrency } from '../../utils/format-number';
 
 const widgetClientKey = process.env.REACT_APP_TOSS_WIDGET_CLIENT_KEY;

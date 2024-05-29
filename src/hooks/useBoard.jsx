@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getBoard, getBoardList, insertBoard, updateBoard, deleteBoard } from '../../api/firebase';
+import { getBoard, getBoardList, insertBoard, updateBoard, deleteBoard } from '../api/firebase';
 
 export default function useBoard() {
   const queryClient = useQueryClient();

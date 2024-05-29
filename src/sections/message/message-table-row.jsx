@@ -14,7 +14,7 @@ import MessageReplyDialog from './message-reply-dialog';
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
 import { formatAgo } from '../../utils/format-time';
-import useMessage from './useMessage';
+import useMessage from '../../hooks/useMessage';
 
 export default function MessageTableRow({ message, selected, handleClick }) {
   const { mid, status, srcName, srcAvatar, // content, srcEmail, dstEmail, dstName, dstAvatar,

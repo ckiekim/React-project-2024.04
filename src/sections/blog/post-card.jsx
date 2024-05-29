@@ -14,7 +14,7 @@ import { fShortenNumber } from '../../utils/format-number';
 
 import Iconify from '../../components/iconify';
 import SvgColor from '../../components/svg-color';
-import useBlogs from './useBlogs';
+import useBlogs from '../../hooks/useBlogs';
 
 // ----------------------------------------------------------------------
 

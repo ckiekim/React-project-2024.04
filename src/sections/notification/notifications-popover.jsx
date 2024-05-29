@@ -16,7 +16,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import { formatAgo } from '../../utils/format-time';
 import Iconify from '../../components/iconify';
 import Scrollbar from '../../components/scrollbar';
-import useNotification from './useNotification';
+import useNotification from '../../hooks/useNotification';
 
 // ----------------------------------------------------------------------
 

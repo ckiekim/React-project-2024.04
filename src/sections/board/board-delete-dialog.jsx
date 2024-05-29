@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography'
 
 import Iconify from '../../components/iconify';
-import useBoard from './useBoard';
+import useBoard from '../../hooks/useBoard';
 
 export default function BoardDeleteDialog({ board, account, onClose }) {
   const [open, setOpen] = useState(false);

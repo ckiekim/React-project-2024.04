@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getNotificationList, getNotificationCount, insertNotification, updateNotification, deleteNotification } from '../../api/firebase';
+import { getNotificationList, getNotificationCount, insertNotification, updateNotification, deleteNotification } from '../api/firebase';
 
 export default function useNotification(email) {
   const queryClient = useQueryClient();

@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 
 import Iconify from '../../components/iconify';
 import MyEditor from '../../components/my-editor';
-import useBoard from './useBoard';
+import useBoard from '../../hooks/useBoard';
 
 export default function BoardUpdateDialog({ board, account, onClose }) {
   const [open, setOpen] = useState(false);

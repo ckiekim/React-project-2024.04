@@ -14,8 +14,8 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
 import MyEditor from '../../components/my-editor';
-import useBoard from './useBoard';
-import useReply from './useReply';
+import useBoard from '../../hooks/useBoard';
+import useReply from '../../hooks/useReply';
 import { formatAgo, fDateTime } from '../../utils/format-time';
 
 export default function BoardDetailDialog({ open, account, onClose, board }) {

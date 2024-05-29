@@ -13,8 +13,8 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import useMesssage from './useMessage';
-import useNotification from '../notification/useNotification';
+import useMesssage from '../../hooks/useMessage';
+import useNotification from '../../hooks/useNotification';
 
 export default function MessageReplyDialog({ message }) {
   const [open, setOpen] = useState(false);

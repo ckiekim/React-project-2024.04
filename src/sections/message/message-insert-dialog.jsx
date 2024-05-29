@@ -17,9 +17,9 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Iconify from '../../components/iconify';
-import useMesssage from './useMessage';
+import useMesssage from '../../hooks/useMessage';
 import useUserInfo from '../userInfo/useUserInfo';
-import useNotification from '../notification/useNotification';
+import useNotification from '../../hooks/useNotification';
 
 export default function MessageInsertDialog() {
   const [open, setOpen] = useState(false);

@@ -17,8 +17,8 @@ import MessageInsertDialog from '../message-insert-dialog';
 import MessageTableHead from '../message-table-head';
 import MessageTableRow from '../message-table-row';
 import LoadingProgress from '../../../components/loading-progress';
-import useMessage from '../useMessage';
-import useNotification from '../../notification/useNotification';
+import useMessage from '../../../hooks/useMessage';
+import useNotification from '../../../hooks/useNotification';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
 export default function MessageView() {
