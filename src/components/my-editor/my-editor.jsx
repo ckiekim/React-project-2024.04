@@ -1,130 +1,47 @@
-import React, { memo, useEffect, useState, useCallback } from 'react';
-import { EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import './my-editor.css';
+import React, { useState, useEffect } from 'react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { uploadImage } from '../../api/cloudinary';
+import './my-editor.css';
 
 export default function MyEditor({ initialContent, onContentChange, mode }) {
-  const [editorState, setEditorState] = useState(() => {
-    if (initialContent) {
-      try {
-        const contentState = convertFromRaw(initialContent);
-        return EditorState.createWithContent(contentState);
-      } catch (error) {
-        console.error('Failed to convert initial content:', error);
-      }
-    }
-    return EditorState.createEmpty();
-  });
+  const [content, setContent] = useState(initialContent || '');
 
   useEffect(() => {
-    if (initialContent) {
-      try {
-        const contentState = convertFromRaw(initialContent);
-        setEditorState(EditorState.createWithContent(contentState));
-      } catch (error) {
-        console.error('Failed to convert initial content:', error);
-      }
-    }
+    setContent(initialContent || '');
   }, [initialContent]);
 
-  const handleEditorContentChange = useCallback((newEditorState) => {
-    setEditorState(newEditorState);
-  }, []);
-
-  useEffect(() => {
+  const handleEditorChange = (event, editor) => {
+    const data = editor.getData();
+    setContent(data);
     if (onContentChange) {
-      console.log(editorState);
-      const rawContent = convertToRaw(editorState.getCurrentContent());
-      onContentChange(rawContent);
-    }
-  }, [editorState]);
-
-  const uploadImageCallBack = async (file) => {
-    try {
-      const url = await uploadImage(file);
-      const contentState = editorState.getCurrentContent();
-      const contentStateWithEntity = contentState.createEntity('image', 'IMMUTABLE', { src: url });
-      const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-      
-      // Check if entityKey is null
-      if (!entityKey) {
-        console.error('Entity key is null');
-        return;
-      }
-
-      // Insert the new atomic block with the image entity
-      const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' ');
-      
-      // Force selection to the new state
-      const forcedEditorState = EditorState.forceSelection(
-        newEditorState,
-        newEditorState.getCurrentContent().getSelectionAfter()
-      );
-      
-      handleEditorContentChange(forcedEditorState);
-      return { data: { link: url } };
-    } catch (error) {
-      console.error('Image upload failed:', error);
-      return { error: 'Image upload failed' };
+      onContentChange(data);
     }
   };
-
-  const myBlockRenderer = (contentBlock) => {
-    const type = contentBlock.getType();
-    if (type === 'atomic') {
+  const imageUploadAdapterPlugin = (editor) => {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
       return {
-        component: Media,
-        editable: false,
+        upload: async () => {
+          try {
+            const url = await uploadImage(loader.file); // 이미지 업로드 함수 호출
+            return { default: url }; // CKEditor에 이미지 URL 반환
+          } catch (error) {
+            throw Error('Image upload failed');
+          }
+        },
       };
-    }
+    };
   };
-
-  const Media = memo((props) => {
-    const { block, contentState } = props;
-    const entityKey = block.getEntityAt(0);
-  
-    // Check if entity key exists and get the entity
-    const entity = entityKey ? contentState.getEntity(entityKey) : null;
-    if (!entity) 
-      return null;
-  
-    const { src } = entity.getData();
-    const type = entity.getType();
-    if (type === 'image') {
-      return <img src={src} alt="Uploaded content" />;
-    }
-    return null;
-  }, (prevProps, nextProps) => {
-    // Custom comparison function to prevent re-renders if contentState and block are the same
-    return prevProps.block === nextProps.block && prevProps.contentState === nextProps.contentState;
-  });
-  
 
   return (
-    <div className="editor-container">
-      <Editor
-        editorState={editorState}
-        // onEditorStateChange={(newState) => {
-        //   if (newState instanceof EditorState) {
-        //     setEditorState(newState);
-        //   } else {
-        //     console.error('Invalid EditorState:', newState);
-        //   }
-        // }}
-        onEditorStateChange={handleEditorContentChange}
-        blockRendererFn={myBlockRenderer}
-        toolbar={{
-          image: {
-            uploadCallback: uploadImageCallBack,
-            alt: { present: true, mandatory: true },
-          },
-        }}
-        editorClassName="editor"
-        readOnly={mode === 'read'}
-        toolbarHidden={mode === 'read'}
-      />
-    </div>
+    <CKEditor
+      editor={ClassicEditor}
+      // config={{
+      //   extraPlugins: [imageUploadAdapterPlugin],
+      // }}
+      data={content}
+      onChange={handleEditorChange}
+      disabled={mode === 'read'}
+    />
   );
-}
+};

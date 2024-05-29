@@ -19,15 +19,6 @@ import { formatAgo, fDateTime } from '../../utils/format-time';
 export default function BoardDetailDialog({ open, onClose, board }) {
   const uid = sessionStorage.getItem('sessionUid');
   const [viewCount, setViewCount] = useState(board.viewCount);
-  const [editorContent, setEditorContent] = useState('');
-
-  useEffect(() => {
-    const initialContent = {
-      blocks: board.content.blocks,
-      entityMap: board.content.entityMap ? board.content.entityMap : {}
-    }
-    setEditorContent(initialContent);
-  }, [board])
 
   const { updateRecord } = useBoard();
   const memoizedUpdateRecord = useCallback(updateRecord, []);
@@ -35,9 +26,6 @@ export default function BoardDetailDialog({ open, onClose, board }) {
     if (uid !== board.writer.uid) 
       memoizedUpdateRecord.mutate({ ...board, viewCount });
     onClose(false); 
-  };
-  const handleEditorContentChange = (content) => {
-    setEditorContent(content);
   };
 
   useEffect(() => {
@@ -77,11 +65,11 @@ export default function BoardDetailDialog({ open, onClose, board }) {
                 </Typography>
               </Stack>
               <Typography variant='subtitle2'>
-                조회: {board.viewCount},&nbsp;&nbsp;댓글: {board.replyCount}
+                조회: {viewCount},&nbsp;&nbsp;댓글: {board.replyCount}
               </Typography>
             </Stack>
           </Stack>
-          <MyEditor initialContent={editorContent} mode='read' />
+          <MyEditor initialContent={board.content} mode='read' />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} variant="contained">확인</Button>

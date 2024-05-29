@@ -7,6 +7,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
+import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography'
@@ -15,25 +16,27 @@ import Iconify from '../../components/iconify';
 import MyEditor from '../../components/my-editor';
 import useBoard from './useBoard';
 
-export default function BoardInsertDialog({ account }) {
-  const { uid, displayName, avatarUrl } = account;
+export default function BoardUpdateDialog({ board, uid, onClose }) {
   const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [editorContent, setEditorContent] = useState('');
+  const [title, setTitle] = useState(board.title);
+  const [editorContent, setEditorContent] = useState(board.content);
 
-  const { insertRecord } = useBoard();
-  const handleClickOpen = () => { setOpen(true); };
-  const handleClose = () => { 
-    setTitle('');
-    setOpen(false); 
-  };
-  const handleSubmit = () => {
-    console.log(editorContent);
-    const board = { title, content: editorContent, 
-      writer: { uid, displayName, avatarUrl }
-    }
-    insertRecord.mutate(board);
-    handleClose();
+  const { updateRecord } = useBoard();
+
+  const handleOpen = () => {
+    if (uid !== board.writer.uid) {
+      onClose();
+      return null;
+    } else 
+      setOpen(true);
+  }
+  const handleClose = () => { setOpen(false); };
+  const handleUpdate = () => {
+    setOpen(false);
+    const newBoard = { ...board, title, content: editorContent, modifiedAt: new Date().toISOString() };
+    console.log(newBoard);
+    updateRecord.mutate(newBoard);
+    onClose();
   }
   const handleEditorContentChange = (content) => {
     setEditorContent(content);
@@ -41,29 +44,33 @@ export default function BoardInsertDialog({ account }) {
 
   return (
     <>
-      <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}
-        onClick={handleClickOpen}>
-        글 쓰기
-      </Button>
+      <MenuItem key='1' sx={{ color: 'primary.main' }} onClick={handleOpen}>
+        <Iconify icon="solar:pen-2-bold" sx={{ mr: 2 }} />
+        수정
+      </MenuItem>
       <Dialog open={open} onClose={handleClose} maxWidth='lg'>
         <DialogTitle>
-          <Typography sx={{fontWeight: 'bold', fontSize: 18}}>게시글 쓰기</Typography>
+          <Typography sx={{fontWeight: 'bold', fontSize: 18}}>게시글 수정</Typography>
         </DialogTitle>
         <IconButton aria-label="close" onClick={handleClose}
           sx={{ position: 'absolute', right: 8, top: 8, }} >
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Stack mb={1}>
+          <Stack spacing={2}>
             <TextField autoFocus required margin="dense" id="title"
               name="title" label="제목" type="text" fullWidth
               defaultValue={title} onChange={e => setTitle(e.target.value)}
             />
-          </Stack>
-          <MyEditor onContentChange={handleEditorContentChange} mode='write' />
+            <MyEditor 
+              initialContent={editorContent}
+              onContentChange={handleEditorContentChange} 
+              mode='update' 
+            />
+          </Stack>          
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSubmit} variant="contained">제출</Button>
+          <Button onClick={handleUpdate} variant="contained">수정</Button>
         </DialogActions>
       </Dialog>
     </>

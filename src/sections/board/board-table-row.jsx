@@ -4,7 +4,6 @@ import Avatar from '@mui/material/Avatar';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
-import MenuItem from '@mui/material/MenuItem';
 import Popover from '@mui/material/Popover';
 import Stack from '@mui/material/Stack';
 import TableCell from '@mui/material/TableCell';
@@ -12,7 +11,8 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
 import BoardDetailDialog from './board-detail-dialog';
-import useBoard from './useBoard';
+import BoardUpdateDialog from './board-update-dialog';
+import BoardDeleteDialog from './board-delete-dialog';
 import Iconify from '../../components/iconify';
 import { formatAgo } from '../../utils/format-time';
 import { fCurrency } from '../../utils/format-number';
@@ -20,7 +20,7 @@ import { fCurrency } from '../../utils/format-number';
 export default function BoardTableRow({ board, selected, handleClick }) {
   const [openPopover, setOpenPopover] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
-  const { updateRecord } = useBoard();
+  const uid = sessionStorage.getItem('sessionUid');
 
   const handleOpenMenu = (event) => { setOpenPopover(event.currentTarget); };
   const handleCloseMenu = () => { setOpenPopover(null); };
@@ -75,14 +75,8 @@ export default function BoardTableRow({ board, selected, handleClick }) {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         sx={{ width: 160 }}
       >
-        <MenuItem key='1' sx={{ color: 'error.main' }}>
-          <Iconify icon="iconamoon:delivery" sx={{ mr: 2 }} />
-          수정
-        </MenuItem>
-        <MenuItem key='2' sx={{ color: 'error.main' }}>
-          <Iconify icon="tdesign:undertake-delivery" sx={{ mr: 2 }} />
-          삭제
-        </MenuItem>
+        <BoardUpdateDialog board={board} uid={uid} onClose={handleCloseMenu} />
+        <BoardDeleteDialog board={board} uid={uid} onClose={handleCloseMenu} />
       </Popover>
 
       <BoardDetailDialog open={openDialog} onClose={setOpenDialog} board={board} />
