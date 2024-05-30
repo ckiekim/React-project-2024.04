@@ -27,7 +27,7 @@ export default function BoardView() {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('email');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const { getRecord: { data: account } } = useUserInfo({ uid: sessionStorage.getItem('sessionUid') });
   const { getList: { isLoading, data: boards } } = useBoard();
@@ -97,7 +97,7 @@ export default function BoardView() {
 
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
-            <Table sx={{ minWidth: 800 }}>
+            <Table sx={{ minWidth: 800 }} size='small'>
               <BoardTableHead
                 order={order} orderBy={orderBy} rowCount={boards.length} numSelected={selected.length}
                 onRequestSort={handleSort} onSelectAllClick={handleSelectAllClick}
@@ -122,7 +122,7 @@ export default function BoardView() {
                   ))
                 }
 
-                <TableEmptyRows height={70} numCols={6}
+                <TableEmptyRows height={50} numCols={6}
                   emptyRows={emptyRows(page, rowsPerPage, boards.length)}
                 />
 

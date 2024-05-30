@@ -29,7 +29,9 @@ export default function UserInfoTableRow({ user, selected,  handleClick }) {
   };
   const { deleteRecord } = useUserInfo();
   const handleDeleteMenu = () => {
-    deleteRecord.mutate(uid);
+    const sessionUid = sessionStorage.getItem('sessionUid');
+    if (sessionUid === uid)
+      deleteRecord.mutate(uid);
     setOpenPopover(null);
   };
 

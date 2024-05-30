@@ -47,7 +47,8 @@ export default function BoardTableRow({ board, account, selected, handleClick })
         </TableCell>
         <TableCell>
           <Stack direction='row' spacing={1} alignItems='center'>
-            <Avatar src={board.writer.avatarUrl} alt={board.writer.displayName} />
+            <Avatar src={board.writer.avatarUrl} alt={board.writer.displayName}
+              sx={{ width: 36, height: 36 }} />
             <Typography variant="body2">{board.writer.displayName}</Typography>
           </Stack>
         </TableCell>

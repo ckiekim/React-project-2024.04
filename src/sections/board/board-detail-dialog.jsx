@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import Avatar from '@mui/material/Avatar';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CloseIcon from '@mui/icons-material/Close';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -20,6 +18,7 @@ import MyEditor from '../../components/my-editor';
 import useBoard from '../../hooks/useBoard';
 import useLikes from '../../hooks/useLikes';
 import useReply from '../../hooks/useReply';
+import ReplyDetail from './reply-detail';
 import { formatAgo, fDateTime } from '../../utils/format-time';
 
 export default function BoardDetailDialog({ open, account, onClose, board }) {
@@ -119,7 +118,8 @@ export default function BoardDetailDialog({ open, account, onClose, board }) {
                 </Typography>
               </Stack>
               <Typography variant='subtitle2'>
-                조회: {viewCount},&nbsp;&nbsp;댓글: {replyCount}
+                조회: {viewCount},&nbsp;&nbsp;
+                댓글: {replyCount}
               </Typography>
             </Stack>
           </Stack>
@@ -127,34 +127,7 @@ export default function BoardDetailDialog({ open, account, onClose, board }) {
 
           {replies &&
             replies.map(reply => (
-              <Stack direction='row' spacing={2} mt={2} key={reply.rid}
-                justifyContent={reply.isMine ? 'flex-end' : 'flex-start'}
-                textAlign={reply.isMine ? 'right' : 'left'}
-                sx={{
-                  alignItems: 'flex-start',
-                  '& > *': { textAlign: reply.isMine ? 'right' : 'left' }
-                }}
-              >
-                {!reply.isMine && 
-                  <Avatar src={reply.commenter.avatarUrl} alt={reply.commenter.displayName} />
-                }
-                <Stack spacing={0.1}>
-                  <Typography variant='body2'>
-                    {reply.commenter.displayName}&nbsp;&nbsp;
-                    {fDateTime(reply.writtenAt, 'yyyy-MM-dd HH:mm:ss')} ({formatAgo(reply.writtenAt, 'ko')})
-                    {account.uid === reply.commenter.uid && (
-                      <>
-                        <BorderColorIcon fontSize='small' sx={{ ml: 2 }} />&nbsp;
-                        <DeleteIcon fontSize='small' />
-                      </>
-                    )}
-                  </Typography>
-                  <Typography>{reply.comment}</Typography>
-                </Stack>
-                {reply.isMine && 
-                  <Avatar src={reply.commenter.avatarUrl} alt={reply.commenter.displayName} />
-                }
-              </Stack>
+              <ReplyDetail key={reply.rid} reply={reply} account={account} board={board} />
             ))
           }
         </DialogContent>

@@ -22,7 +22,11 @@ export default function UserInfoUpdateDialog({ user, callback }) {
   const [file, setFile] = useState();
   const [userInfo, setUserInfo] = useState();
   const handleClickOpen = () => { 
-    setOpen(true); 
+    const sessionUid = sessionStorage.getItem('sessionUid');
+    if (sessionUid === user.uid)
+      setOpen(true); 
+    else
+      callback(null);
   };
   const handleClose = () => { 
     setOpen(false); 

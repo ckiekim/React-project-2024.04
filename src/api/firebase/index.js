@@ -1,4 +1,4 @@
-export { login, logout, onUserStateChanged, register } from './auth';
+export { login, login2, logout, onUserStateChanged, register } from './auth';
 
 export { getAnnivList, insertAnniv, updateAnniv, deleteAnniv } from './anniversary';
 export { getBoard, getBoardList, insertBoard, updateBoard, deleteBoard } from './board';

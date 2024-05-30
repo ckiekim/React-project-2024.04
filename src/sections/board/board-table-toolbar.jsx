@@ -13,7 +13,7 @@ export default function BoardTableToolbar({ numSelected, filterName, onFilterNam
   return (
     <Toolbar
       sx={{
-        height: 96, display: 'flex', justifyContent: 'space-between',
+        height: 80, display: 'flex', justifyContent: 'space-between',
         p: (theme) => theme.spacing(0, 1, 0, 3),
         ...(numSelected > 0 && {
           color: 'primary.main',
@@ -27,7 +27,7 @@ export default function BoardTableToolbar({ numSelected, filterName, onFilterNam
         </Typography>
       ) : (
         <OutlinedInput
-          value={filterName} onChange={onFilterName} placeholder="Search board..."
+          value={filterName} onChange={onFilterName} placeholder="게시판 검색..."
           startAdornment={
             <InputAdornment position="start">
               <Iconify

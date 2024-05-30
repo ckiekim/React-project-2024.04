@@ -30,6 +30,7 @@ export default function LoginDialog() {
   const [showPassword, setShowPassword] = useState(false);
   const [loginInfo, setLoginInfo] = useState({email: '', password: ''});
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const [message, setMessage] = useState('');
 
   const handleClickOpen = () => { setOpen(true); };
   const handleClose = () => { setOpen(false); setIsLoginMode(true); };
@@ -38,12 +39,18 @@ export default function LoginDialog() {
   }
   const handleSubmit = e => {
     if (isLoginMode) {
-      login(loginInfo); 
+      login(loginInfo, setMessage); 
     } else {
       register(loginInfo); 
     }
   }
   const handleMode = () => { setIsLoginMode(!isLoginMode); }
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Enter 키로 인한 기본 submit 동작 방지
+      handleSubmit();
+    }
+  };
 
   return (
     <>
@@ -99,7 +106,7 @@ export default function LoginDialog() {
             <Stack spacing={3}>
               <TextField name="email" onChange={handleChange} label="이메일" />
               <TextField name="password" label="패스워드" onChange={handleChange} 
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? 'text' : 'password'} onKeyDown={handleKeyDown}
                 InputProps={{ endAdornment: (
                     <InputAdornment position="end">
                       <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
@@ -109,6 +116,7 @@ export default function LoginDialog() {
                   ),
                 }} 
               />
+              {message && <Typography color='error'>{message}</Typography>}
             </Stack>
 
             {isLoginMode &&

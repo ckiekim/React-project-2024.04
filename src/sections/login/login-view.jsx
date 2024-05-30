@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import { bgGradient } from '../../theme/css';
 import Logo from '../../components/logo';
 import Iconify from '../../components/iconify';
-import { login, register } from '../../api/firebase';
+import { login2, register } from '../../api/firebase';
 
 // ----------------------------------------------------------------------
 
@@ -27,19 +27,26 @@ export default function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
   const [loginInfo, setLoginInfo] = useState({email: '', password: ''})
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const [message, setMessage] = useState('');
 
   const handleChange = e => {
     setLoginInfo({...loginInfo, [e.target.name]: e.target.value});
   }
   const handleSubmit = e => {
     if (isLoginMode) {
-      login(loginInfo); 
+      login2(loginInfo, () => {navigate('/')}, setMessage); 
     } else {
       register(loginInfo);
     }
-    navigate('/');
+    // navigate('/');
   }
   const handleMode = () => { setIsLoginMode(!isLoginMode); }
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Enter 키로 인한 기본 submit 동작 방지
+      handleSubmit();
+    }
+  };
 
   return (
     <Box
@@ -95,7 +102,7 @@ export default function LoginView() {
           <Stack spacing={3}>
             <TextField name="email" onChange={handleChange} label="이메일" />
             <TextField name="password" label="패스워드" onChange={handleChange} 
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? 'text' : 'password'} onKeyDown={handleKeyDown}
               InputProps={{ endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
@@ -105,6 +112,7 @@ export default function LoginView() {
                 ),
               }} 
             />
+            {message && <Typography color='error'>{message}</Typography>}
           </Stack>
           
           <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
