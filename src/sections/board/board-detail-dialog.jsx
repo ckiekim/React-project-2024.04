@@ -1,26 +1,31 @@
 import { useEffect, useState } from 'react';
 
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 import MyEditor from '../../components/my-editor';
 import useBoard from '../../hooks/useBoard';
+import useLikes from '../../hooks/useLikes';
 import useReply from '../../hooks/useReply';
 import { formatAgo, fDateTime } from '../../utils/format-time';
 
 export default function BoardDetailDialog({ open, account, onClose, board }) {
-  const [viewCount, setViewCount] = useState(board.viewCount);
-  const [replyCount, setReplyCount] = useState(board.replyCount);
+  const [likeCount, setLikeCount] = useState(0);
+  const [viewCount, setViewCount] = useState(0);
+  const [replyCount, setReplyCount] = useState(0);
   const [comment, setComment] = useState('');
 
   const { updateRecord: updateBoardRecord } = useBoard();
@@ -32,7 +37,34 @@ export default function BoardDetailDialog({ open, account, onClose, board }) {
   useEffect(() => {
     if (account.uid !== board.writer.uid)
       setViewCount(board.viewCount + 1);
+    else
+      setViewCount(board.viewCount);
+    setLikeCount(board.likeCount);
+    setReplyCount(board.replyCount);
   }, [board, account]);
+
+  const { getRecord: { data: like }, insertRecord: insertLikeRecord,
+    updateRecord: updateLikeRecord } = useLikes(account.uid, board.bid);
+  const handleLike = () => {
+    if (account.uid === board.writer.uid)
+      return;
+    if (like) {
+      let newValue = like.value;
+      let newLikeCount = likeCount;
+      if (newValue === 1) {
+        newValue = 0; newLikeCount--;
+      } else {
+        newValue = 1; newLikeCount++;
+      }
+      setReplyCount(newLikeCount);
+      updateLikeRecord.mutate({ ...like, value: newValue });
+      updateBoardRecord.mutate({ ...board, likeCount: newLikeCount });
+    } else {
+      setLikeCount(board.likeCount + 1);
+      insertLikeRecord.mutate({ uid: account.uid, bid: board.bid, value: 1 });
+      updateBoardRecord.mutate({ ...board, likeCount: board.likeCount + 1 });
+    }
+  }
 
   const { getList: { data: replies }, insertRecord: insertReplyRecord } = useReply(board.bid);
   const handleReply = () => {
@@ -78,9 +110,12 @@ export default function BoardDetailDialog({ open, account, onClose, board }) {
                 <Typography variant="h6">{board.writer.displayName}</Typography>
               </Stack>
               <Stack direction='row' spacing={1} alignItems='center'>
-                <FavoriteBorderIcon />
+                <Link href='#' onClick={handleLike}>
+                  {(like && like.value === 1) && <FavoriteIcon />}
+                  {(!like || like.value === 0) && <FavoriteBorderIcon />}
+                </Link>
                 <Typography variant='subtitle2'>
-                  {board.likeCount}
+                  {likeCount}
                 </Typography>
               </Stack>
               <Typography variant='subtitle2'>
@@ -107,6 +142,12 @@ export default function BoardDetailDialog({ open, account, onClose, board }) {
                   <Typography variant='body2'>
                     {reply.commenter.displayName}&nbsp;&nbsp;
                     {fDateTime(reply.writtenAt, 'yyyy-MM-dd HH:mm:ss')} ({formatAgo(reply.writtenAt, 'ko')})
+                    {account.uid === reply.commenter.uid && (
+                      <>
+                        <BorderColorIcon fontSize='small' sx={{ ml: 2 }} />&nbsp;
+                        <DeleteIcon fontSize='small' />
+                      </>
+                    )}
                   </Typography>
                   <Typography>{reply.comment}</Typography>
                 </Stack>

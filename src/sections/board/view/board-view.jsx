@@ -111,7 +111,7 @@ export default function BoardView() {
                 ]}
               />
               <TableBody>
-                {dataFiltered
+                {account && dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <BoardTableRow
