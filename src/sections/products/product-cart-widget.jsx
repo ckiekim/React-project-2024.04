@@ -33,9 +33,9 @@ import Typography from '@mui/material/Typography';
 
 import Iconify from '../../components/iconify';
 import { fCurrency } from '../../utils/format-number';
-import useOrders from '../orders/useOrders';
-// import useNotification from '../notification/useNotification';
-import useCart from './useCart';
+import useOrders from '../../hooks/useOrders';
+// import useNotification from '../../hooks/useNotification';
+import useCart from '../../hooks/useCart';
 
 // ----------------------------------------------------------------------
 

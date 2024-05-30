@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getProductList, getProduct, insertProduct, updateProduct, deleteProduct } from '../../api/firebase';
+import { getProductList, getProduct, insertProduct, updateProduct, deleteProduct } from '../api/firebase';
 
 export default function useProducts(id) {
   const queryClient = useQueryClient();

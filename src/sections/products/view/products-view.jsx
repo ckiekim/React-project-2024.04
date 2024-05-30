@@ -6,8 +6,8 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 // import { products } from '../../../_mock/products';
-import useProducts from '../useProducts';
-import useCart from '../useCart';
+import useProducts from '../../../hooks/useProducts';
+import useCart from '../../../hooks/useCart';
 import LoadingProgress from '../../../components/loading-progress';
 import ProductCard from '../product-card';
 import ProductSort from '../product-sort';

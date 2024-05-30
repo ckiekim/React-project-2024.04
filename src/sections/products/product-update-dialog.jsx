@@ -18,7 +18,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import useProducts from './useProducts';
+import useProducts from '../../hooks/useProducts';
 import { squareImage } from '../../api/cloudinary';
 
 const COLOR_CODES = ['#00AB55','#000000','#FFFFFF','#FFC0CB','#FF4842','#1890FF','#94D82D','#FFC107'];

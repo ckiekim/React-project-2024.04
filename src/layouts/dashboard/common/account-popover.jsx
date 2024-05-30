@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import LoginDialog from './login-dialog';
 import UserInfoInsertDialog from './userInfo-insert-dialog';
 // import { account } from '../../../_mock/account';
-import useUserInfo from '../../../sections/userInfo/useUserInfo';
+import useUserInfo from '../../../hooks/useUserInfo';
 
 const MENU_OPTIONS = [
   { label: 'Home', icon: 'eva:home-fill', },

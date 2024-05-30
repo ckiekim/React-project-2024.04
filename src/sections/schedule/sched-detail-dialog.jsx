@@ -21,7 +21,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import { genTime } from './util';
-import useSched from './useSched';
+import useSched from '../../hooks/useSched';
 
 export default function SchedDetailDialog({ sched }) {
   const [open, setOpen] = useState(false);

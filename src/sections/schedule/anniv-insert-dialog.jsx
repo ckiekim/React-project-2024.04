@@ -15,7 +15,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Iconify from '../../components/iconify';
-import useAnniv from './useAnniv';
+import useAnniv from '../../hooks/useAnniv';
 
 export default function AnnivInsertDialog() {
   const [open, setOpen] = useState(false);

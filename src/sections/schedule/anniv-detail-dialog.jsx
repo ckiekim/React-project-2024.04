@@ -15,7 +15,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import useAnniv from './useAnniv';
+import useAnniv from '../../hooks/useAnniv';
 
 export default function AnnivDetailDialog({ anniv, index, middot }) {
   const { adate, aname, email, id, isHoliday } = anniv;

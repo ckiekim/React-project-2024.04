@@ -8,7 +8,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
 
-import useOrders from '../../sections/orders/useOrders';
+import useOrders from '../../hooks/useOrders';
 import useNotification from '../../hooks/useNotification';
 import { fCurrency } from '../../utils/format-number';
 

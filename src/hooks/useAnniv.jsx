@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getAnnivList, insertAnniv, updateAnniv, deleteAnniv } from '../../api/firebase';
+import { getAnnivList, insertAnniv, updateAnniv, deleteAnniv } from '../api/firebase';
 
 export default function useAnniv(ymd) {
   const queryClient = useQueryClient();

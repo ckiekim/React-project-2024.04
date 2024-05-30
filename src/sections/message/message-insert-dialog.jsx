@@ -18,7 +18,7 @@ import Typography from '@mui/material/Typography';
 
 import Iconify from '../../components/iconify';
 import useMesssage from '../../hooks/useMessage';
-import useUserInfo from '../userInfo/useUserInfo';
+import useUserInfo from '../../hooks/useUserInfo';
 import useNotification from '../../hooks/useNotification';
 
 export default function MessageInsertDialog() {

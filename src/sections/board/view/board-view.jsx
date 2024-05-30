@@ -17,7 +17,7 @@ import TableNoData from '../../../components/table-no-data';
 import Scrollbar from '../../../components/scrollbar';
 import LoadingProgress from '../../../components/loading-progress';
 import { emptyRows, applyFilter, getComparator } from '../utils';
-import useUserInfo from '../../userInfo/useUserInfo';
+import useUserInfo from '../../../hooks/useUserInfo';
 import useBoard from '../../../hooks/useBoard';
 import BoardInsertDialog from '../board-insert-dialog';
 

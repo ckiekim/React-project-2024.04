@@ -14,14 +14,13 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Iconify from '../../components/iconify';
-import useUserInfo from './useUserInfo';
-import { getUserInfo } from '../../api/firebase';
+import useUserInfo from '../../hooks/useUserInfo';
 import { squareImage } from '../../api/cloudinary';
 
-export default function UserInfoUpdateDialog({ uid, callback }) {
+export default function UserInfoUpdateDialog({ user, callback }) {
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState();
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState();
   const handleClickOpen = () => { 
     setOpen(true); 
   };
@@ -35,7 +34,7 @@ export default function UserInfoUpdateDialog({ uid, callback }) {
   const handleUpload = newFile => {
     setFile(newFile);
     squareImage(newFile)
-      .then(url => setUserInfo(userInfo => ({...userInfo, ['avatarUrl']: url})));
+      .then(url => setUserInfo(userInfo => ({...userInfo, avatarUrl: url})));
   }
   const { updateRecord } = useUserInfo();
   const handleSubmit = e => {
@@ -45,9 +44,8 @@ export default function UserInfoUpdateDialog({ uid, callback }) {
     callback(null);
   }
   useEffect(() => {
-    getUserInfo(uid)
-      .then(setUserInfo);
-  }, []);
+    setUserInfo(user);
+  }, [user]);
 
   return (
     <>
@@ -65,7 +63,7 @@ export default function UserInfoUpdateDialog({ uid, callback }) {
         {userInfo && <DialogContent dividers>
           <Stack spacing={2} sx={{ width: '40ch' }} alignItems="center">
             {userInfo && <img src={userInfo.avatarUrl} alt='photo' width='80%' />}
-            <TextField disabled margin="dense" label="uid" fullWidth defaultValue={uid} />
+            <TextField disabled margin="dense" label="uid" fullWidth defaultValue={userInfo.uid} />
             <TextField disabled margin="dense" label="이메일" fullWidth defaultValue={userInfo.email} />
             <TextField autoFocus required margin="dense" id="displayName"
               name="displayName" label="이름" type="text" fullWidth

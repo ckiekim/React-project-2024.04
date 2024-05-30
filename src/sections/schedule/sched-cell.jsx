@@ -7,8 +7,8 @@ import { getDayInfo } from './util';
 import AnnivDetailDialog from './anniv-detail-dialog';
 import SchedInsertDialog from './sched-insert-dialog';
 import SchedDetailDialog from './sched-detail-dialog';
-import useAnniv from './useAnniv';
-import useSched from './useSched';
+import useAnniv from '../../hooks/useAnniv';
+import useSched from '../../hooks/useSched';
 
 export default function ScheduleCell({ ymd, yearMonth, isToday }) {
   const { day, date } = getDayInfo(ymd);

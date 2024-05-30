@@ -18,7 +18,7 @@ import Typography from '@mui/material/Typography';
 
 import { renderStatus, renderPrice } from './product-card';
 import { fCurrency } from '../../utils/format-number';
-import useCart from './useCart';
+import useCart from '../../hooks/useCart';
 
 export default function ProductDetailDialog({ dialogOpen, dialogHandle, product }) {
   const uid = sessionStorage.getItem('sessionUid');

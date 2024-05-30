@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 
 // import { posts } from '../../../_mock/blog';
 import useBlogs from '../../../hooks/useBlogs'
-import useUserInfo from '../../userInfo/useUserInfo';
+import useUserInfo from '../../../hooks/useUserInfo';
 
 import PostCard from '../post-card';
 import PostSort from '../post-sort';

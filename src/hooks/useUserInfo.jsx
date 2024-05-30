@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getUserInfo, getUserInfoList, getUserInfoByEmail, 
-  insertUserInfo, updateUserInfo, deleteUserInfo } from '../../api/firebase';
+  insertUserInfo, updateUserInfo, deleteUserInfo } from '../api/firebase';
 
 export default function useUserInfo(user) {
   const queryClient = useQueryClient();

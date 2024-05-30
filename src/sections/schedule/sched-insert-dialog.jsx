@@ -21,7 +21,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import { genTime, nearTime } from './util';
-import useSched from './useSched';
+import useSched from '../../hooks/useSched';
 
 export default function SchedInsertDialog({ ymd, day, color, isOtherMonth }) {
   const { startTime, endTime } = nearTime();

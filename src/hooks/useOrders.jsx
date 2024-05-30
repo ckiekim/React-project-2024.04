@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getOrderList, getOrder, insertOrder, updateOrder, deleteOrder } from '../../api/firebase';
+import { getOrderList, getOrder, insertOrder, updateOrder, deleteOrder } from '../api/firebase';
 
 export default function useOrders(oid) {
   const queryClient = useQueryClient();

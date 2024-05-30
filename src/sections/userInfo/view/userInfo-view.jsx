@@ -10,7 +10,7 @@ import TablePagination from '@mui/material/TablePagination';
 import Typography from '@mui/material/Typography';
 
 // import { userInfo } from '../../../_mock/user';
-import useUserInfo from '../useUserInfo';
+import useUserInfo from '../../../hooks/useUserInfo';
 import Scrollbar from '../../../components/scrollbar';
 import LoadingProgress from '../../../components/loading-progress';
 import TableNoData from '../../../components/table-no-data';
@@ -19,7 +19,6 @@ import UserInfoTableHead from '../userInfo-table-head';
 import TableEmptyRows from '../../../components/table-empty-rows';
 import UserInfoTableToolbar from '../userInfo-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
-import { formatAgo } from '../../../utils/format-time';
 
 // ----------------------------------------------------------------------
 
@@ -126,9 +125,10 @@ export default function UserInfoPage() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <UserInfoTableRow
-                      key={row.uid} uid={row.uid} email={row.email} displayName={row.displayName}
-                      avatarUrl={row.avatarUrl} job={row.job} role={row.role} status={row.status}
-                      registeredAt={formatAgo(row.registeredAt, 'ko')}
+                      key={row.uid} user={row}
+                      // uid={row.uid} email={row.email} displayName={row.displayName}
+                      // avatarUrl={row.avatarUrl} job={row.job} role={row.role} status={row.status}
+                      // registeredAt={row.registeredAt}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />

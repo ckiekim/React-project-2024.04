@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getCart, insertCart, updateCart, deleteCart } from '../../api/firebase';
+import { getCart, insertCart, updateCart, deleteCart } from '../api/firebase';
 
 export default function useCart(uid) {
   const queryClient = useQueryClient();

@@ -10,17 +10,16 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
-import useUserInfo from './useUserInfo';
+import useUserInfo from '../../hooks/useUserInfo';
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
 import UserInfoUpdateDialog from './userInfo-update-dialog';
+import { formatAgo } from '../../utils/format-time';
 
 // ----------------------------------------------------------------------
 
-export default function UserInfoTableRow({
-  uid, selected, email, displayName, avatarUrl, job, role, status, // isVerified,
-  registeredAt, handleClick,
-}) {
+export default function UserInfoTableRow({ user, selected,  handleClick }) {
+  const { uid, email, displayName, avatarUrl, job, role, status, registeredAt } = user;
   const [openPopover, setOpenPopover] = useState(null);
   const handleOpenMenu = (event) => {
     setOpenPopover(event.currentTarget);
@@ -65,7 +64,7 @@ export default function UserInfoTableRow({
         </TableCell>
 
         <TableCell>
-          <Typography variant="body2">{registeredAt}</Typography>
+          <Typography variant="body2">{formatAgo(registeredAt, 'ko')}</Typography>
         </TableCell>
 
         <TableCell align="right">
@@ -81,7 +80,7 @@ export default function UserInfoTableRow({
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         sx={{ width: 140 }}
       >
-        <UserInfoUpdateDialog uid={uid} callback={handleCloseMenu} />
+        <UserInfoUpdateDialog user={user} callback={handleCloseMenu} />
 
         <MenuItem onClick={handleDeleteMenu} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
