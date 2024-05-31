@@ -39,14 +39,14 @@ export default function ScheduleCell({ ymd, yearMonth, isToday }) {
         {anniversary &&
           <Stack direction='row' spacing={0.2}>
             {anniversary.map((anniv, index) => (
-              <AnnivDetailDialog anniv={anniv} index={index} middot={anniversary.length > 1} />
+              <AnnivDetailDialog key={anniv.id} anniv={anniv} index={index} middot={anniversary.length > 1} />
             ))}
           </Stack>
         }
       </Stack>
       {schedule &&
         schedule.map(sched => (
-          <SchedDetailDialog sched={sched} />
+          <SchedDetailDialog key={sched.id} sched={sched} />
         ))
       }
     </TableCell>

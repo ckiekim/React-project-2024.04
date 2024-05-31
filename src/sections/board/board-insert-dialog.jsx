@@ -28,7 +28,7 @@ export default function BoardInsertDialog({ account }) {
     setOpen(false); 
   };
   const handleSubmit = () => {
-    console.log(editorContent);
+    // console.log(editorContent);
     const board = { title, content: editorContent, 
       writer: { uid, displayName, avatarUrl }
     }

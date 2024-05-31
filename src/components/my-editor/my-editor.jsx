@@ -3,6 +3,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { uploadImage } from '../../api/cloudinary';
 import './my-editor.css';
+import MyUploadAdapter from './MyUploader';
 
 export default function MyEditor({ initialContent, onContentChange, mode }) {
   const [content, setContent] = useState(initialContent || '');
@@ -22,7 +23,6 @@ export default function MyEditor({ initialContent, onContentChange, mode }) {
   const customUploadAdapter = (loader) => {
     return {
       upload: async () => {
-        const file = await loader.file;
         try {
           const url = await uploadImage(loader.file); // 이미지 업로드 함수 호출
           return { default: url }; // CKEditor에 이미지 URL 반환
@@ -33,8 +33,10 @@ export default function MyEditor({ initialContent, onContentChange, mode }) {
     };
   };
   const uploadPlugin = (editor) => {
+    console.log('uploadPlugin()');
     editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
       return customUploadAdapter(loader);
+      // return new MyUploadAdapter( loader );
     }
   }
 
@@ -43,7 +45,7 @@ export default function MyEditor({ initialContent, onContentChange, mode }) {
       editor={ClassicEditor}
       data={content}
       config={{ 
-        // extraPlugins: [uploadPlugin], 
+        extraPlugins: [uploadPlugin], 
         isReadOnly: mode === 'read',
       }}
       onChange={handleEditorChange}

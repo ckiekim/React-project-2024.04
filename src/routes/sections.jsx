@@ -28,7 +28,6 @@ export const MessagePage = lazy(() => import('../pages/message'));
 export const TmdbPage = lazy(() => import('../pages/tmdb'));
 export const SchedulePage = lazy(() => import('../pages/schedule'));
 export const YoutubePage = lazy(() => import('../pages/youtube'));
-export const UserPage = lazy(() => import('../pages/user'));
 
 // ----------------------------------------------------------------------
 
@@ -67,7 +66,6 @@ export default function Router() {
         { path: '/tmdb', element: <TmdbPage /> },
         { path: '/userInfo', element: <ProtectedRoute><UserInfoPage /></ProtectedRoute> },
         { path: '/youtube', element: <YoutubePage /> },
-        { path: '/user', element: <UserPage /> },
         { path: '/toss/checkout', element: <CheckoutPage setDialogOpen={setDialogOpen} /> },
         { path: '/toss/success', element: <SuccessPage setSuccessDialogOpen={setSuccessDialogOpen} /> },
         { path: '/toss/fail', element: <FailurePage setFailureDialogOpen={setFailureDialogOpen} /> },

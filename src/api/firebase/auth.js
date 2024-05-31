@@ -4,7 +4,8 @@
 import { database } from './config'
 import { ref, get } from 'firebase/database';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, 
-  createUserWithEmailAndPassword } from 'firebase/auth';
+  createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect,
+  GithubAuthProvider, GoogleAuthProvider, } from 'firebase/auth';
 
 const auth = getAuth();
 
@@ -15,7 +16,6 @@ export function login({ email, password }, onError) {
       onError('이메일 또는 패스워드를 확인해보세요.');
     });
 }
-
 export function login2({ email, password }, onSuccess, onError) {
   signInWithEmailAndPassword(auth, email, password)
     .then(() => { onSuccess(); })
@@ -23,6 +23,32 @@ export function login2({ email, password }, onSuccess, onError) {
       console.error(error);
       onError('이메일 또는 패스워드를 확인해보세요.');
     });
+}
+
+export function loginWithGithub() {
+  const provider = new GithubAuthProvider();
+  signInWithPopup(auth, provider)
+    .catch(console.error);
+}
+export function loginWithGithub2(onSuccess) {
+  const provider = new GithubAuthProvider();
+  signInWithPopup(auth, provider)
+    .then(() => { onSuccess(); })
+    .catch(console.error);
+}
+
+export function loginWithGoogle() {
+  const provider = new GoogleAuthProvider();
+  signInWithRedirect(auth, provider)
+  // signInWithPopup(auth, provider)
+    .catch(console.error);
+}
+export function loginWithGoogle2(onSuccess) {
+  const provider = new GoogleAuthProvider();
+  signInWithRedirect(auth, provider)
+  // signInWithPopup(auth, provider)
+    .then(() => { console.log('Google login success'); onSuccess(); })
+    .catch(console.error);
 }
 
 export function logout() {

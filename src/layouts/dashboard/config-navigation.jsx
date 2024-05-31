@@ -20,7 +20,6 @@ const navConfig = [
   { title: '로그인', path: '/login', icon: icon('ic_lock'), },
   { title: '에러', path: '/404', icon: icon('ic_disabled'), },
   { title: 'Youtube', path: '/youtube', icon: icon('ic_youtube'), },
-  { title: '사용자(Old)', path: '/user', icon: icon('ic_user'), },
 ];
 
 export default navConfig;
