@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import { bgGradient } from '../../theme/css';
 import Logo from '../../components/logo';
 import Iconify from '../../components/iconify';
-import { login2, loginWithGoogle2, loginWithGithub, register } from '../../api/firebase';
+import { login2, loginWithGoogle2, loginWithGithub2, register } from '../../api/firebase';
 
 // ----------------------------------------------------------------------
 
@@ -49,6 +49,9 @@ export default function LoginView() {
 
   const handleGoogleLogin = () => {
     loginWithGoogle2(() => {navigate('/')});
+  }
+  const handleGithubLogin = () => {
+    loginWithGithub2(() => {navigate('/')});
   }
 
   return (
@@ -83,19 +86,20 @@ export default function LoginView() {
               sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
               onClick={handleGoogleLogin}
             >
-              <img src='assets/img/google-logo.png' alt='google' height={32} />
+              <img src='/assets/img/google-logo.png' alt='google' height={32} />
+            </Button>
+
+            <Button fullWidth size="large" color="inherit" variant="outlined"
+              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
+              onClick={handleGithubLogin}
+            >
+              <img src='/assets/img/github-logo.png' alt='github' height={32} />
             </Button>
 
             <Button fullWidth size="large" color="inherit" variant="outlined"
               sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
             >
-              <img src='assets/img/github-logo.png' alt='github' height={32} />
-            </Button>
-
-            <Button fullWidth size="large" color="inherit" variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <img src='assets/img/kakao-logo.png' alt='kakao' height={32} />
+              <img src='/assets/img/kakao-logo.png' alt='kakao' height={32} />
             </Button>
           </Stack>
 

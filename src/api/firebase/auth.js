@@ -27,7 +27,7 @@ export function login2({ email, password }, onSuccess, onError) {
 
 export function loginWithGithub() {
   const provider = new GithubAuthProvider();
-  signInWithPopup(auth, provider)
+  signInWithRedirect(auth, provider)
     .catch(console.error);
 }
 export function loginWithGithub2(onSuccess) {
@@ -40,14 +40,12 @@ export function loginWithGithub2(onSuccess) {
 export function loginWithGoogle() {
   const provider = new GoogleAuthProvider();
   signInWithRedirect(auth, provider)
-  // signInWithPopup(auth, provider)
     .catch(console.error);
 }
 export function loginWithGoogle2(onSuccess) {
   const provider = new GoogleAuthProvider();
-  signInWithRedirect(auth, provider)
-  // signInWithPopup(auth, provider)
-    .then(() => { console.log('Google login success'); onSuccess(); })
+  signInWithPopup(auth, provider)
+    .then(() => { onSuccess(); })
     .catch(console.error);
 }
 

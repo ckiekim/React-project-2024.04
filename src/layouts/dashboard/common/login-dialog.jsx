@@ -17,7 +17,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Iconify from '../../../components/iconify';
-import { login, register } from '../../../api/firebase';
+import { login, loginWithGoogle, loginWithGithub, register } from '../../../api/firebase';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': { padding: theme.spacing(2), },
@@ -52,6 +52,13 @@ export default function LoginDialog() {
     }
   };
 
+  const handleGoogleLogin = () => {
+    loginWithGoogle();
+  }
+  const handleGithubLogin = () => {
+    loginWithGithub();
+  }
+
   return (
     <>
       <Button onClick={handleClickOpen}>
@@ -82,20 +89,22 @@ export default function LoginDialog() {
             <Stack direction="row" spacing={2}>
               <Button fullWidth size="large" color="inherit" variant="outlined"
                 sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
+                onClick={handleGoogleLogin}
               >
-                <Iconify icon="eva:google-fill" color="#DF3E30" />
+                <img src='/assets/img/google-logo.png' alt='google' height={32} />
+              </Button>
+
+              <Button fullWidth size="large" color="inherit" variant="outlined"
+                sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
+                onClick={handleGithubLogin}
+              >
+                <img src='/assets/img/github-logo.png' alt='github' height={32} />
               </Button>
 
               <Button fullWidth size="large" color="inherit" variant="outlined"
                 sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
               >
-                <Iconify icon="eva:facebook-fill" color="#1877F2" />
-              </Button>
-
-              <Button fullWidth size="large" color="inherit" variant="outlined"
-                sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-              >
-                <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
+                <img src='/assets/img/kakao-logo.png' alt='kakao' height={32} />
               </Button>
             </Stack>
 
