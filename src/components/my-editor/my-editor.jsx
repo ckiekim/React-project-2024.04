@@ -45,7 +45,7 @@ export default function MyEditor({ initialContent, onContentChange, mode }) {
       editor={ClassicEditor}
       data={content}
       config={{ 
-        extraPlugins: [uploadPlugin], 
+        extraPlugins: [], 
         isReadOnly: mode === 'read',
       }}
       onChange={handleEditorChange}

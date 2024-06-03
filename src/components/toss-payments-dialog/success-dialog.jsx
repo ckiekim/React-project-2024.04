@@ -14,14 +14,14 @@ import { fCurrency } from '../../utils/format-number';
 
 export default function SuccessDialog({ open, onClose }) {
   const navigate = useNavigate();
+  const email = sessionStorage.getItem('sessionEmail');
   const [searchParams] = useSearchParams();
   const oid = searchParams.get('orderId');
   const amount = searchParams.get('amount');
   const paymentKey = searchParams.get('paymentKey');
-  // console.log(email, oid, amount, paymentKey);
+  console.log(email, oid, amount, paymentKey);
 
   const [flag, setFlag] = useState(false);
-  const email = sessionStorage.getItem('sessionEmail');
 
   const { getRecord: {data: order}, updateRecord: updateOrderRecord } = useOrders(oid);
   const { insertRecord: insertNotiRecord } = useNotification(email);

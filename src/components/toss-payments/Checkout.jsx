@@ -76,8 +76,10 @@ export function CheckoutPage() {
         orderName: `${order.items[0].pname} ${order.items.length > 1 ? '외 ' + (order.items.length - 1) : ''}`, // 주문명을 설정
         customerEmail: order.email || "",   // 주문자 이메일 설정
         customerTel: order.deliveryInfo.tel,  // 주문자 전화번호 설정
-        successUrl: `${window.location.origin}/toss/success`,
-        failUrl: `${window.location.origin}/toss/fail`,
+        // successUrl: `${window.location.origin}/toss/success`,
+        // failUrl: `${window.location.origin}/toss/fail`,
+        successUrl: `${process.env.REACT_APP_TOSS_CALLBACK_URL}/toss/success`,
+        failUrl: `${process.env.REACT_APP_TOSS_CALLBACK_URL}/toss/fail`,
       });
       
     } catch (error) {

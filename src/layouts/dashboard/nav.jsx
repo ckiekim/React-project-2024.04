@@ -17,6 +17,7 @@ import Logo from '../../components/logo';
 import Scrollbar from '../../components/scrollbar';
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
+import Iconify from '../../components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -93,11 +94,13 @@ function NavItem({ item }) {
         }),
       }}
     >
-      <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
+      {/* <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
         {item.icon}
-      </Box>
-
-      <Typography variant='body2'>{item.title}</Typography>
+      </Box> */}
+      <Stack direction='row' spacing={1} alignItems='center' justifyContent='center'>
+        <Iconify width={24} icon={item.icon} />
+        <Typography variant='body2'>{item.title}</Typography>
+      </Stack>
     </ListItemButton>
   );
 }

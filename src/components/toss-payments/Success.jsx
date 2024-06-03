@@ -11,6 +11,7 @@ import { fCurrency } from '../../utils/format-number';
 
 export function SuccessPage() {
   const navigate = useNavigate();
+  const email = sessionStorage.getItem('sessionEmail');
   const [searchParams] = useSearchParams();
   const oid = searchParams.get('orderId');
   const amount = searchParams.get('amount');
@@ -19,7 +20,6 @@ export function SuccessPage() {
 
   const [flag, setFlag] = useState(false);
   const [countdown, setCountdown] = useState(3);
-  const email = sessionStorage.getItem('sessionEmail');
 
   const { getRecord: {data: order}, updateRecord: updateOrderRecord } = useOrders(oid);
   const { insertRecord: insertNotiRecord } = useNotification(email);
