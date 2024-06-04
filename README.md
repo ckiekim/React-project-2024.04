@@ -1,4 +1,4 @@
-# React-Template-Project
+# ck-react-world (구 React-Template-Project)
 
 ### 사용한 도구
 - Front-end: ReactJS, MUI
