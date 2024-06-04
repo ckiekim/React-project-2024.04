@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/ck-react-world/static/css/main.cd33733f.css",
-    "main.js": "/ck-react-world/static/js/main.85db64ae.js",
-    "static/js/635.dcfae582.chunk.js": "/ck-react-world/static/js/635.dcfae582.chunk.js",
+    "main.js": "/ck-react-world/static/js/main.0f3ef3f5.js",
+    "static/js/635.0addcf4f.chunk.js": "/ck-react-world/static/js/635.0addcf4f.chunk.js",
     "static/js/512.1da929c8.chunk.js": "/ck-react-world/static/js/512.1da929c8.chunk.js",
     "static/css/99.d5ba0bbb.chunk.css": "/ck-react-world/static/css/99.d5ba0bbb.chunk.css",
     "static/js/99.991bf3c4.chunk.js": "/ck-react-world/static/js/99.991bf3c4.chunk.js",
@@ -31,6 +31,6 @@
   },
   "entrypoints": [
     "static/css/main.cd33733f.css",
-    "static/js/main.85db64ae.js"
+    "static/js/main.0f3ef3f5.js"
   ]
 }
