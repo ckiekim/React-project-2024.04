@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="refresh" content="0; URL='./index.html'" />
+    <script>
+      // Redirect any non-existent paths to the index.html
+      var pathname = window.location.pathname;
+      var origin = window.location.origin;
+      if (pathname !== "/ck-react-world/" && !pathname.includes("/ck-react-world/index.html")) {
+        window.location.href = origin + "/ck-react-world/index.html";
+      }
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
