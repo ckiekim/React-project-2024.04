@@ -86,20 +86,20 @@ export default function LoginView() {
               sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
               onClick={handleGoogleLogin}
             >
-              <img src='/assets/img/google-logo.png' alt='google' height={32} />
+              <img src={`${process.env.PUBLIC_URL}/assets/img/google-logo.png`} alt='google' height={32} />
             </Button>
 
             <Button fullWidth size="large" color="inherit" variant="outlined"
               sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
               onClick={handleGithubLogin}
             >
-              <img src='/assets/img/github-logo.png' alt='github' height={32} />
+              <img src={`${process.env.PUBLIC_URL}/assets/img/github-logo.png`} alt='github' height={32} />
             </Button>
 
             <Button fullWidth size="large" color="inherit" variant="outlined"
               sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
             >
-              <img src='/assets/img/kakao-logo.png' alt='kakao' height={32} />
+              <img src={`${process.env.PUBLIC_URL}/assets/img/kakao-logo.png`} alt='kakao' height={32} />
             </Button>
           </Stack>
 

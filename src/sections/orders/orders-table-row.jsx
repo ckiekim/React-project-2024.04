@@ -53,7 +53,10 @@ export default function OrdersTableRow({ order, selected, handleClick }) {
         </TableCell>
         <TableCell>
           <Stack direction='row' spacing={1} alignItems='center'>
-            <Avatar src={order.items[0].cover} alt={order.items[0].pname} />
+            <Avatar 
+              src={order.items[0].cover.startsWith('/') ? `${process.env.PUBLIC_URL}${order.items[0].cover}` : order.items[0].cover} 
+              alt={order.items[0].pname} 
+            />
             <Typography variant="body2">{orderItem}</Typography>
           </Stack>
         </TableCell>

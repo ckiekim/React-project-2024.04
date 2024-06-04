@@ -113,7 +113,9 @@ export default function PostCard({ post, index }) {
   );
 
   const renderCover = (
-    <Box component="img" src={cover} alt={title}
+    <Box component="img" 
+      src={cover.startsWith('/') ? `${process.env.PUBLIC_URL}${cover}` : cover} 
+      alt={title}
       sx={{ top: 0, width: 1, height: 1, objectFit: 'cover', position: 'absolute', }}
     />
   );

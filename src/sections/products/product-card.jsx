@@ -23,7 +23,9 @@ export const renderStatus = product =>
     </Label>);
 
 const renderImg = product => (
-  <Box component="img" src={product.cover} alt={product.name}
+  <Box component="img" 
+    src={product.cover.startsWith('/') ? `${process.env.PUBLIC_URL}${product.cover}` : product.cover} 
+    alt={product.name}
     sx={{ top: 0, width: 1, height: 1, objectFit: 'cover', position: 'absolute', }}
   />
 );

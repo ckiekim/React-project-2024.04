@@ -78,7 +78,6 @@ export default function CheckoutDialog({ open, onClose }) {
         customerTel: order.deliveryInfo.tel,  // 주문자 전화번호 설정
         // successUrl: `${window.location.origin}/toss/success`,
         // failUrl: `${window.location.origin}/toss/fail`,
-        // successUrl: `${process.env.REACT_APP_TOSS_CALLBACK_URL}/#/toss/success`,
         successUrl: `${process.env.REACT_APP_TOSS_CALLBACK_URL}/toss/success`,
         failUrl: `${process.env.REACT_APP_TOSS_CALLBACK_URL}/toss/fail`,
       });
@@ -88,7 +87,7 @@ export default function CheckoutDialog({ open, onClose }) {
         description: '결제시 에러가 발생하였습니다. ' + error });
       console.log("Error requesting payment:", error)
     }
-};
+  };
   
   return (
     <Dialog open={open} onClose={onClose} maxWidth='md' fullWidth>

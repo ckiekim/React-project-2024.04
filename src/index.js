@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <HelmetProvider>
-    <BrowserRouter basename='ck-react-world'>
+    <BrowserRouter basename='/ck-react-world'>
       <Suspense>
         <App />
       </Suspense>

@@ -213,7 +213,9 @@ export default function CartWidget({ count }) {
                 <TableRow key={item.id}>
                   <TableCell align="left">
                     <Stack direction='row' spacing={2} alignItems='center'>
-                      <Avatar alt={item.pname} src={item.cover} />
+                      <Avatar alt={item.pname} 
+                        src={item.cover.startsWith('/') ? `${process.env.PUBLIC_URL}${item.cover}` : item.cover} 
+                      />
                       <Typography>{item.pname}</Typography>
                     </Stack>
                   </TableCell>

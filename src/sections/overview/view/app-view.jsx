@@ -28,25 +28,25 @@ export default function AppView() {
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary title="주간 매출" total={7148000} color="success"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+            icon={<img alt="icon" src={`${process.env.PUBLIC_URL}/assets/icons/glass/ic_glass_bag.png`} />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary title="신규 사용자" total={1352} color="info"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
+            icon={<img alt="icon" src={`${process.env.PUBLIC_URL}/assets/icons/glass/ic_glass_users.png`} />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary title="주문 건수" total={972} color="warning"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+            icon={<img alt="icon" src={`${process.env.PUBLIC_URL}/assets/icons/glass/ic_glass_buy.png`} />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary title="버그 건수" total={34} color="error"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+            icon={<img alt="icon" src={`${process.env.PUBLIC_URL}/assets/icons/glass/ic_glass_message.png`} />}
           />
         </Grid>
 

@@ -79,7 +79,12 @@ export default function ProductUpdateDialog(props) {
         </IconButton>
         <DialogContent dividers>
           <Stack spacing={2} sx={{ width: '40ch' }} alignItems="center">
-            {product.cover && <img src={product.cover} alt='product' width='80%' />}
+            {product.cover && 
+              <img 
+                src={product.cover.startsWith('/') ? `${process.env.PUBLIC_URL}${product.cover}` : product.cover} 
+                alt='product' width='80%' 
+              />
+            }
             <TextField autoFocus required margin="dense" id="name"
               name="name" label="상품명" type="text" fullWidth
               value={product.name} onChange={handleChange}

@@ -68,7 +68,10 @@ export default function ProductDetailDialog({ dialogOpen, dialogHandle, product 
 					<Grid item xs={12} md={6} alignItems="center">
 						<Box sx={{ position: 'relative', width: '90%' }}>
 							{renderStatus(product)}
-							<img src={product.cover} alt='product' />
+							<img 
+								src={product.cover.startsWith('/') ? `${process.env.PUBLIC_URL}${product.cover}` : product.cover} 
+								alt='product' 
+							/>
 						</Box>
 					</Grid>
 					<Grid item xs={12} md={6} alignItems="center">

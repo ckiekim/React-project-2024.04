@@ -78,8 +78,8 @@ export function CheckoutPage() {
         customerTel: order.deliveryInfo.tel,  // 주문자 전화번호 설정
         // successUrl: `${window.location.origin}/toss/success`,
         // failUrl: `${window.location.origin}/toss/fail`,
-        successUrl: `${process.env.REACT_APP_TOSS_CALLBACK_URL}/toss/success`,
-        failUrl: `${process.env.REACT_APP_TOSS_CALLBACK_URL}/toss/fail`,
+        successUrl: `${process.env.PUBLIC_URL}/toss/success`,
+        failUrl: `${process.env.PUBLIC_URL}/toss/fail`,
       });
       
     } catch (error) {
