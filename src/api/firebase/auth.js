@@ -5,7 +5,7 @@ import { database } from './config'
 import { ref, get } from 'firebase/database';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, 
   createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect,
-  GithubAuthProvider, GoogleAuthProvider, } from 'firebase/auth';
+  GithubAuthProvider, GoogleAuthProvider, OAuthProvider, } from 'firebase/auth';
 
 const auth = getAuth();
 
@@ -44,6 +44,19 @@ export function loginWithGoogle() {
 }
 export function loginWithGoogle2(onSuccess) {
   const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider)
+    .then(() => { onSuccess(); })
+    .catch(console.error);
+}
+
+export function loginWithKakao() {
+  const provider = new OAuthProvider('oidc.kakao');
+  signInWithRedirect(auth, provider)
+    .catch(console.error);
+}
+
+export function loginWithKakao2(onSuccess) {
+  const provider = new OAuthProvider('oidc.kakao');
   signInWithPopup(auth, provider)
     .then(() => { onSuccess(); })
     .catch(console.error);

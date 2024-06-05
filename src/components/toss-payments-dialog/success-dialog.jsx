@@ -19,7 +19,7 @@ export default function SuccessDialog({ open, onClose }) {
   const oid = searchParams.get('orderId');
   const amount = searchParams.get('amount');
   const paymentKey = searchParams.get('paymentKey');
-  console.log(email, oid, amount, paymentKey);
+  // console.log(email, oid, amount, paymentKey);
 
   const [flag, setFlag] = useState(false);
 

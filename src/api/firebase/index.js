@@ -1,5 +1,5 @@
 export { login, login2, loginWithGithub, loginWithGithub2, loginWithGoogle, loginWithGoogle2,
-  logout, onUserStateChanged, register } from './auth';
+  loginWithKakao, loginWithKakao2, logout, onUserStateChanged, register } from './auth';
 
 export { getAnnivList, insertAnniv, updateAnniv, deleteAnniv } from './anniversary';
 export { getBoard, getBoardList, insertBoard, updateBoard, deleteBoard } from './board';

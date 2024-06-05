@@ -23,6 +23,10 @@ export function CheckoutPage() {
   const email = process.env.REACT_APP_ADMIN_USER;
   const { insertRecord } = useNotification(email);
 
+  const url = process.env.NODE_ENV === 'development' ?
+    `http://localhost:3000/ck-react-world` :      // 개발 모드 (development)
+    `https://ckiekim.github.io/ck-react-world`;   // 배포 모드 (production)
+
   useEffect(() => {
     const fetchPaymentWidget = async () => {
       try {
@@ -78,8 +82,8 @@ export function CheckoutPage() {
         customerTel: order.deliveryInfo.tel,  // 주문자 전화번호 설정
         // successUrl: `${window.location.origin}/toss/success`,
         // failUrl: `${window.location.origin}/toss/fail`,
-        successUrl: `${process.env.PUBLIC_URL}/toss/success`,
-        failUrl: `${process.env.PUBLIC_URL}/toss/fail`,
+        successUrl: `${url}/toss/success`,
+        failUrl: `${url}/toss/fail`,
       });
       
     } catch (error) {

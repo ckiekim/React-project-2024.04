@@ -1,5 +1,11 @@
 # ck-react-world (구 React-Template-Project)
 
+### 프로그램 실행
+- https://ckiekim.github.io/ck-react-world 
+- 프로그램의 문제점: 해결 방안을 아시는 분은 꼭 연락주세요.
+  - 외부 API(소셜 로그인, 토스페이먼츠 등)를 이용할 때 callback-url을 사용하는 경우
+  - 로컬에서는 되는데 github에 배포한 버전에서는 동작하지 않음
+
 ### 사용한 도구
 - Front-end: ReactJS, MUI
 - Back-end: Firebase Authentication, Firebase Realtime Database, Cloudinary

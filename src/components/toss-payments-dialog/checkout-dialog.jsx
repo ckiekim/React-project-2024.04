@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk';
-// import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -25,6 +24,10 @@ export default function CheckoutDialog({ open, onClose }) {
 
   const email = process.env.REACT_APP_ADMIN_USER;
   const { insertRecord } = useNotification(email);
+
+  const url = process.env.NODE_ENV === 'development' ?
+    `http://localhost:3000/ck-react-world` :      // 개발 모드 (development)
+    `https://ckiekim.github.io/ck-react-world`;   // 배포 모드 (production)
 
   useEffect(() => {
     const fetchPaymentWidget = async () => {
@@ -78,8 +81,8 @@ export default function CheckoutDialog({ open, onClose }) {
         customerTel: order.deliveryInfo.tel,  // 주문자 전화번호 설정
         // successUrl: `${window.location.origin}/toss/success`,
         // failUrl: `${window.location.origin}/toss/fail`,
-        successUrl: `${process.env.REACT_APP_TOSS_CALLBACK_URL}/toss/success`,
-        failUrl: `${process.env.REACT_APP_TOSS_CALLBACK_URL}/toss/fail`,
+        successUrl: `${url}/toss/success`,
+        failUrl: `${url}/toss/fail`,
       });
       
     } catch (error) {

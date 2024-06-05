@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import { bgGradient } from '../../theme/css';
 import Logo from '../../components/logo';
 import Iconify from '../../components/iconify';
-import { login2, loginWithGoogle2, loginWithGithub2, register } from '../../api/firebase';
+import { login2, loginWithGoogle2, loginWithGithub2, loginWithKakao2, register } from '../../api/firebase';
 
 // ----------------------------------------------------------------------
 
@@ -52,6 +52,9 @@ export default function LoginView() {
   }
   const handleGithubLogin = () => {
     loginWithGithub2(() => {navigate('/')});
+  }
+  const handleKakaoLogin = () => {
+    loginWithKakao2(() => {navigate('/')});
   }
 
   return (
@@ -98,6 +101,7 @@ export default function LoginView() {
 
             <Button fullWidth size="large" color="inherit" variant="outlined"
               sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
+              onClick={handleKakaoLogin}
             >
               <img src={`${process.env.PUBLIC_URL}/assets/img/kakao-logo.png`} alt='kakao' height={32} />
             </Button>
