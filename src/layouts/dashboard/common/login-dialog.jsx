@@ -17,7 +17,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Iconify from '../../../components/iconify';
-import { login, loginWithGoogle, loginWithGithub, register } from '../../../api/firebase';
+import { login, loginWithGoogle, loginWithGithub, loginWithKakao, register } from '../../../api/firebase';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': { padding: theme.spacing(2), },
@@ -57,6 +57,9 @@ export default function LoginDialog() {
   }
   const handleGithubLogin = () => {
     loginWithGithub();
+  }
+  const handleKakaoLogin = () => {
+    loginWithKakao();
   }
 
   return (
@@ -103,6 +106,7 @@ export default function LoginDialog() {
 
               <Button fullWidth size="large" color="inherit" variant="outlined"
                 sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
+                onClick={handleKakaoLogin}
               >
                 <img src={`${process.env.PUBLIC_URL}/assets/img/kakao-logo.png`} alt='kakao' height={32} />
               </Button>
