@@ -8,21 +8,19 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Popover from '@mui/material/Popover';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import LoginDialog from './login-dialog';
 import UserInfoInsertDialog from './userInfo-insert-dialog';
 // import { account } from '../../../_mock/account';
 import useUserInfo from '../../../hooks/useUserInfo';
-import { Stack } from '@mui/material';
-
-const MENU_OPTIONS = [
-  { label: 'Home', icon: 'eva:home-fill', },
-  { label: 'Profile', icon: 'eva:person-fill', },
-];
+import getWeatherByCoordinates from '../../../api/open-weather';
 
 export default function AccountPopover({ user, logout }) {
   const [open, setOpen] = useState(null);
+  const [showWeather, setShowWeather] = useState(false);
+  const [weather, setWeather] = useState();
   const { getRecord: { data: account } } = useUserInfo(user);
   const navigate = useNavigate();
 
@@ -35,8 +33,19 @@ export default function AccountPopover({ user, logout }) {
   const handleLogout = () => {
     setOpen(null);
     sessionStorage.clear();
+    setShowWeather(false);
     logout();
     navigate('/');
+  }
+  const handleWeather = () => {
+    updateWeather();
+    setShowWeather(!showWeather);
+    handleClose();
+  }
+  const updateWeather = () => {
+    getWeatherByCoordinates()
+      .then(weatherInfo => { setWeather(weatherInfo); })
+      .catch(console.error);
   }
 
   return (
@@ -91,13 +100,7 @@ export default function AccountPopover({ user, logout }) {
           }
 
           <Divider sx={{ borderStyle: 'dashed' }} />
-
-          {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
-              {option.label}
-            </MenuItem>
-          ))}
-
+          <MenuItem onClick={handleWeather}>날씨</MenuItem>
           <UserInfoInsertDialog callback={setOpen} />
 
           <Divider sx={{ borderStyle: 'dashed', m: 0 }} />
@@ -110,6 +113,17 @@ export default function AccountPopover({ user, logout }) {
           </MenuItem>
         </Popover>
       </>}
+      {showWeather && weather && 
+        <Stack direction='row' alignItems='center'>
+          <img src={weather.icon} alt={weather.description} />
+          <Typography sx={{color: (theme) => alpha(theme.palette.grey[800], 0.9)}}>
+            {weather.description},
+          </Typography>
+          <Typography sx={{color: (theme) => alpha(theme.palette.grey[800], 0.9)}}>
+            &nbsp;&nbsp;{weather.temp} ℃
+          </Typography>
+        </Stack>
+      }
     </>
   );
 }

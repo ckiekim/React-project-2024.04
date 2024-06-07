@@ -1,12 +1,19 @@
 import { useState } from 'react';
 
-import Slide from '@mui/material/Slide';
-import Input from '@mui/material/Input';
-import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import CheckIcon from '@mui/icons-material/Check';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import Slide from '@mui/material/Slide';
 
 import { bgBlur } from '../../../theme/css';
 import Iconify from '../../../components/iconify';
@@ -40,47 +47,74 @@ const StyledSearchbar = styled('div')(({ theme }) => ({
 
 export default function Searchbar() {
   const [open, setOpen] = useState(false);
+  const [text, setText] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
 
-  const handleOpen = () => {
-    setOpen(!open);
+  const handleOpen = () => { setOpen(true); };
+  const handleClose = () => { 
+    setOpen(false); setText('');
   };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleSearch = () => {
+    console.log('handleSearch()');
+    handleClose();
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
+  }
 
   return (
-    <ClickAwayListener onClickAway={handleClose}>
-      <div>
-        {!open && (
-          <IconButton onClick={handleOpen}>
-            <Iconify icon="eva:search-fill" />
-          </IconButton>
-        )}
+    <>
+      <ClickAwayListener onClickAway={handleClose}>
+        <div>
+          {!open && (
+            <IconButton onClick={handleOpen}>
+              <Iconify icon="eva:search-fill" />
+            </IconButton>
+          )}
 
-        <Slide direction="down" in={open} mountOnEnter unmountOnExit>
-          <StyledSearchbar>
-            <Input
-              autoFocus
-              fullWidth
-              disableUnderline
-              placeholder="Search…"
-              startAdornment={
-                <InputAdornment position="start">
-                  <Iconify
-                    icon="eva:search-fill"
-                    sx={{ color: 'text.disabled', width: 20, height: 20 }}
-                  />
-                </InputAdornment>
-              }
-              sx={{ mr: 1, fontWeight: 'fontWeightBold' }}
-            />
-            <Button variant="contained" onClick={handleClose}>
-              Search
-            </Button>
-          </StyledSearchbar>
-        </Slide>
-      </div>
-    </ClickAwayListener>
+          <Slide direction="down" in={open} mountOnEnter unmountOnExit>
+            <StyledSearchbar>
+              <Input
+                autoFocus fullWidth disableUnderline placeholder="Search…"
+                defaultValue={text}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <Iconify
+                      icon="eva:search-fill"
+                      sx={{ color: 'text.disabled', width: 20, height: 20 }}
+                    />
+                  </InputAdornment>
+                }
+                sx={{ mr: 1, fontWeight: 'fontWeightBold' }}
+                onChange={e => { setText(e.target.value); }}
+                endAdornment={
+                  <FormControl>
+                    <RadioGroup row
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      defaultValue="board"
+                      name="radio-buttons-group"
+                    >
+                      <FormControlLabel value="board" control={<Radio />} label="게시판" />
+                      <FormControlLabel value="product" control={<Radio />} label="상품" />
+                      <FormControlLabel value="message" control={<Radio />} label="메세지" />
+                      <FormControlLabel value="user" control={<Radio />} label="사용자" />
+                    </RadioGroup>
+                  </FormControl>
+                }
+              />
+              <Button variant="contained" onClick={handleSearch}>
+                검색
+              </Button>
+            </StyledSearchbar>
+          </Slide>
+        </div>
+      </ClickAwayListener>
+      {showAlert &&
+        <Alert icon={<CheckIcon fontSize="inherit" />} severity="info" sx={{mx: 5}}>
+          추후 구현될 예정입니다.
+        </Alert>
+      }
+    </>
   );
 }
