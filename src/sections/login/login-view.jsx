@@ -36,7 +36,7 @@ export default function LoginView() {
     if (isLoginMode) {
       login2(loginInfo, () => {navigate('/')}, setMessage); 
     } else {
-      register(loginInfo);
+      register(loginInfo, () => {navigate('/')});
     }
   }
   const handleMode = () => { setIsLoginMode(!isLoginMode); }

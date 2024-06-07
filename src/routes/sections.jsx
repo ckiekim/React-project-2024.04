@@ -44,15 +44,13 @@ export default function Router() {
   const routes = useRoutes([
     {
       element: (
-        // <QueryClientProvider client={queryClient}>
-          <AuthContextProvider>
-            <DashboardLayout>
-              <Suspense>
-                <Outlet />
-              </Suspense>
-            </DashboardLayout>
-          </AuthContextProvider>
-        // </QueryClientProvider>
+        <AuthContextProvider>
+          <DashboardLayout>
+            <Suspense>
+              <Outlet />
+            </Suspense>
+          </DashboardLayout>
+        </AuthContextProvider>
       ),
       children: [
         { element: <IndexPage />, index: true },
@@ -65,7 +63,7 @@ export default function Router() {
         { path: '/message', element: <ProtectedRoute><MessagePage /></ProtectedRoute> },
         { path: '/tmdb', element: <TmdbPage /> },
         { path: '/userInfo', element: <ProtectedRoute><UserInfoPage /></ProtectedRoute> },
-        // { path: '/youtube', element: <YoutubePage /> },
+        { path: '/youtube', element: <YoutubePage /> },
         { path: '/toss/checkout', element: <CheckoutPage setDialogOpen={setDialogOpen} /> },
         { path: '/toss/success', element: <SuccessPage setSuccessDialogOpen={setSuccessDialogOpen} /> },
         { path: '/toss/fail', element: <FailurePage setFailureDialogOpen={setFailureDialogOpen} /> },

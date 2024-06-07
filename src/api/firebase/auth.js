@@ -88,7 +88,11 @@ async function adminUser(user) {
     });
 }
 
-export function register({ email, password }) {
+export function register({ email, password }, onSuccess) {
   createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      if (onSuccess) onSuccess();
+    })
     .catch(console.error);
 }
+
