@@ -1,28 +1,29 @@
 {
   "files": {
     "main.css": "/ck-react-world/static/css/main.cd33733f.css",
-    "main.js": "/ck-react-world/static/js/main.91c13e51.js",
-    "static/js/635.0addcf4f.chunk.js": "/ck-react-world/static/js/635.0addcf4f.chunk.js",
+    "main.js": "/ck-react-world/static/js/main.96372011.js",
+    "static/js/635.35994533.chunk.js": "/ck-react-world/static/js/635.35994533.chunk.js",
     "static/js/512.bf1930e1.chunk.js": "/ck-react-world/static/js/512.bf1930e1.chunk.js",
-    "static/css/99.d5ba0bbb.chunk.css": "/ck-react-world/static/css/99.d5ba0bbb.chunk.css",
-    "static/js/99.1b88ffc1.chunk.js": "/ck-react-world/static/js/99.1b88ffc1.chunk.js",
-    "static/js/348.9fecdb84.chunk.js": "/ck-react-world/static/js/348.9fecdb84.chunk.js",
+    "static/css/897.3251fbd0.chunk.css": "/ck-react-world/static/css/897.3251fbd0.chunk.css",
+    "static/js/897.a52d4c4a.chunk.js": "/ck-react-world/static/js/897.a52d4c4a.chunk.js",
+    "static/js/348.25c17c10.chunk.js": "/ck-react-world/static/js/348.25c17c10.chunk.js",
     "static/js/558.a1437ba9.chunk.js": "/ck-react-world/static/js/558.a1437ba9.chunk.js",
-    "static/js/859.101a7ea2.chunk.js": "/ck-react-world/static/js/859.101a7ea2.chunk.js",
-    "static/js/876.21316274.chunk.js": "/ck-react-world/static/js/876.21316274.chunk.js",
+    "static/js/859.c31621b8.chunk.js": "/ck-react-world/static/js/859.c31621b8.chunk.js",
+    "static/js/876.1e2e6218.chunk.js": "/ck-react-world/static/js/876.1e2e6218.chunk.js",
     "static/js/920.f2e62467.chunk.js": "/ck-react-world/static/js/920.f2e62467.chunk.js",
     "static/js/359.6e4bf087.chunk.js": "/ck-react-world/static/js/359.6e4bf087.chunk.js",
-    "static/js/313.927e5951.chunk.js": "/ck-react-world/static/js/313.927e5951.chunk.js",
+    "static/js/313.72c3b56a.chunk.js": "/ck-react-world/static/js/313.72c3b56a.chunk.js",
     "static/js/15.05f2020f.chunk.js": "/ck-react-world/static/js/15.05f2020f.chunk.js",
-    "static/js/511.56d40bda.chunk.js": "/ck-react-world/static/js/511.56d40bda.chunk.js",
+    "static/js/511.579642c4.chunk.js": "/ck-react-world/static/js/511.579642c4.chunk.js",
     "static/js/334.1c164308.chunk.js": "/ck-react-world/static/js/334.1c164308.chunk.js",
     "static/js/604.34c99ebc.chunk.js": "/ck-react-world/static/js/604.34c99ebc.chunk.js",
     "static/js/128.36b987b2.chunk.js": "/ck-react-world/static/js/128.36b987b2.chunk.js",
     "static/js/94.a03d485d.chunk.js": "/ck-react-world/static/js/94.a03d485d.chunk.js",
     "static/js/899.5ff64775.chunk.js": "/ck-react-world/static/js/899.5ff64775.chunk.js",
-    "static/js/421.1a0ca697.chunk.js": "/ck-react-world/static/js/421.1a0ca697.chunk.js",
-    "static/js/212.66bb0b64.chunk.js": "/ck-react-world/static/js/212.66bb0b64.chunk.js",
+    "static/js/467.1f6d3dfd.chunk.js": "/ck-react-world/static/js/467.1f6d3dfd.chunk.js",
+    "static/js/421.630c8f83.chunk.js": "/ck-react-world/static/js/421.630c8f83.chunk.js",
     "static/js/731.d370373c.chunk.js": "/ck-react-world/static/js/731.d370373c.chunk.js",
+    "static/js/976.4a2a74ca.chunk.js": "/ck-react-world/static/js/976.4a2a74ca.chunk.js",
     "static/js/813.d4fdd178.chunk.js": "/ck-react-world/static/js/813.d4fdd178.chunk.js",
     "static/js/945.5797c51d.chunk.js": "/ck-react-world/static/js/945.5797c51d.chunk.js",
     "static/js/703.8c4ae349.chunk.js": "/ck-react-world/static/js/703.8c4ae349.chunk.js",
@@ -30,6 +31,6 @@
   },
   "entrypoints": [
     "static/css/main.cd33733f.css",
-    "static/js/main.91c13e51.js"
+    "static/js/main.96372011.js"
   ]
 }
