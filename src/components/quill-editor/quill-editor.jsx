@@ -1,10 +1,14 @@
 import { useEffect, useState, useRef, useMemo } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+
+import { uploadImage } from '../../api/cloudinary';
+import LoadingProgress from '../loading-progress';
 import './quill-editor.css';
 
 export default function MyEditor({ initialContent, onContentChange, mode }) {
   const [value, setValue] = useState(initialContent);
+  const [isLoading, setIsLoading] = useState(false);
   const editorRef = useRef(null);
 
   const handleChange = (newText) => {
@@ -30,22 +34,10 @@ export default function MyEditor({ initialContent, onContentChange, mode }) {
     input.click();
 
     input.onchange = async () => {
-      const file = input.files[0];
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_PRESET); 
-      formData.append('api_key', process.env.REACT_APP_CLOUDINARY_API_KEY);
-
       try {
-        const response = await fetch(
-          process.env.REACT_APP_CLOUDINARY_URL,
-          {
-            method: 'POST',
-            body: formData,
-          }
-        );
-        const data = await response.json();
-        const imageUrl = data.secure_url;
+        setIsLoading(true);
+        const file = input.files[0];
+        const imageUrl = await uploadImage(file);
 
         const quill = editorRef.current.getEditor();
         const range = quill.getSelection(true);
@@ -53,6 +45,8 @@ export default function MyEditor({ initialContent, onContentChange, mode }) {
         quill.setSelection(range.index + 1);
       } catch (error) {
         console.error('Error uploading image: ', error);
+      } finally {
+        setIsLoading(false);
       }
     };
   };
@@ -87,6 +81,7 @@ export default function MyEditor({ initialContent, onContentChange, mode }) {
 
   return (
     <>
+      {isLoading && <LoadingProgress />}
       <ReactQuill
         value={value}
         onChange={handleChange}
