@@ -12,10 +12,14 @@ import Typography from '@mui/material/Typography'
 
 import Iconify from '../../components/iconify';
 import useBoard from '../../hooks/useBoard';
+import useLikes from '../../hooks/useLikes';
+import useReply from '../../hooks/useReply';
 
 export default function BoardDeleteDialog({ board, account, onClose }) {
   const [open, setOpen] = useState(false);
-  const { deleteRecord } = useBoard();
+  const { deleteRecord: deleteBoardRecord } = useBoard();
+  const { getList: { data: likes }, deleteRecord: deleteLikeRecord } = useLikes(account.uid, board.bid);
+  const { getList: { data: replies }, deleteRecord: deleteReplyRecord } = useReply(board.bid);
 
   const handleOpen = () => {
     if (account.uid !== board.writer.uid) {
@@ -27,7 +31,11 @@ export default function BoardDeleteDialog({ board, account, onClose }) {
   const handleClose = () => { setOpen(false); };
   const handleDelete = () => {
     setOpen(false);
-    deleteRecord.mutate(board.bid);
+    deleteBoardRecord.mutate(board.bid);
+    for (let like of likes)
+      deleteLikeRecord.mutate(like.lid);
+    for (let reply of replies)
+      deleteReplyRecord.mutate(reply.rid);
     onClose();
   }
 

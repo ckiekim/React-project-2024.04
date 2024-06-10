@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getLike, insertLike, updateLike } from '../api/firebase';
+import { getLike, getLikeList, insertLike, updateLike, deleteLike } from '../api/firebase';
 
 export default function useLikes(uid, bid) {
   const queryClient = useQueryClient();
@@ -8,6 +8,12 @@ export default function useLikes(uid, bid) {
     queryKey: ['likes', uid, bid],
     queryFn: () => getLike(uid, bid),
     staleTime: 1000 * 60 * 5
+  });
+
+  const getList = useQuery({
+    queryKey: ['likes', bid],
+    queryFn: () => getLikeList(bid),
+    staleTime: 1000 * 60,
   });
 
   const insertRecord = useMutation({
@@ -22,5 +28,11 @@ export default function useLikes(uid, bid) {
     onError: console.error,
   });
 
-  return { getRecord, insertRecord, updateRecord };
+  const deleteRecord = useMutation({
+    mutationFn: lid => deleteLike(lid),
+    onSuccess: () => { queryClient.invalidateQueries(['likes']); },
+    onError: console.error,
+  });
+
+  return { getRecord, getList, insertRecord, updateRecord, deleteRecord };
 }

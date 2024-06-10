@@ -5,7 +5,7 @@ export { getAnnivList, insertAnniv, updateAnniv, deleteAnniv } from './anniversa
 export { getBoard, getBoardList, insertBoard, updateBoard, deleteBoard } from './board';
 export { getBlog, getBlogList, insertBlog, updateBlog, deleteBlog } from './blogs';
 export { getCart, insertCart, updateCart, deleteCart } from './carts';
-export { getLike, insertLike, updateLike, deleteLike } from './likes';
+export { getLike, getLikeList, insertLike, updateLike, deleteLike } from './likes';
 export { getMessageList, insertMessage, updateMessage, deleteMessage } from './message';
 export { getNotificationCount, getNotificationList, insertNotification, updateNotification, deleteNotification } from './notification';
 export { getOrder, getOrderList, insertOrder, updateOrder, deleteOrder } from './orders';

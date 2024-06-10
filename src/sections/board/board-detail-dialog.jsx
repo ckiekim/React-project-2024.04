@@ -14,7 +14,8 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import MyEditor from '../../components/my-editor';
+// import MyEditor from '../../components/ck-editor';
+import MyEditor from '../../components/quill-editor';
 import useBoard from '../../hooks/useBoard';
 import useLikes from '../../hooks/useLikes';
 import useReply from '../../hooks/useReply';

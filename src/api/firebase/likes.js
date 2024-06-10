@@ -10,7 +10,7 @@ import { ref, get, set, remove } from 'firebase/database';
 import { v4 as uuid } from 'uuid';
 
 export async function getLike(uid, bid) {
-  return get(ref(database, `likes`))
+  return get(ref(database, 'likes'))
     .then(snapshot => {
       if (snapshot.exists()) {
         const objects = snapshot.val();
@@ -18,6 +18,19 @@ export async function getLike(uid, bid) {
         records = records
           .filter(record => record.uid === uid && record.bid === bid);
         return records.length > 0 ? records[0] : null;
+      }
+      return null;
+    }); 
+}
+
+export async function getLikeList(bid) {
+  return get(ref(database, 'likes'))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        const objects = snapshot.val();
+        let records = Object.values(objects);
+        records = records.filter(record => record.bid === bid);
+        return records;
       }
       return null;
     }); 
@@ -34,5 +47,6 @@ export async function updateLike(like) {
 }
 
 export async function deleteLike(lid) {
+  console.log(lid);
   return remove(ref(database, `likes/${lid}`));
 }

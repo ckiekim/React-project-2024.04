@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { uploadImage } from '../../api/cloudinary';
-import './my-editor.css';
+import './ck-editor.css';
 import MyUploadAdapter from './MyUploader';
 
 export default function MyEditor({ initialContent, onContentChange, mode }) {
