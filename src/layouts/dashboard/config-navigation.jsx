@@ -11,10 +11,11 @@ const navConfig = [
   { title: '사용자 정보', path: '/userInfo', icon: 'bxs:user', },
   { title: '로그인', path: '/login', icon: 'mdi:login-variant', },
   { title: '에러', path: '/404', icon: 'ic:round-location-disabled', },
+  { title: '화면 데모', path: '/demo', icon: 'carbon:demo', },
 ];
 
-if (process.env.NODE_ENV === 'development') {
-  navConfig.push({ title: 'Youtube', path: '/youtube', icon: 'ri:youtube-line' });
-}
+// if (process.env.NODE_ENV === 'development') {
+//   navConfig.push({ title: 'Youtube', path: '/youtube', icon: 'ri:youtube-line' });
+// }
 
 export default navConfig;

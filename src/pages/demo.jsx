@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import { YoutubeView } from '../sections/youtube/view';
+import { DemoView } from '../sections/demo';
 
 // ----------------------------------------------------------------------
 
-export default function YoutubePage() {
+export default function DemoPage() {
   return (
     <>
       <Helmet>
-        <title> Youtube | CK React World </title>
+        <title> Demo | CK React World </title>
       </Helmet>
 
-      <YoutubeView />
+      <DemoView />
     </>
   );
 }

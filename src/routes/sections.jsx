@@ -27,7 +27,7 @@ export const AlbumPage = lazy(() => import('../pages/album'));
 export const MessagePage = lazy(() => import('../pages/message'));
 export const TmdbPage = lazy(() => import('../pages/tmdb'));
 export const SchedulePage = lazy(() => import('../pages/schedule'));
-export const YoutubePage = lazy(() => import('../pages/youtube'));
+export const DemoPage = lazy(() => import('../pages/demo'));
 
 // ----------------------------------------------------------------------
 
@@ -63,7 +63,7 @@ export default function Router() {
         { path: '/message', element: <ProtectedRoute><MessagePage /></ProtectedRoute> },
         { path: '/tmdb', element: <TmdbPage /> },
         { path: '/userInfo', element: <ProtectedRoute><UserInfoPage /></ProtectedRoute> },
-        { path: '/youtube', element: <YoutubePage /> },
+        { path: '/demo', element: <DemoPage /> },
         { path: '/toss/checkout', element: <CheckoutPage setDialogOpen={setDialogOpen} /> },
         { path: '/toss/success', element: <SuccessPage setSuccessDialogOpen={setSuccessDialogOpen} /> },
         { path: '/toss/fail', element: <FailurePage setFailureDialogOpen={setFailureDialogOpen} /> },
