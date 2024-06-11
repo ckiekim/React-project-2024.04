@@ -54,13 +54,15 @@ export default function ProductsView() {
       </Stack>
 
       {isLoading && <LoadingProgress />}
-      {products && <Grid container spacing={3}>
-        {products.map((product) => (
-          <Grid key={product.id} xs={12} sm={6} md={4} lg={3}>
-            <ProductCard product={product} />
-          </Grid>
-        ))}
-      </Grid>}
+      {products && 
+        <Grid container spacing={3}>
+          {products.map((product) => (
+            <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
+              <ProductCard product={product} />
+            </Grid>
+          ))}
+        </Grid>
+      }
 
       <ProductCartWidget count={cartCount} />
     </Container>

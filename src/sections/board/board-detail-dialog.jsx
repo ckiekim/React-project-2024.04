@@ -8,6 +8,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
@@ -95,35 +96,39 @@ export default function BoardDetailDialog({ open, account, onClose, board }) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
-            <Stack spacing={0.3}>
-              <Typography variant='h5'>{board.title}</Typography>
-              <Typography variant='subtitle2'>{board.bid}</Typography>
-              <Typography variant='subtitle2'>
-                {fDateTime(board.modifiedAt, 'yyyy-MM-dd HH:mm:ss')} ({formatAgo(board.modifiedAt, 'ko')})
-              </Typography>
-            </Stack>
-            <Stack alignItems="flex-end" textAlign="right" spacing={0.1}>
-              <Stack direction='row' spacing={1} alignItems='center'>
-                <Avatar src={board.writer.avatarUrl} alt={board.writer.displayName}
-                  sx={{ width: 36, height: 36 }} />
-                <Typography variant="h6">{board.writer.displayName}</Typography>
-              </Stack>
-              <Stack direction='row' spacing={1} alignItems='center'>
-                <Link href='#' onClick={handleLike}>
-                  {(like && like.value === 1) && <FavoriteIcon />}
-                  {(!like || like.value === 0) && <FavoriteBorderIcon />}
-                </Link>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={8}>
+              <Stack spacing={0.3}>
+                <Typography variant='h5'>{board.title}</Typography>
+                <Typography variant='subtitle2'>{board.bid}</Typography>
                 <Typography variant='subtitle2'>
-                  {likeCount}
+                  {fDateTime(board.modifiedAt, 'yyyy-MM-dd HH:mm:ss')} ({formatAgo(board.modifiedAt, 'ko')})
                 </Typography>
               </Stack>
-              <Typography variant='subtitle2'>
-                조회: {viewCount},&nbsp;&nbsp;
-                댓글: {replyCount}
-              </Typography>
-            </Stack>
-          </Stack>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Stack alignItems="flex-end" textAlign="right" spacing={0.1}>
+                <Stack direction='row' spacing={1} alignItems='center'>
+                  <Avatar src={board.writer.avatarUrl} alt={board.writer.displayName}
+                    sx={{ width: 36, height: 36 }} />
+                  <Typography variant="h6">{board.writer.displayName}</Typography>
+                </Stack>
+                <Stack direction='row' spacing={1} alignItems='center'>
+                  <Link href='#' onClick={handleLike}>
+                    {(like && like.value === 1) && <FavoriteIcon />}
+                    {(!like || like.value === 0) && <FavoriteBorderIcon />}
+                  </Link>
+                  <Typography variant='subtitle2'>
+                    {likeCount}
+                  </Typography>
+                </Stack>
+                <Typography variant='subtitle2'>
+                  조회: {viewCount},&nbsp;&nbsp;
+                  댓글: {replyCount}
+                </Typography>
+              </Stack>
+            </Grid>
+          </Grid>
           <MyEditor initialContent={board.content} mode='read' />
 
           {replies &&

@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Popover from '@mui/material/Popover';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import LoginDialog from './login-dialog';
 import UserInfoInsertDialog from './userInfo-insert-dialog';
@@ -47,6 +48,8 @@ export default function AccountPopover({ user, logout }) {
       .then(weatherInfo => { setWeather(weatherInfo); })
       .catch(console.error);
   }
+  // 날씨의 설명은 화면 크기가 sm 이상에서만 보여줌
+  const isSmUp = useMediaQuery((theme) => theme.breakpoints.up('sm'));
 
   return (
     <>
@@ -116,9 +119,11 @@ export default function AccountPopover({ user, logout }) {
       {showWeather && weather && 
         <Stack direction='row' alignItems='center'>
           <img src={weather.icon} alt={weather.description} />
-          <Typography sx={{color: (theme) => alpha(theme.palette.grey[800], 0.9)}}>
-            {weather.description},
-          </Typography>
+          {isSmUp &&
+            <Typography sx={{color: (theme) => alpha(theme.palette.grey[800], 0.9)}}>
+              {weather.description},
+            </Typography>
+          }
           <Typography sx={{color: (theme) => alpha(theme.palette.grey[800], 0.9)}}>
             &nbsp;&nbsp;{weather.temp} ℃
           </Typography>
