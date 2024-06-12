@@ -14,6 +14,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import useAnniv from '../../hooks/useAnniv';
 
@@ -25,6 +26,7 @@ export default function AnnivDetailDialog({ anniv, index, middot }) {
   const [checked, setChecked] = useState(isHoliday);
   const [newAnniv, setNewAnniv] = useState({ id, adate, aname, email });
   const { updateRecord, deleteRecord } = useAnniv();
+  const isSmUp = useMediaQuery(theme => theme.breakpoints.up('sm'));
 
   const handleClickOpen = () => { 
     if (sessionEmail === email)
@@ -72,7 +74,10 @@ export default function AnnivDetailDialog({ anniv, index, middot }) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Stack spacing={2} sx={{ width: '30ch' }} alignItems="center">
+          <Stack 
+            spacing={2} alignItems="center"
+            sx={{ width: isSmUp ? '30ch' : 'auto' }} 
+          >
             <TextField autoFocus required margin="dense" id="aname"
               name="aname" label="이름" type="text" fullWidth
               defaultValue={aname} onChange={handleChange}

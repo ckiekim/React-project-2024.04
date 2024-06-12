@@ -19,6 +19,7 @@ import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { genTime } from './util';
 import useSched from '../../hooks/useSched';
@@ -30,6 +31,7 @@ export default function SchedDetailDialog({ sched }) {
   const [selectedStartTime, setSelectedStartTime] = useState('');
   const [selectedEndTime, setSelectedEndTime] = useState('');
   const timeList = genTime();
+  const isSmUp = useMediaQuery(theme => theme.breakpoints.up('sm'));
 
   const handleClickOpen = () => { setOpen(true); };
   const handleClose = () => { 
@@ -82,7 +84,10 @@ export default function SchedDetailDialog({ sched }) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Stack spacing={1} sx={{ width: '40ch' }} alignItems="center">
+          <Stack 
+            spacing={1} alignItems="center"
+            sx={{ width: isSmUp ? '40ch' : 'auto' }} 
+          >
             <Grid container alignItems='center'>
               <Grid item xs={3}>
                 <FormGroup>

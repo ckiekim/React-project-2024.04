@@ -12,6 +12,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import useMesssage from '../../hooks/useMessage';
 import useNotification from '../../hooks/useNotification';
@@ -19,12 +20,12 @@ import useNotification from '../../hooks/useNotification';
 export default function MessageReplyDialog({ message }) {
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState('');
+  const isSmUp = useMediaQuery(theme => theme.breakpoints.up('sm'));
 
   const { insertRecord, updateRecord } = useMesssage();
   const { refetchNoti } = useNotification(message.dstEmail);
-  const handleClickOpen = () => { 
-    setOpen(true); 
-  };
+
+  const handleClickOpen = () => { setOpen(true); };
   const handleClose = () => { 
     setContent('');
     setOpen(false); 
@@ -67,7 +68,10 @@ export default function MessageReplyDialog({ message }) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Stack spacing={2} sx={{ width: '40ch' }} alignItems="center">
+          <Stack 
+            spacing={2} alignItems="center"
+            sx={{ width: isSmUp ? '40ch' : 'auto' }} 
+          >
             <Stack spacing={2} direction='row' alignItems='center'>
               <Avatar alt={message.srcName} src={message.srcAvatar} /> 
               <Typography>{message.srcName}</Typography>

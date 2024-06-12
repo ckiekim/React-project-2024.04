@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import Iconify from '../../components/iconify';
 import useAnniv from '../../hooks/useAnniv';
@@ -21,6 +22,7 @@ export default function AnnivInsertDialog() {
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(false);
   const [anniv, setAnniv] = useState({ aname: '', adate: '' });
+  const isSmUp = useMediaQuery(theme => theme.breakpoints.up('sm'));
 
   const handleClickOpen = () => { setOpen(true); };
   const handleClose = () => { 
@@ -55,7 +57,10 @@ export default function AnnivInsertDialog() {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Stack spacing={2} sx={{ width: '30ch' }} alignItems="center">
+          <Stack 
+            spacing={2} alignItems="center"
+            sx={{ width: isSmUp ? '30ch' : 'auto' }} 
+          >
             <TextField autoFocus required margin="dense" id="aname"
               name="aname" label="이름" type="text" fullWidth
               defaultValue={anniv.aname} onChange={handleChange}

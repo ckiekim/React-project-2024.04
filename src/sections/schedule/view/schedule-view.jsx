@@ -14,6 +14,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import Scrollbar from '../../../components/scrollbar';
 import LoadingProgress from '../../../components/loading-progress';
@@ -26,6 +27,7 @@ export default function SchedulePage() {
   const [yearMonth, setYearMonth] = useState('');
   const [calendar, setCalendar] = useState([]);
   const today = getToday();
+  const isSmDown = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   const handleArrow = arrow => {
     setIsLoading(true);
@@ -46,25 +48,23 @@ export default function SchedulePage() {
 
   return (
     <Container maxWidth="xl">
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">스케쥴러</Typography>
-        <Stack direction="row" alignItems="center" spacing={0.5}>
-          <IconButton onClick={() => handleArrow('left2')}>
-            <KeyboardDoubleArrowLeftIcon />
-          </IconButton>
-          <IconButton onClick={() => handleArrow('left')}>
-            <KeyboardArrowLeftIcon />
-          </IconButton>
-          <Typography variant='h6'>{yearMonth}</Typography>
-          <IconButton onClick={() => handleArrow('right')}>
-            <KeyboardArrowRightIcon />
-          </IconButton>
-          <IconButton onClick={() => handleArrow('right2')}>
-            <KeyboardDoubleArrowRightIcon />
-          </IconButton>
+      {isSmDown ? (
+        <Stack direction='column' spacing={1} mb={5}>
+          <Stack direction='row' alignItems="center" justifyContent='space-between'>
+            <Typography variant="h4">스케쥴러</Typography>
+            <AnnivInsertDialog />
+          </Stack>
+          <Stack direction="row" justifyContent="center">
+            <YearMonthArrow handleArrow={handleArrow} ym={yearMonth} />
+          </Stack>
         </Stack>
-        <AnnivInsertDialog />
-      </Stack>
+      ) : (
+        <Stack direction='row' alignItems="center" justifyContent='space-between' mb={5}>
+          <Typography variant="h4">스케쥴러</Typography>
+          <YearMonthArrow handleArrow={handleArrow} ym={yearMonth} />
+          <AnnivInsertDialog />
+        </Stack>
+      )}
 
       <Scrollbar>
         <TableContainer sx={{ overflow: 'unset' }}>
@@ -100,4 +100,24 @@ export default function SchedulePage() {
 
     </Container>
   )
+}
+
+const YearMonthArrow = ({ handleArrow, ym }) => {
+  return (
+    <Stack direction="row" alignItems="center" spacing={0.5}>
+      <IconButton onClick={() => handleArrow('left2')}>
+        <KeyboardDoubleArrowLeftIcon />
+      </IconButton>
+      <IconButton onClick={() => handleArrow('left')}>
+        <KeyboardArrowLeftIcon />
+      </IconButton>
+      <Typography variant='h6'>{ym}</Typography>
+      <IconButton onClick={() => handleArrow('right')}>
+        <KeyboardArrowRightIcon />
+      </IconButton>
+      <IconButton onClick={() => handleArrow('right2')}>
+        <KeyboardDoubleArrowRightIcon />
+      </IconButton>
+    </Stack>
+  );
 }

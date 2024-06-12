@@ -15,6 +15,7 @@ import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import Iconify from '../../components/iconify';
 import useMesssage from '../../hooks/useMessage';
@@ -24,8 +25,9 @@ import useNotification from '../../hooks/useNotification';
 export default function MessageInsertDialog() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState({dstEmail: '', content: ''});
-
   const sessionEmail = sessionStorage.getItem('sessionEmail');
+  const isSmUp = useMediaQuery(theme => theme.breakpoints.up('sm'));
+
   const { getList: {data: userInfo} } = useUserInfo();
   const { insertRecord } = useMesssage();
   const { insertRecord: insertNotiRecord } = useNotification();
@@ -67,7 +69,10 @@ export default function MessageInsertDialog() {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Stack spacing={2} sx={{ width: '40ch' }} alignItems="center">
+          <Stack 
+            spacing={2} alignItems="center"
+            sx={{ width: isSmUp ? '40ch' : 'auto' }} 
+          >
             <FormControl fullWidth>
               <InputLabel id="dstEmail">수신</InputLabel>
               <Select required margin="dense" name='dstEmail' label="수신자" id='dstEmail' 

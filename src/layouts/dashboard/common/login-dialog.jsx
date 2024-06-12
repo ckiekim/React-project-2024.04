@@ -15,6 +15,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import Iconify from '../../../components/iconify';
 import { login, loginWithGoogle, loginWithGithub, loginWithKakao, register } from '../../../api/firebase';
@@ -31,6 +32,7 @@ export default function LoginDialog() {
   const [loginInfo, setLoginInfo] = useState({email: '', password: ''});
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [message, setMessage] = useState('');
+  const isSmUp = useMediaQuery(theme => theme.breakpoints.up('sm'));
 
   const handleClickOpen = () => { setOpen(true); };
   const handleClose = () => { setOpen(false); setIsLoginMode(true); };
@@ -81,7 +83,9 @@ export default function LoginDialog() {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Box sx={{ '& .MuiTextField-root': { m: 1, width: '40ch' }, }}>
+          <Box sx={{ '& .MuiTextField-root': { 
+            m: 1, width: isSmUp ? '40ch' : 'auto'     // 로그인 다이얼로그의 창을 반응형으로 만들기
+          }, }}>
             <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
               {isLoginMode ? '계정이 없으신가요?' : '이미 회원이신가요?'}
               <Button variant='text' sx={{ ml: 0.5 }} onClick={handleMode}>

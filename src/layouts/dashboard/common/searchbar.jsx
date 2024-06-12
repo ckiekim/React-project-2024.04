@@ -111,9 +111,18 @@ export default function Searchbar() {
         </div>
       </ClickAwayListener>
       {showAlert &&
-        <Alert icon={<CheckIcon fontSize="inherit" />} severity="info" sx={{mx: 5}}>
-          추후 구현될 예정입니다.
-        </Alert>
+        <Box
+          sx={{
+            position: 'fixed', // Changed from 'absolute' to 'fixed'
+            top: 0, left: 0, width: '100%',
+            zIndex: 1000,   // 다른 컴포넌트에 우선해서 가장 상위에 보여줌
+            display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2,
+          }}
+        >
+          <Alert icon={<CheckIcon fontSize="inherit" />} severity="info">
+            추후 구현될 예정입니다.
+          </Alert>
+        </Box>
       }
     </>
   );

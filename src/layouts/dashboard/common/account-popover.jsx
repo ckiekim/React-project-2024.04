@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { alpha } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -20,10 +21,13 @@ import getWeatherByCoordinates from '../../../api/open-weather';
 
 export default function AccountPopover({ user, logout }) {
   const [open, setOpen] = useState(null);
+  const [showAlert, setShowAlert] = useState(true);
   const [showWeather, setShowWeather] = useState(false);
   const [weather, setWeather] = useState();
   const { getRecord: { data: account } } = useUserInfo(user);
   const navigate = useNavigate();
+  // 날씨의 설명은 화면 크기가 sm 이상에서만 보여줌
+  const isSmUp = useMediaQuery(theme => theme.breakpoints.up('sm'));
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -48,24 +52,17 @@ export default function AccountPopover({ user, logout }) {
       .then(weatherInfo => { setWeather(weatherInfo); })
       .catch(console.error);
   }
-  // 날씨의 설명은 화면 크기가 sm 이상에서만 보여줌
-  const isSmUp = useMediaQuery((theme) => theme.breakpoints.up('sm'));
+  useEffect(() => {
+    if (account)
+      return;
+    setShowAlert(true);
+  }, [account]);
 
   return (
     <>
       {!user && <LoginDialog />}
       {user && <>
-        {!account && 
-          <Stack direction='row' spacing={1} alignItems='center'>
-            <Typography sx={{background: (theme) => alpha(theme.palette.grey[800], 0.9), p:0.5}}>
-              Settings를 눌러 사용자 정보를 입력하세요. &gt;&gt;
-            </Typography>
-            <Stack sx={{background: (theme) => alpha(theme.palette.primary.main, 1)}}>
-              <UserInfoInsertDialog callback={() => {}} />
-            </Stack>
-          </Stack>
-        }
-        {account && 
+        {account ? (
           <IconButton onClick={handleOpen}
             sx={{ width: 40, height: 40,
               background: (theme) => alpha(theme.palette.grey[500], 0.08),
@@ -84,7 +81,30 @@ export default function AccountPopover({ user, logout }) {
               {account.displayName.charAt(0).toUpperCase()}
             </Avatar>
           </IconButton>
-        }
+        ) : (
+          <Stack direction='row' spacing={1} alignItems='center'>
+            {showAlert && 
+              <Box
+                sx={{
+                  position: 'fixed', // Changed from 'absolute' to 'fixed'
+                  top: 0, left: 0, width: '100%',
+                  zIndex: 1000,   // 다른 컴포넌트에 우선해서 가장 상위에 보여줌
+                  display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2,
+                }}
+              >
+                <Alert severity="success" onClose={() => { setShowAlert(false); }}>
+                  Settings를 눌러 사용자 정보를 입력하세요.
+                </Alert>
+              </Box>
+            }
+            {/* <Typography sx={{background: (theme) => alpha(theme.palette.grey[800], 0.9), p:0.5}}>
+              Settings를 눌러 사용자 정보를 입력하세요. &gt;&gt;
+            </Typography> */}
+            <Stack sx={{background: (theme) => alpha(theme.palette.primary.main, 1)}}>
+              <UserInfoInsertDialog callback={() => {}} />
+            </Stack>
+          </Stack>
+        )}
 
         <Popover open={!!open} anchorEl={open} onClose={handleClose}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}

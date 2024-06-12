@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import Iconify from '../../components/iconify';
 import useUserInfo from '../../hooks/useUserInfo';
@@ -21,6 +22,8 @@ export default function UserInfoUpdateDialog({ user, callback }) {
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState();
   const [userInfo, setUserInfo] = useState();
+  const isSmUp = useMediaQuery(theme => theme.breakpoints.up('sm'));
+
   const handleClickOpen = () => { 
     const sessionUid = sessionStorage.getItem('sessionUid');
     if (sessionUid === user.uid)
@@ -65,7 +68,10 @@ export default function UserInfoUpdateDialog({ user, callback }) {
           <CloseIcon />
         </IconButton>
         {userInfo && <DialogContent dividers>
-          <Stack spacing={2} sx={{ width: '40ch' }} alignItems="center">
+          <Stack 
+            spacing={2} alignItems="center"
+            sx={{ width: isSmUp ? '40ch' : 'auto' }} 
+          >
             {userInfo && <img src={userInfo.avatarUrl} alt='photo' width='80%' />}
             <TextField disabled margin="dense" label="uid" fullWidth defaultValue={userInfo.uid} />
             <TextField disabled margin="dense" label="이메일" fullWidth defaultValue={userInfo.email} />
