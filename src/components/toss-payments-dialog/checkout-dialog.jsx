@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { loadPaymentWidget } from '@tosspayments/payment-widget-sdk';
 
 import Button from '@mui/material/Button';
@@ -28,7 +28,11 @@ export default function CheckoutDialog({ open, onClose }) {
   const url = process.env.NODE_ENV === 'development' ?
     `http://localhost:3000/ck-react-world` :      // 개발 모드 (development)
     `https://ckiekim.github.io/ck-react-world`;   // 배포 모드 (production)
-
+  const navigate = useNavigate();
+  const handleClose = () => {
+    onClose();
+    navigate('/products');
+  }
   useEffect(() => {
     const fetchPaymentWidget = async () => {
       if (!open) return;
@@ -93,7 +97,7 @@ export default function CheckoutDialog({ open, onClose }) {
   };
   
   return (
-    <Dialog open={open} onClose={onClose} maxWidth='md' fullWidth>
+    <Dialog open={open} onClose={handleClose} maxWidth='md' fullWidth>
       <DialogTitle>결제</DialogTitle>
       <DialogContent>
         <Typography mt={3} variant='h5'>
@@ -106,7 +110,7 @@ export default function CheckoutDialog({ open, onClose }) {
         <Button variant="contained" onClick={handlePaymentRequest}>
           결제하기
         </Button>
-        <Button onClick={onClose} variant='outlined'>취소</Button>
+        <Button onClick={handleClose} variant='outlined'>취소</Button>
       </DialogActions>
     </Dialog>
   );

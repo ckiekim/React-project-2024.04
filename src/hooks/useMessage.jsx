@@ -7,7 +7,7 @@ export default function useMessage(email, mid) {
   const getList = useQuery({
     queryKey: ['message', email],
     queryFn: () => getMessageList(email),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 1,
   });
 
   const insertRecord = useMutation({
