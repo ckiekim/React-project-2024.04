@@ -9,12 +9,10 @@
         var search = window.location.search;
         localStorage.setItem('pathname', pathname);
         localStorage.setItem('search', search);
-        if (pathname !== "/ck-react-world/" && !pathname.includes("/ck-react-world/index.html")) {
-          if (pathname.indexOf('success') >= 0)
-            window.location.href = '/ck-react-world/toss/success' + search;
-          else
-            window.location.href = "/ck-react-world" + search;
-            // window.location.href = "/ck-react-world" + search;
+        if (pathname.includes('success')) {
+          window.location.href = "/ck-react-world/toss/success" + search;
+        } else if (pathname !== "/ck-react-world/" && !pathname.includes("/ck-react-world/index.html")) {
+          window.location.href = "/ck-react-world" + search;
         }
       };
       redirect();
@@ -23,4 +21,3 @@
   <body>
   </body>
 </html>
-
