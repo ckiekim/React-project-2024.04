@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- <meta http-equiv="refresh" content="0; URL='./index.html'" /> -->
+    <meta http-equiv="refresh" content="0; URL='./index.html'" />
     <script>
       // Redirect any non-existent paths to the index.html
       var redirect = function() {
@@ -9,6 +9,7 @@
         var search = window.location.search;
         localStorage.setItem('pathname', pathname);
         localStorage.setItem('search', search);
+        
         if (pathname.includes('success')) {
           window.location.href = "/ck-react-world/toss/success" + search;
         } else if (pathname !== "/ck-react-world/" && !pathname.includes("/ck-react-world/index.html")) {
