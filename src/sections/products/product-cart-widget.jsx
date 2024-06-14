@@ -36,6 +36,7 @@ import { fCurrency } from '../../utils/format-number';
 import useOrders from '../../hooks/useOrders';
 // import useNotification from '../../hooks/useNotification';
 import useCart from '../../hooks/useCart';
+import { changeTel } from './util';
 
 // ----------------------------------------------------------------------
 
@@ -98,6 +99,8 @@ export default function CartWidget({ count }) {
 
   const handleOrder = () => {
     const deliveryInfo = { zoneCode, addr1, addr2, tel, memo };
+    if (!(addr1 && tel))
+      return;
     const order = { uid, email, totalPrice, itemCount, items, deliveryInfo, wholePrice };
     try {
       insertOrderRecord.mutate(order, {
@@ -173,12 +176,11 @@ export default function CartWidget({ count }) {
     const regex = /^[0-9\b -]{0,13}$/;
     if (regex.test(e.target.value)) 
       setTel(e.target.value);
+    // console.log(e.target.value);
   }
   useEffect(() => {
-    if (tel.length === 10)
-      setTel(tel.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'));
-    if (tel.length === 13)
-      setTel(tel.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+    setTel(changeTel(tel));
+    // console.log(tel);
   }, [tel]);
 
   return (

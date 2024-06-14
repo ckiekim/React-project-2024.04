@@ -1,5 +1,5 @@
-import { lazy, Suspense, useState } from 'react';
-import { Outlet, Navigate, useRoutes  } from 'react-router-dom';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import { Outlet, Navigate, useRoutes, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import DashboardLayout from '../layouts/dashboard';
@@ -8,10 +8,10 @@ import ProtectedRoute from '../pages/protected-route';
 // import { CheckoutPage } from '../components/toss-payments/Checkout';
 import CheckoutPage from '../components/toss-payments-dialog/checkout-page';
 import CheckoutDialog from '../components/toss-payments-dialog/checkout-dialog';
-// import { SuccessPage } from '../components/toss-payments/Success';
+// import SuccessPage from '../components/toss-payments/Success';
 import SuccessPage from '../components/toss-payments-dialog/success-page';
 import SuccessDialog from '../components/toss-payments-dialog/success-dialog';
-// import { FailPage } from '../components/toss-payments/Fail';
+// import FailurePage from '../components/toss-payments/Failure';
 import FailurePage from '../components/toss-payments-dialog/failure-page';
 import FailureDialog from '../components/toss-payments-dialog/failure-dialog';
 
@@ -41,6 +41,24 @@ export default function Router() {
   const [failureDialogOpen, setFailureDialogOpen] = useState(false);
   const handleFailureClose = () => { setFailureDialogOpen(false); };
 
+  // const location = useLocation();
+  // useEffect(() => {
+  //   const pathname = localStorage.getItem('pathname');
+  //   const search = localStorage.getItem('search');
+    
+  //   if (pathname && search) {
+  //     if (pathname.includes('success')) {
+  //       localStorage.removeItem('pathname');
+  //       localStorage.removeItem('search');
+  //       window.location.href = "/ck-react-world/toss/success" + search;
+  //     } else {
+  //       localStorage.removeItem('pathname');
+  //       localStorage.removeItem('search');
+  //       window.location.href = "/ck-react-world" + search;
+  //     }
+  //   }
+  // }, [location]);
+
   const routes = useRoutes([
     {
       element: (
@@ -65,6 +83,8 @@ export default function Router() {
         { path: '/userInfo', element: <ProtectedRoute><UserInfoPage /></ProtectedRoute> },
         { path: '/demo', element: <DemoPage /> },
         { path: '/toss/checkout', element: <CheckoutPage setDialogOpen={setDialogOpen} /> },
+        // { path: '/toss/success', element: <SuccessPage /> },
+        // { path: '/toss/fail', element: <FailurePage /> },
         { path: '/toss/success', element: <SuccessPage setSuccessDialogOpen={setSuccessDialogOpen} /> },
         { path: '/toss/fail', element: <FailurePage setFailureDialogOpen={setFailureDialogOpen} /> },
       ],

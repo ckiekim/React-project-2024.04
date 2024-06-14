@@ -5,11 +5,11 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
-import useOrders from '../../sections/orders/useOrders';
-import useNotification from '../../sections/notification/useNotification';
+import useOrders from '../../hooks/useOrders';
+import useNotification from '../../hooks/useNotification';
 import { fCurrency } from '../../utils/format-number';
 
-export function SuccessPage() {
+export default function SuccessPage() {
   const navigate = useNavigate();
   const email = sessionStorage.getItem('sessionEmail');
   const [searchParams] = useSearchParams();
@@ -17,6 +17,7 @@ export function SuccessPage() {
   const amount = searchParams.get('amount');
   const paymentKey = searchParams.get('paymentKey');
   // console.log(email, oid, amount, paymentKey);
+  localStorage.setItem('success', `${oid}, ${amount}`);
 
   const [flag, setFlag] = useState(false);
   const [countdown, setCountdown] = useState(3);
