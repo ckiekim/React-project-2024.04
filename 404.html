@@ -22,11 +22,11 @@
         localStorage.setItem('pathname', pathname);
         localStorage.setItem('search', search);
         if (pathname !== "/ck-react-world/" && !pathname.includes("/ck-react-world/index.html")) {
-          // if (pathname.includes('success'))
-          //   window.location.href = '/ck-react-world/toss/success' + search;
-          // else
-          //   window.location.href = "/ck-react-world" + search;
-          window.location.href = "/ck-react-world" + search;
+          if (pathname.includes('success'))
+            window.location.href = '/ck-react-world/toss/success' + search;
+          else
+            window.location.href = "/ck-react-world" + search;
+          // window.location.href = "/ck-react-world" + search;
         }
       };
       redirect();
