@@ -4,31 +4,31 @@
     <!-- <meta http-equiv="refresh" content="0; URL='./index.html'" /> -->
     <script>
       // Redirect any non-existent paths to the index.html
-      // var redirect = function() {
-      //   var pathname = window.location.pathname;
-      //   var search = window.location.search;
-      //   localStorage.setItem('pathname', pathname);
-      //   localStorage.setItem('search', search);
-
-      //   if (pathname.includes('success')) {
-      //     window.location.href = "/ck-react-world/toss/success" + search;
-      //   } else if (pathname !== "/ck-react-world/" && !pathname.includes("/ck-react-world/index.html")) {
-      //     window.location.href = "/ck-react-world" + search;
-      //   }
-      // };
       var redirect = function() {
         var pathname = window.location.pathname;
         var search = window.location.search;
         localStorage.setItem('pathname', pathname);
         localStorage.setItem('search', search);
-        if (pathname !== "/ck-react-world/" && !pathname.includes("/ck-react-world/index.html")) {
-          if (pathname.includes('success'))
-            window.location.href = '/ck-react-world/toss/success' + search;
-          else
-            window.location.href = "/ck-react-world" + search;
-          // window.location.href = "/ck-react-world" + search;
+
+        if (pathname.includes('success')) {
+          window.location.href = "/ck-react-world/toss/success" + search;
+        } else if (pathname !== "/ck-react-world/" && !pathname.includes("/ck-react-world/index.html")) {
+          window.location.href = "/ck-react-world" + search;
         }
       };
+      // var redirect = function() {
+      //   var pathname = window.location.pathname;
+      //   var search = window.location.search;
+      //   localStorage.setItem('pathname', pathname);
+      //   localStorage.setItem('search', search);
+      //   if (pathname !== "/ck-react-world/" && !pathname.includes("/ck-react-world/index.html")) {
+      //     if (pathname.includes('success'))
+      //       window.location.href = '/ck-react-world/toss/success' + search;
+      //     else
+      //       window.location.href = "/ck-react-world" + search;
+      //     // window.location.href = "/ck-react-world" + search;
+      //   }
+      // };
       redirect();
     </script>
   </head>
