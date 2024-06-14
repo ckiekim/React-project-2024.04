@@ -6,9 +6,13 @@
       // Redirect any non-existent paths to the index.html
       var redirect = function() {
         var pathname = window.location.pathname;
-        console.log(pathname);
-        if (pathname !== "/ck-react-world/") {
-          window.location.href = "/ck-react-world/index.html";
+        var search = window.location.search;
+        var hash = window.location.hash;
+        localStorage.setItem('pathname', pathname);
+        localStorage.setItem('search', search);
+        localStorage.setItem('hash', hash);
+        if (pathname !== "/ck-react-world/" && !pathname.includes("/ck-react-world/index.html")) {
+          window.location.href = "/ck-react-world/index.html" + search + hash;
         }
       };
       redirect();
@@ -17,3 +21,4 @@
   <body>
   </body>
 </html>
+
