@@ -10,11 +10,11 @@
         localStorage.setItem('pathname', pathname);
         localStorage.setItem('search', search);
         if (pathname !== "/ck-react-world/" && !pathname.includes("/ck-react-world/index.html")) {
-          if (pathname.indexOf('success') >= 0)
-            window.location.href = '/ck-react-world/order';
-          else
+          // if (pathname.indexOf('success') >= 0)
+          //   window.location.href = '/ck-react-world/order';
+          // else
+          //   window.location.href = "/ck-react-world" + search;
             window.location.href = "/ck-react-world" + search;
-            // window.location.href = "/ck-react-world/index.html" + search;
         }
       };
       redirect();
