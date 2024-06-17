@@ -19,6 +19,8 @@
       const params = new URLSearchParams(window.location.search);
       if (!params.has('redirected')) {
         const path = window.location.pathname;
+        const time = new Date().toISOString().substring(0,19).replace('T', ' ');
+        localStorage.setItem('404:' + time, path);
         const newPath = '/ck-react-world/index.html?redirected=true&path=' + encodeURIComponent(path);
         window.location.replace(newPath);
       }
