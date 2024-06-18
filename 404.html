@@ -20,11 +20,10 @@
       if (!params.has('redirected')) {
         const path = window.location.pathname;
         const search = window.location.search;
-        const time = new Date().toISOString().substring(0,19).replace('T', ' ');
-        // const newPath = '/ck-react-world/index.html?redirected=true&path=' + encodeURIComponent(path+search); 
+        // const time = new Date().toISOString().substring(0,19).replace('T', ' ');
         const newPath = '/ck-react-world?redirected=true&path=' + encodeURIComponent(path+search);
         window.location.replace(newPath);
-        localStorage.setItem('404:' + time, newPath);
+        // localStorage.setItem('404:' + time, newPath);
       }
     </script>
   </head>
