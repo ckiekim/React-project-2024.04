@@ -14,6 +14,7 @@ import SuccessDialog from '../components/toss-payments-dialog/success-dialog';
 // import FailurePage from '../components/toss-payments/Failure';
 import FailurePage from '../components/toss-payments-dialog/failure-page';
 import FailureDialog from '../components/toss-payments-dialog/failure-dialog';
+import RedirectHandler from '../components/redirect-handler';
 
 export const IndexPage = lazy(() => import('../pages/app'));
 export const BlogPage = lazy(() => import('../pages/blog'));
@@ -65,6 +66,7 @@ export default function Router() {
         <AuthContextProvider>
           <DashboardLayout>
             <Suspense>
+              <RedirectHandler />
               <Outlet />
             </Suspense>
           </DashboardLayout>

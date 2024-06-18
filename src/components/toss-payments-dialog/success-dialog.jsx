@@ -21,7 +21,8 @@ export default function SuccessDialog({ open, onClose }) {
   const amount = searchParams.get('amount');
   const paymentKey = searchParams.get('paymentKey');
   // console.log(email, oid, amount, paymentKey);
-  localStorage.setItem('success-dialog', `${oid}, ${amount}`);
+  // const time = new Date().toISOString().substring(0,19).replace('T', ' ');
+  // localStorage.setItem('success:' + time, `${oid}, ${amount}`);
 
   const [flag, setFlag] = useState(false);
 
