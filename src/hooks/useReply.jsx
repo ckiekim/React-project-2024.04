@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getReply, getReplyList, insertReply, updateReply, deleteReply } from '../api/firebase';
+// import { getReply, getReplyList, insertReply, updateReply, deleteReply } from '../api/firebase';
+import { getReplyList, insertReply, updateReply, deleteReply } from '../api/firebase';
 
 export default function useReply(bid) {
   const queryClient = useQueryClient();

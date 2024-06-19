@@ -76,7 +76,7 @@ export default function UserInfoInsertDialog({ callback }) {
           <Stack spacing={2} alignItems="center"
             sx={{ width: isSmUp ? '40ch' : 'auto' }} 
           >
-            {file && <img src={userInfo.avatarUrl} alt='photo' width='80%' />}
+            {file && <img src={userInfo.avatarUrl} alt={userInfo.email} width='80%' />}
             <TextField disabled margin="dense" label="uid" fullWidth defaultValue={userInfo.uid} />
             <TextField disabled margin="dense" label="이메일" fullWidth defaultValue={userInfo.email} />
             <TextField autoFocus required margin="dense" id="displayName"

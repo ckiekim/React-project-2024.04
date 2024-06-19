@@ -1,5 +1,5 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
-import { Outlet, Navigate, useRoutes, useLocation } from 'react-router-dom';
+import { lazy, Suspense, useState } from 'react';
+import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import DashboardLayout from '../layouts/dashboard';
@@ -41,24 +41,6 @@ export default function Router() {
   const handleSuccessClose = () => { setSuccessDialogOpen(false); };
   const [failureDialogOpen, setFailureDialogOpen] = useState(false);
   const handleFailureClose = () => { setFailureDialogOpen(false); };
-
-  // const location = useLocation();
-  // useEffect(() => {
-  //   const pathname = localStorage.getItem('pathname');
-  //   const search = localStorage.getItem('search');
-    
-  //   if (pathname && search) {
-  //     if (pathname.includes('success')) {
-  //       localStorage.removeItem('pathname');
-  //       localStorage.removeItem('search');
-  //       window.location.href = "/ck-react-world/toss/success" + search;
-  //     } else {
-  //       localStorage.removeItem('pathname');
-  //       localStorage.removeItem('search');
-  //       window.location.href = "/ck-react-world" + search;
-  //     }
-  //   }
-  // }, [location]);
 
   const routes = useRoutes([
     {

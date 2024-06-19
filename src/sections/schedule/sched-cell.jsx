@@ -20,7 +20,7 @@ export default function ScheduleCell({ ymd, yearMonth, isToday }) {
 
   useEffect(() => {
     setColor((date === 0) ? 'error' : (date === 6) ? 'primary' : '');
-  }, []);
+  }, [date]);
   useEffect(() => {
     if (anniversary)
       anniversary.forEach(anniv => {

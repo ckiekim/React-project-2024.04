@@ -70,7 +70,7 @@ export default function MyEditor({ initialContent, onContentChange, mode }) {
           },
         }
       }
-  }, []); 
+  });   // React Hook useMemo has a missing dependency: 'mode'. Either include it or remove the dependency array
 
   const formats = [
     'header', 'font', 'size',
