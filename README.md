@@ -4,18 +4,11 @@
 - 반응형 웹
 - React Query, React Router, Firebase DB/Authentication 등을 이용하는 교과서적인 대표 어플리케이션을 모아놓은 웹
 - gh-pages를 이용한 배포: https://ckiekim.github.io/ck-react-world 
-- 문제점: 해결 방안을 아시는 분은 꼭 연락주세요.
-  - 외부 API(토스페이먼츠 등)를 이용할 때 callback-url을 사용하는 경우, 로컬에서는 잘 작동하는데 github에 배포한 버전에서는 동작하지 않음
-  - RedirectHandler를 통해 해결함
 
 ### 사용한 도구 및 API
 - Front-end: React, Material UI
 - Back-end: Firebase Authentication, Firebase Realtime Database, Cloudinary
 - API: TMDB, Toss Payments, Open Weather, Kakao 우편번호
-
-### 디지털 컨버전스 중심 데이터 처리 SW 개발자 양성 과정
-- 장소: 휴먼교육센터 수원
-- 기간: 2023.12 ~ 2024.06
 
 ### 디자인 출처
 - Template Name: Minimal (Free version)

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DaumAddressDialog from '../../components/daum-address-dialog';
 
@@ -30,6 +30,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import Iconify from '../../components/iconify';
 import { fCurrency } from '../../utils/format-number';
@@ -73,6 +74,7 @@ export default function CartWidget({ count }) {
   const [items, setItems] = useState([]);
   const uid = sessionStorage.getItem('sessionUid');
   const email = sessionStorage.getItem('sessionEmail');
+  const isSmUp = useMediaQuery(theme => theme.breakpoints.up('sm'));
 
   const navigate = useNavigate();
   const { insertRecord: insertOrderRecord } = useOrders();
@@ -200,67 +202,138 @@ export default function CartWidget({ count }) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          {items && <Table size={itemCount > 3 ? 'small' : ''}>
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">상품</TableCell>
-                <TableCell align="center"> </TableCell>
-                <TableCell align="center">단가</TableCell>
-                <TableCell align="center">수량</TableCell>
-                <TableCell align="center">소계</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {items.map((item, index) => (
-                <TableRow key={item.id}>
-                  <TableCell align="left">
-                    <Stack direction='row' spacing={2} alignItems='center'>
-                      <Avatar alt={item.pname} 
-                        src={item.cover.startsWith('/') ? `${process.env.PUBLIC_URL}${item.cover}` : item.cover} 
-                      />
-                      <Typography>{item.pname}</Typography>
-                    </Stack>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Box sx={{ width: 16, height: 16, bgcolor: item.option, borderRadius: '50%', border: 'solid 2px' }} />
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography>{fCurrency(item.unitPrice)}</Typography>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Stack direction='row' spacing={0.1} alignItems='center'>
-                      <IconButton aria-label="minus" onClick={() => handleMinus(index)}>
-                        <RemoveCircleOutlineIcon />
-                      </IconButton>
-                      <Typography>{item.quantity}</Typography>
-                      <IconButton aria-label="plus" onClick={() => handlePlus(index)}>
-                        <AddCircleOutlineIcon />
-                      </IconButton>
-                      <IconButton aria-label="delete" onClick={() => handleDelete(index)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </Stack>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography>{fCurrency(item.subTotal)}</Typography>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>}
-          {totalPrice && 
-            <Stack direction='row' spacing={2} alignItems='center' mt={2}>
-              <TextField label='상품가격' value={fCurrency(totalPrice)}
-                InputProps={{ readOnly: true, inputProps: { style: { textAlign: 'right' } } }} />
-              <Typography variant='h5'>&#43;</Typography>
-              <TextField label='배송비' value={fCurrency(DELIVERY_COST)} 
-                InputProps={{ readOnly: true, inputProps: { style: { textAlign: 'right' } } }} />
-              <Typography variant='h5'>&#61;</Typography>
-              <Typography variant='h5' textAlign='right' sx={{mt: 2, px: 2}}>총계: &#8361; {fCurrency(wholePrice)}</Typography>
-            </Stack>
+          {items && isSmUp &&
+            <>
+              <Table size={itemCount > 3 ? 'small' : ''}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center">상품</TableCell>
+                    <TableCell align="center"> </TableCell>
+                    <TableCell align="center">단가</TableCell>
+                    <TableCell align="center">수량</TableCell>
+                    <TableCell align="center">소계</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {items.map((item, index) => (
+                    <TableRow key={item.id}>
+                      <TableCell align="left">
+                        <Stack direction='row' spacing={2} alignItems='center'>
+                          <Avatar alt={item.pname} 
+                            src={item.cover.startsWith('/') ? `${process.env.PUBLIC_URL}${item.cover}` : item.cover} 
+                          />
+                          <Typography>{item.pname}</Typography>
+                        </Stack>
+                      </TableCell>
+                      <TableCell align="center">
+                        <Box sx={{ width: 16, height: 16, bgcolor: item.option, borderRadius: '50%', border: 'solid 2px' }} />
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>{fCurrency(item.unitPrice)}</Typography>
+                      </TableCell>
+                      <TableCell align="center">
+                        <Stack direction='row' spacing={0.1} alignItems='center'>
+                          <IconButton aria-label="minus" onClick={() => handleMinus(index)}>
+                            <RemoveCircleOutlineIcon />
+                          </IconButton>
+                          <Typography>{item.quantity}</Typography>
+                          <IconButton aria-label="plus" onClick={() => handlePlus(index)}>
+                            <AddCircleOutlineIcon />
+                          </IconButton>
+                          <IconButton aria-label="delete" onClick={() => handleDelete(index)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Stack>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>{fCurrency(item.subTotal)}</Typography>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+
+              {totalPrice && 
+                <Stack direction='row' spacing={2} alignItems='center' mt={2}>
+                  <TextField label='상품가격' value={fCurrency(totalPrice)}
+                    InputProps={{ readOnly: true, inputProps: { style: { textAlign: 'right' } } }} />
+                  <Typography variant='h5'>&#43;</Typography>
+                  <TextField label='배송비' value={fCurrency(DELIVERY_COST)} 
+                    InputProps={{ readOnly: true, inputProps: { style: { textAlign: 'right' } } }} />
+                  <Typography variant='h5'>&#61;</Typography>
+                  <Typography variant='h5' textAlign='right' sx={{mt: 2, px: 2}}>총계: &#8361; {fCurrency(wholePrice)}</Typography>
+                </Stack>
+              }
+            </>
+          }
+
+          {items && !isSmUp &&
+            <>
+              <Typography variant='h5' mb={1}>상품목록</Typography>
+              <Grid container alignItems='center'>
+                {items.map((item, index) => (
+                  <React.Fragment key={item.id}>
+                    <Grid item xs={8}>
+                      <Stack direction='row' spacing={2} alignItems='center'>
+                        <Avatar alt={item.pname} 
+                          src={item.cover.startsWith('/') ? `${process.env.PUBLIC_URL}${item.cover}` : item.cover} 
+                        />
+                        <Typography>{item.pname}</Typography>
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={1}>
+                      <Box sx={{ width: 16, height: 16, bgcolor: item.option, borderRadius: '50%', border: 'solid 2px' }} />
+                    </Grid>
+                    <Grid item xs={3} sx={{ textAlign: 'right' }}>
+                      <Typography>{fCurrency(item.unitPrice)}</Typography>
+                    </Grid>
+                    <Grid item xs={3} mb={1}></Grid>
+                    <Grid item xs={6} mb={1}>
+                      <Stack direction='row' spacing={0.1} alignItems='center'>
+                        <IconButton aria-label="minus" onClick={() => handleMinus(index)}>
+                          <RemoveCircleOutlineIcon />
+                        </IconButton>
+                        <Typography>{item.quantity}</Typography>
+                        <IconButton aria-label="plus" onClick={() => handlePlus(index)}>
+                          <AddCircleOutlineIcon />
+                        </IconButton>
+                        <IconButton aria-label="delete" onClick={() => handleDelete(index)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={3} sx={{ textAlign: 'right' }} mb={1}>
+                      <Typography>{fCurrency(item.subTotal)}</Typography>
+                    </Grid>
+                  </React.Fragment>
+                ))}
+              </Grid>
+              {totalPrice && 
+                <Grid container spacing={2} alignItems='center' my={1}>
+                  <Grid item xs={4}></Grid>
+                  <Grid item xs={8}>
+                    <TextField label='상품가격' value={fCurrency(totalPrice)} size='small' fullWidth
+                      InputProps={{ readOnly: true, inputProps: { style: { textAlign: 'right' } } }} />
+                  </Grid>
+                  <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                    <Typography variant='h6'>&#43;</Typography>
+                  </Grid>
+                  <Grid item xs={8}>
+                    <TextField label='배송비' value={fCurrency(DELIVERY_COST)} size='small' fullWidth
+                      InputProps={{ readOnly: true, inputProps: { style: { textAlign: 'right' } } }} />
+                  </Grid>
+                  <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                    <Typography variant='h6'>&#61;</Typography>
+                  </Grid>
+                  <Grid item xs={8} sx={{ textAlign: 'right' }}>
+                    <Typography variant='h6'>총계: &#8361; {fCurrency(wholePrice)}</Typography>
+                  </Grid>
+                </Grid>
+              }
+            </>
           }
           
-          <Divider sx={{ my: 2}} />
+          <Divider sx={{ my: 2 }} />
           
           <Typography variant='h5'>배송정보</Typography>
           <Stack alignItems='center' spacing={0.1}>
