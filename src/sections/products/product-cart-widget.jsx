@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DaumAddressDialog from '../../components/daum-address-dialog';
 
@@ -37,7 +37,7 @@ import { fCurrency } from '../../utils/format-number';
 import useOrders from '../../hooks/useOrders';
 // import useNotification from '../../hooks/useNotification';
 import useCart from '../../hooks/useCart';
-import { changeTel } from './util';
+import PhoneNumberInput from '../../components/phone-number-input';
 
 // ----------------------------------------------------------------------
 
@@ -174,16 +174,6 @@ export default function CartWidget({ count }) {
     setZoneCode(data.zonecode);
     setAddr1(data.address);
   }
-  const handlePress = e => {
-    const regex = /^[0-9\b -]{0,13}$/;
-    if (regex.test(e.target.value)) 
-      setTel(e.target.value);
-    // console.log(e.target.value);
-  }
-  useEffect(() => {
-    setTel(changeTel(tel));
-    // console.log(tel);
-  }, [tel]);
 
   return (
     <>
@@ -349,18 +339,13 @@ export default function CartWidget({ count }) {
               <Grid item xs={12}>
                 <TextField margin="dense" value={addr1} label="기본주소" variant="standard" fullWidth />
               </Grid>
-            </Grid>
-            <Grid container alignItems='center' spacing={1}>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <TextField required margin="dense" defaultValue={addr2} label="상세주소" fullWidth 
                   onChange={e => setAddr2(e.target.value)} />
               </Grid>
-              <Grid item xs={6}>
-                <TextField required margin="dense" value={tel} label="전화번호" fullWidth
-                  onChange={handlePress} placeholder='숫자만 입력하세요' />
+              <Grid item xs={12} sm={6}>
+                <PhoneNumberInput tel={tel} setTel={setTel} />
               </Grid>
-            </Grid>
-            <Grid container alignItems='center' spacing={1}>
               <Grid item xs={12}>
                 <FormControl fullWidth>
                   <InputLabel id="memo">배송메모</InputLabel>
