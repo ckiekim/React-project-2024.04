@@ -1,17 +1,27 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DaumAddressDialog from '../../components/daum-address-dialog';
 
 import { styled } from '@mui/material/styles';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
+import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -27,11 +37,12 @@ import { fCurrency } from '../../utils/format-number';
 import useOrders from '../../hooks/useOrders';
 // import useNotification from '../../hooks/useNotification';
 import useCart from '../../hooks/useCart';
-import CartItemGrid from './cart-item-grid';
-import CartItemRow from './cart-item-row';
-import DeliveryInfo from './delivery-info';
+import PhoneNumberInput from '../../components/phone-number-input';
+
+// ----------------------------------------------------------------------
 
 const DELIVERY_COST = 3000;
+
 const StyledRoot = styled('div')(({ theme }) => ({
   zIndex: 999,
   right: 0,
@@ -53,17 +64,14 @@ const StyledRoot = styled('div')(({ theme }) => ({
   '&:hover': { opacity: 0.72 },
 }));
 
+// ----------------------------------------------------------------------
+
 export default function CartWidget({ count }) {
   const [open, setOpen] = useState(false);
   const [itemCount, setItemCount] = useState(count);
   const [totalPrice, setTotalPrice] = useState(0);
   const [wholePrice, setWholePrice] = useState(0);
   const [items, setItems] = useState([]);
-  const [addr1, setAddr1] = useState('');
-  const [addr2, setAddr2] = useState('');
-  const [tel, setTel] = useState('');
-  const [memo, setMemo] = useState('선택 안 함');
-  const [zoneCode, setZoneCode] = useState('');
   const uid = sessionStorage.getItem('sessionUid');
   const email = sessionStorage.getItem('sessionEmail');
   const isSmUp = useMediaQuery(theme => theme.breakpoints.up('sm'));
@@ -71,10 +79,10 @@ export default function CartWidget({ count }) {
   const navigate = useNavigate();
   const { insertRecord: insertOrderRecord } = useOrders();
   // const { insertRecord: insertNotiRecord } = useNotification(email);
-  const { cart, // refetchCart, 
+  const { cart, // refetchCart,
     updateRecord: updateCartRecord, deleteRecord: deleteCartRecord } = useCart(uid);
 
-  const handleOpen = () => { 
+  const handleClickOpen = () => { 
     if (count === 0)
       return;
     setItemCount(cart.itemCount);
@@ -83,12 +91,13 @@ export default function CartWidget({ count }) {
     setWholePrice(cart.totalPrice + DELIVERY_COST);
     setOpen(true); 
   };
-  const handleClose = () => { setOpen(false); };
 
   const updateCart = (ic, tp, is) => {
     const newCart = { id: uid, itemCount: ic, totalPrice: tp, items: is };
     updateCartRecord.mutate(newCart);
   }
+
+  const handleClose = () => { setOpen(false); };
 
   const handleOrder = () => {
     const deliveryInfo = { zoneCode, addr1, addr2, tel, memo };
@@ -152,11 +161,24 @@ export default function CartWidget({ count }) {
       updateCart(newItems.length, newPrice, newItems);
     }
   }
-  
+
+  const [addr1, setAddr1] = useState('');
+  const [addr2, setAddr2] = useState('');
+  const [tel, setTel] = useState('');
+  const [memo, setMemo] = useState('선택 안 함');
+  const [zoneCode, setZoneCode] = useState('');
+  const deliveryMemos = ['선택 안 함', '문앞에 놓아주세요', '부재시 연락 부탁드려요',
+    '배송 전 미리 연락해 주세요', '부재시 1층 택배 보관장소에 맡겨주세요'];
+
+  const handleComplete = data => {
+    setZoneCode(data.zonecode);
+    setAddr1(data.address);
+  }
+
   return (
     <>
       <StyledRoot>
-        <Badge showZero badgeContent={count} color="error" max={99} onClick={handleOpen}>
+        <Badge showZero badgeContent={count} color="error" max={99} onClick={handleClickOpen}>
           <Iconify icon="eva:shopping-cart-fill" width={24} height={24} />
         </Badge>
       </StyledRoot>
@@ -184,14 +206,39 @@ export default function CartWidget({ count }) {
                 </TableHead>
                 <TableBody>
                   {items.map((item, index) => (
-                    <CartItemRow
-                      key={item.id}
-                      item={item}
-                      index={index}
-                      handleMinus={handleMinus}
-                      handlePlus={handlePlus}
-                      handleDelete={handleDelete}
-                    />
+                    <TableRow key={item.id}>
+                      <TableCell align="left">
+                        <Stack direction='row' spacing={2} alignItems='center'>
+                          <Avatar alt={item.pname} 
+                            src={item.cover.startsWith('/') ? `${process.env.PUBLIC_URL}${item.cover}` : item.cover} 
+                          />
+                          <Typography>{item.pname}</Typography>
+                        </Stack>
+                      </TableCell>
+                      <TableCell align="center">
+                        <Box sx={{ width: 16, height: 16, bgcolor: item.option, borderRadius: '50%', border: 'solid 2px' }} />
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>{fCurrency(item.unitPrice)}</Typography>
+                      </TableCell>
+                      <TableCell align="center">
+                        <Stack direction='row' spacing={0.1} alignItems='center'>
+                          <IconButton aria-label="minus" onClick={() => handleMinus(index)}>
+                            <RemoveCircleOutlineIcon />
+                          </IconButton>
+                          <Typography>{item.quantity}</Typography>
+                          <IconButton aria-label="plus" onClick={() => handlePlus(index)}>
+                            <AddCircleOutlineIcon />
+                          </IconButton>
+                          <IconButton aria-label="delete" onClick={() => handleDelete(index)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Stack>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography>{fCurrency(item.subTotal)}</Typography>
+                      </TableCell>
+                    </TableRow>
                   ))}
                 </TableBody>
               </Table>
@@ -215,14 +262,40 @@ export default function CartWidget({ count }) {
               <Typography variant='h5' mb={1}>상품목록</Typography>
               <Grid container alignItems='center'>
                 {items.map((item, index) => (
-                  <CartItemGrid
-                    key={item.id}
-                    item={item}
-                    index={index}
-                    handleMinus={handleMinus}
-                    handlePlus={handlePlus}
-                    handleDelete={handleDelete}
-                  />
+                  <React.Fragment key={item.id}>
+                    <Grid item xs={8}>
+                      <Stack direction='row' spacing={2} alignItems='center'>
+                        <Avatar alt={item.pname} 
+                          src={item.cover.startsWith('/') ? `${process.env.PUBLIC_URL}${item.cover}` : item.cover} 
+                        />
+                        <Typography>{item.pname}</Typography>
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={1}>
+                      <Box sx={{ width: 16, height: 16, bgcolor: item.option, borderRadius: '50%', border: 'solid 2px' }} />
+                    </Grid>
+                    <Grid item xs={3} sx={{ textAlign: 'right' }}>
+                      <Typography>{fCurrency(item.unitPrice)}</Typography>
+                    </Grid>
+                    <Grid item xs={3} mb={1}></Grid>
+                    <Grid item xs={6} mb={1}>
+                      <Stack direction='row' spacing={0.1} alignItems='center'>
+                        <IconButton aria-label="minus" onClick={() => handleMinus(index)}>
+                          <RemoveCircleOutlineIcon />
+                        </IconButton>
+                        <Typography>{item.quantity}</Typography>
+                        <IconButton aria-label="plus" onClick={() => handlePlus(index)}>
+                          <AddCircleOutlineIcon />
+                        </IconButton>
+                        <IconButton aria-label="delete" onClick={() => handleDelete(index)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={3} sx={{ textAlign: 'right' }} mb={1}>
+                      <Typography>{fCurrency(item.subTotal)}</Typography>
+                    </Grid>
+                  </React.Fragment>
                 ))}
               </Grid>
               {totalPrice && 
@@ -251,12 +324,43 @@ export default function CartWidget({ count }) {
           }
           
           <Divider sx={{ my: 2 }} />
-
-          <DeliveryInfo 
-            zoneCode={zoneCode} addr1={addr1} addr2={addr2} 
-            tel={tel} memo={memo} setZoneCode={setZoneCode} setAddr1={setAddr1} 
-            setAddr2={setAddr2} setTel={setTel} setMemo={setMemo} 
-          />
+          
+          <Typography variant='h5'>배송정보</Typography>
+          <Stack alignItems='center' spacing={0.1}>
+            <Grid container alignItems='center' spacing={1}>
+              <Grid item xs={6}>
+                <TextField value={zoneCode} label="우편번호" variant="standard" fullWidth />
+              </Grid>
+              <Grid item xs={6}>
+                <DaumAddressDialog handler={handleComplete} />
+              </Grid>
+            </Grid>
+            <Grid container alignItems='center' spacing={1}>
+              <Grid item xs={12}>
+                <TextField margin="dense" value={addr1} label="기본주소" variant="standard" fullWidth />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField required margin="dense" defaultValue={addr2} label="상세주소" fullWidth 
+                  onChange={e => setAddr2(e.target.value)} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <PhoneNumberInput tel={tel} setTel={setTel} />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel id="memo">배송메모</InputLabel>
+                  <Select required margin="dense" name='memo' label="배송메모" id='memo'
+                    value={memo} onChange={e => setMemo(e.target.value)}>
+                    {deliveryMemos.map((delMemo) =>
+                      <MenuItem value={delMemo} key={'e'+delMemo}>
+                        {delMemo}
+                      </MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </Stack>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleOrder} variant="contained">주문하기</Button>
